@@ -16,6 +16,16 @@ const bannerSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    titleImg: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     lang: {
       type: String,
       enum: ["uz", "ru"],

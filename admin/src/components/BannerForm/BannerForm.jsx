@@ -103,6 +103,9 @@ const EMPTY_LANG = {
   moviePoster: '',
   image: '',
   imagePreview: '',
+  titleImg: '',
+  titleImgPreview: '',
+  description: '',
   sortOrder: '1',
 };
 
@@ -120,6 +123,7 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
 
   const dropdownRef = useRef(null);
   const fileRef = useRef(null);
+  const titleFileRef = useRef(null);
   const activeForm = formByLang[langTab];
 
   useEffect(() => {
@@ -130,6 +134,9 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
         moviePoster: resolveMoviePoster(initialData, 'uz'),
         image: initialData.image || '',
         imagePreview: initialData.image || '',
+        titleImg: initialData.titleImg || '',
+        titleImgPreview: initialData.titleImg || '',
+        description: initialData.description || '',
         sortOrder: String(initialData.sortOrder || 1),
       };
       setFormByLang({ uz: { ...base }, ru: { ...base } });
@@ -163,7 +170,7 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
   const canSave = useMemo(() => {
     return ['uz', 'ru'].every((lang) => {
       const item = formByLang[lang];
-      return item.movieId && item.image && item.sortOrder;
+      return item.movieId && item.image && item.titleImg && item.description.trim() && item.sortOrder;
     });
   }, [formByLang]);
 
@@ -196,6 +203,16 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
     });
   };
 
+  const onPickTitleFile = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const imageData = await toDataUrl(file);
+    patchLang(langTab, {
+      titleImg: imageData,
+      titleImgPreview: imageData,
+    });
+  };
+
   const onSave = async () => {
     if (!canSave) {
       setError("UZ va RU bo'yicha barcha maydonlarni to'ldiring.");
@@ -209,6 +226,8 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
         await onSubmitData({
           movieId: Number(item.movieId),
           image: item.image,
+          titleImg: item.titleImg,
+          description: item.description.trim(),
           sortOrder: Number(item.sortOrder),
         });
       } else {
@@ -220,6 +239,8 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
               bannerId: baseBannerId,
               movieId: Number(item.movieId),
               image: item.image,
+              titleImg: item.titleImg,
+              description: item.description.trim(),
               lang,
               isActive: true,
               sortOrder: Number(item.sortOrder),
@@ -316,6 +337,46 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
         type="file"
         accept="image/*"
         onChange={onPickFile}
+      />
+
+      <label className="banner-form__label">Kino nomi rasmi (fonisiz)</label>
+      <button
+        type="button"
+        className="banner-form__upload banner-form__upload--title"
+        onClick={() => titleFileRef.current?.click()}
+      >
+        {activeForm.titleImgPreview ? (
+          <img
+            className="banner-form__preview banner-form__preview--title"
+            src={activeForm.titleImgPreview}
+            alt="Kino nomi rasmi"
+          />
+        ) : (
+          <div className="banner-form__upload-inner">
+            <UploadIcon />
+            <span>Title rasm yuklash</span>
+            <small>PNG, WEBP yoki SVG — shaffof fon</small>
+          </div>
+        )}
+      </button>
+      <input
+        ref={titleFileRef}
+        className="banner-form__file-input"
+        type="file"
+        accept="image/png,image/webp,image/svg+xml"
+        onChange={onPickTitleFile}
+      />
+
+      <label htmlFor={`banner-description-${langTab}`} className="banner-form__label">
+        Tavsif matni
+      </label>
+      <textarea
+        id={`banner-description-${langTab}`}
+        className="banner-form__input banner-form__textarea"
+        rows="4"
+        value={activeForm.description}
+        onChange={(e) => patchLang(langTab, { description: e.target.value })}
+        placeholder={langTab === 'uz' ? "Banner uchun o'zbekcha tavsif" : 'Описание баннера на русском'}
       />
 
       <label htmlFor="banner-sort-order" className="banner-form__label">

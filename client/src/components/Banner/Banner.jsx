@@ -47,6 +47,8 @@ const Banner = () => {
             .map((banner) => ({
                 id: banner.bannerId,
                 src: banner.image || '',
+                titleImg: banner.titleImg || '',
+                description: banner.description || '',
                 link: banner.movieId ? `/movie/${banner.movieId}` : null,
             }))
             .filter((img) => img.src);
@@ -363,28 +365,43 @@ const Banner = () => {
                 />
             )}
 
-            {!showSkeleton && image.link && isActive && (
-                <div
-                    className="manga-actions"
-                    onMouseDown={stopControlDrag}
-                    onTouchStart={stopControlDrag}
-                >
-                    <button
-                        type="button"
-                        className="manga-action-btn watch"
-                        onClick={(event) => handleBannerAction(event, image)}
-                    >
-                        <span className="manga-play-icon" aria-hidden="true" />
-                        Hozir tomosha qilish
-                    </button>
-                    <button
-                        type="button"
-                        className="manga-action-btn details"
-                        onClick={(event) => handleBannerAction(event, image)}
-                    >
-                        Batafsil
-                        <span className="manga-info-icon" aria-hidden="true">i</span>
-                    </button>
+            {!showSkeleton && isActive && (
+                <div className="manga-content">
+                    {image.titleImg && (
+                        <img
+                            className="manga-title-img"
+                            src={normalizeImagePath(image.titleImg)}
+                            alt=""
+                            draggable={false}
+                        />
+                    )}
+                    {image.description && (
+                        <p className="manga-description">{image.description}</p>
+                    )}
+                    {image.link && (
+                        <div
+                            className="manga-actions"
+                            onMouseDown={stopControlDrag}
+                            onTouchStart={stopControlDrag}
+                        >
+                            <button
+                                type="button"
+                                className="manga-action-btn watch"
+                                onClick={(event) => handleBannerAction(event, image)}
+                            >
+                                <span className="manga-play-icon" aria-hidden="true" />
+                                Hozir tomosha qilish
+                            </button>
+                            <button
+                                type="button"
+                                className="manga-action-btn details"
+                                onClick={(event) => handleBannerAction(event, image)}
+                            >
+                                Batafsil
+                                <span className="manga-info-icon" aria-hidden="true">i</span>
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </>
