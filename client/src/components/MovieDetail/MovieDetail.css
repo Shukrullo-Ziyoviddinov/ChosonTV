@@ -542,12 +542,12 @@
 }
 
 .movie-detail-season-btn:hover {
-  border-color: #e50914;
+  border-color: #e7fb08;
   color: #ffffff;
 }
 
 .movie-detail-season-btn.active {
-  border-color: #e50914;
+  border-color: #e7fb08;
   background: rgba(197, 78, 221, 0.2);
   color: #ffffff;
 }
@@ -565,11 +565,12 @@
 }
 
 .movie-detail-seasons-tab:hover {
-  border-color: #e50914;
+  border-color: #e7fb08;
   color: #ffffff;
 }
 
 .movie-detail-seasons-tab.active {
+  border-color: #e7fb08;
   background: rgba(197, 78, 221, 0.2);
   color: #ffffff;
   font-size: 1rem;
