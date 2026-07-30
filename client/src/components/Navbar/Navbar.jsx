@@ -149,7 +149,7 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-left">
           <div className="navbar-logo" onClick={() => navigate('/')}>
-            <img src="/img/KinoMaxLogo_preview_rev_1.png" alt="KinoMax" className="navbar-logo-img" />
+            <img src="/img/chosontv_preview_rev_1.png" alt="CHOSON.TV" className="navbar-logo-img" />
           </div>
           <button
             className="navbar-mobile-search-trigger"
