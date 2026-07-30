@@ -72,26 +72,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Inception filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма Начало"
-        },
-        "like": "405",
-        "dislike": "11",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -331,26 +311,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "O'rgimchakk odam film",
-          "ru": "Главный трейлер фильма Темный рыцарь"
-        },
-        "like": "12",
-        "dislike": "54",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -579,26 +539,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Dilwale filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма Дилвале"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "romance"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -826,26 +766,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "3 Ahmoq filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма 3 идиота"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "comedy"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -947,26 +867,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Interstellar filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма Интерстеллар"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "drama"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1069,26 +969,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1190,26 +1070,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1310,26 +1170,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1430,26 +1270,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1550,26 +1370,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1670,26 +1470,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1791,26 +1571,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -1912,26 +1672,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -2011,26 +1751,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -2127,26 +1847,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -2248,26 +1948,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -2364,26 +2044,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -2463,26 +2123,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -2584,26 +2224,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -2705,26 +2325,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -2804,26 +2404,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -2925,26 +2505,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3024,26 +2584,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3144,26 +2684,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3243,26 +2763,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3341,26 +2841,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3462,26 +2942,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3561,26 +3021,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3682,26 +3122,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3781,26 +3201,6 @@
       "uz": "Ikki qamalgan odam bir necha yil davomida bog'lanishadi.",
       "ru": "Два заключенных сближаются в течение ряда лет."
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -3902,26 +3302,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Filmining asosiy treyleri",
-          "ru": "Главный трейлер фильма"
-        },
-        "like": "",
-        "dislike": "",
-        "typeTrailers": "action"
-      }
-    ],
     "actors": [
       1,
       3,
@@ -4027,26 +3407,6 @@
         "director": "Пит Доктер"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Ruh 2 - Treyler",
-          "ru": "Душа 2 - Трейлер"
-        },
-        "like": "1200",
-        "dislike": "45",
-        "typeTrailers": "animation"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -4151,26 +3511,6 @@
         "director": "Кристофер Нолан"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Teaser",
-          "ru": "Тизер"
-        },
-        "text": {
-          "uz": "Oppenheimer 2 - Teaser",
-          "ru": "Оппенгеймер 2 - Тизер"
-        },
-        "like": "2100",
-        "dislike": "28",
-        "typeTrailers": "drama"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -4273,26 +3613,6 @@
         "director": "TBD"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Teaser",
-          "ru": "Тизер"
-        },
-        "text": {
-          "uz": "Romantika - Yangi mavsum",
-          "ru": "Романтика - Новый сезон"
-        },
-        "like": "850",
-        "dislike": "12",
-        "typeTrailers": "romance"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -4395,26 +3715,6 @@
         "director": "TBD"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Teaser",
-          "ru": "Тизер"
-        },
-        "text": {
-          "uz": "Multfilim 2025",
-          "ru": "Мультфильм 2025"
-        },
-        "like": "1100",
-        "dislike": "22",
-        "typeTrailers": "animation"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -4517,26 +3817,6 @@
         "director": "TBD"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Teaser",
-          "ru": "Тизер"
-        },
-        "text": {
-          "uz": "Boevik - Teaser",
-          "ru": "Боевик - Тизер"
-        },
-        "like": "680",
-        "dislike": "18",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -4639,26 +3919,6 @@
         "director": "TBD"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Teaser",
-          "ru": "Тизер"
-        },
-        "text": {
-          "uz": "Anime - Yangi seriya",
-          "ru": "Аниме - Новая серия"
-        },
-        "like": "1350",
-        "dislike": "32",
-        "typeTrailers": "animation"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -4761,26 +4021,6 @@
         "director": "TBD"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Teaser",
-          "ru": "Тизер"
-        },
-        "text": {
-          "uz": "Sarguzasht - Teaser",
-          "ru": "Приключения - Тизер"
-        },
-        "like": "780",
-        "dislike": "25",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -4882,26 +4122,6 @@
         "director": "Чад Стахелски"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "John Wick 4 - Treyler",
-          "ru": "Джон Уик 4 - Трейлер"
-        },
-        "like": "3200",
-        "dislike": "45",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5004,26 +4224,6 @@
         "director": "Кристофер Маккуорри"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Mission Impossible 7 - Treyler",
-          "ru": "Миссия невыполнима 7 - Трейлер"
-        },
-        "like": "2800",
-        "dislike": "38",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5126,26 +4326,6 @@
         "director": "Луи Летерье"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Fast X - Treyler",
-          "ru": "Форсаж 10 - Трейлер"
-        },
-        "like": "2100",
-        "dislike": "95",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5247,26 +4427,6 @@
         "director": "Антуан Фукуа"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "The Equalizer 3 - Treyler",
-          "ru": "Равный 3 - Трейлер"
-        },
-        "like": "1650",
-        "dislike": "42",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5365,26 +4525,6 @@
         "director": "Сэм Харгрейв"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Extraction 2 - Treyler",
-          "ru": "Экстракция 2 - Трейлер"
-        },
-        "like": "2400",
-        "dislike": "55",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5487,26 +4627,6 @@
         "director": "Дени Вильнёв"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Sicario - Treyler",
-          "ru": "Убийца - Трейлер"
-        },
-        "like": "1890",
-        "dislike": "28",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5610,26 +4730,6 @@
         "director": "Дени Вильнёв"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Sicario - Treyler",
-          "ru": "Убийца - Трейлер"
-        },
-        "like": "1890",
-        "dislike": "28",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5733,26 +4833,6 @@
         "director": "Дени Вильнёв"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Sicario - Treyler",
-          "ru": "Убийца - Трейлер"
-        },
-        "like": "1890",
-        "dislike": "28",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5856,26 +4936,6 @@
         "director": "Дени Вильнёв"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Sicario - Treyler",
-          "ru": "Убийца - Трейлер"
-        },
-        "like": "1890",
-        "dislike": "28",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
@@ -5979,26 +5039,6 @@
         "director": "Дени Вильнёв"
       }
     },
-    "trailersVideo": [
-      {
-        "id": 1,
-        "trailers": {
-          "uz": "/video/video1.mp4",
-          "ru": "/video/video1.mp4"
-        },
-        "title": {
-          "uz": "Asosiy Treyler",
-          "ru": "Главный Трейлер"
-        },
-        "text": {
-          "uz": "Sicario - Treyler",
-          "ru": "Убийца - Трейлер"
-        },
-        "like": "1890",
-        "dislike": "28",
-        "typeTrailers": "action"
-      }
-    ],
     "watchVideo": {
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"

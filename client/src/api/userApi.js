@@ -163,58 +163,6 @@ export const removeMovieReaction = async (movieId) => {
   }
 };
 
-export const fetchTrailerReactions = async (movieId) => {
-  try {
-    if (!hasToken()) return {};
-    const response = await fetch(toUrl(`/api/user/reactions/trailer?movieId=${movieId}`), { headers: authHeaders() });
-    const json = await parseJsonSafe(response);
-    if (!response.ok || !(json?.success ?? json?.ok)) {
-      handleUnauthorized(response);
-      throw createApiError(json?.message || `HTTP ${response.status}`, response.status, json);
-    }
-    return json?.data?.reactions || {};
-  } catch (error) {
-    throw normalizeApiError(error);
-  }
-};
-
-export const setTrailerReaction = async ({ movieId, trailerId, reaction }) => {
-  try {
-    if (!hasToken()) throw createApiError('Unauthorized', 401);
-    const response = await fetch(toUrl('/api/user/reactions/trailer'), {
-      method: 'POST',
-      headers: authHeaders(),
-      body: JSON.stringify({ movieId, trailerId, reaction }),
-    });
-    const json = await parseJsonSafe(response);
-    if (!response.ok || !(json?.success ?? json?.ok)) {
-      handleUnauthorized(response);
-      throw createApiError(json?.message || `HTTP ${response.status}`, response.status, json);
-    }
-    return json?.data?.reaction || null;
-  } catch (error) {
-    throw normalizeApiError(error);
-  }
-};
-
-export const removeTrailerReaction = async ({ movieId, trailerId }) => {
-  try {
-    if (!hasToken()) throw createApiError('Unauthorized', 401);
-    const response = await fetch(toUrl(`/api/user/reactions/trailer/${movieId}/${trailerId}`), {
-      method: 'DELETE',
-      headers: authHeaders(),
-    });
-    const json = await parseJsonSafe(response);
-    if (!response.ok || !(json?.success ?? json?.ok)) {
-      handleUnauthorized(response);
-      throw createApiError(json?.message || `HTTP ${response.status}`, response.status, json);
-    }
-    return null;
-  } catch (error) {
-    throw normalizeApiError(error);
-  }
-};
-
 export const addViewedMovie = async (movieId) => {
   try {
     if (!hasToken()) return [];

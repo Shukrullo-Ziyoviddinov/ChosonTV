@@ -198,55 +198,6 @@ const LoaderSkeleton = ({ variant = 'block', className = '', width, height, coun
             <span className="loader-skeleton__shimmer" aria-hidden="true" />
           </div>
         );
-      case 'similar-trailers-title':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--similar-trailers-title`} style={{ width }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
-      case 'similar-trailer-item':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--similar-trailer-item`} style={{ width, height }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
-      case 'trailer-modal-controls-info':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--trailer-modal-controls-info`} style={{ width }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
-      case 'trailer-controls-like':
-      case 'trailer-controls-dislike':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--trailer-controls-btn`} style={{ width, height }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
-      case 'trailer-modal-video':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--trailer-modal-video`} style={{ width, height }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
-      case 'trailer-modal-close':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--trailer-modal-close`} style={{ width, height }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
-      case 'trailer-modal-control-btn':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--trailer-modal-control-btn`} style={{ width, height }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
-      case 'trailer-modal-controls-bar':
-        return (
-          <div className={`${baseClass} ${variantClass} loader-skeleton--trailer-modal-controls-bar`} style={{ width }}>
-            <span className="loader-skeleton__shimmer" aria-hidden="true" />
-          </div>
-        );
       case 'description-modal-content':
         return (
           <div className={`${baseClass} ${variantClass} loader-skeleton--description-modal-content`} style={{ width, height }}>

@@ -5,12 +5,6 @@ const toMovieId = (value) => {
   return Number.isNaN(parsed) ? null : parsed;
 };
 const toReaction = (value) => (value === "like" || value === "dislike" ? value : null);
-const toTrailerKey = (movieId, trailerId) => {
-  const mId = toMovieId(movieId);
-  const tId = toMovieId(trailerId);
-  if (mId === null || tId === null) return null;
-  return `${mId}-${tId}`;
-};
 
 const getProfile = async (req, res, next) => {
   try {
@@ -157,60 +151,6 @@ const removeMovieReaction = async (req, res, next) => {
   }
 };
 
-const getTrailerReactionsByMovie = async (req, res, next) => {
-  try {
-    const movieId = toMovieId(req.query?.movieId);
-    if (movieId === null) {
-      const error = new Error("movieId noto'g'ri.");
-      error.statusCode = 400;
-      throw error;
-    }
-    const entries = Object.fromEntries(req.user.trailerReactions || []);
-    const reactions = {};
-    Object.entries(entries).forEach(([key, value]) => {
-      if (key.startsWith(`${movieId}-`) && toReaction(value)) {
-        reactions[key] = value;
-      }
-    });
-    return success(res, { reactions }, "Trailer reactions olindi.");
-  } catch (error) {
-    return next(error);
-  }
-};
-
-const setTrailerReaction = async (req, res, next) => {
-  try {
-    const reaction = toReaction(req.body?.reaction);
-    const key = toTrailerKey(req.body?.movieId, req.body?.trailerId);
-    if (!reaction || !key) {
-      const error = new Error("movieId, trailerId yoki reaction noto'g'ri.");
-      error.statusCode = 400;
-      throw error;
-    }
-    req.user.trailerReactions.set(key, reaction);
-    await req.user.save();
-    return success(res, { reaction }, "Trailer reaction saqlandi.");
-  } catch (error) {
-    return next(error);
-  }
-};
-
-const removeTrailerReaction = async (req, res, next) => {
-  try {
-    const key = toTrailerKey(req.params?.movieId, req.params?.trailerId);
-    if (!key) {
-      const error = new Error("movieId yoki trailerId noto'g'ri.");
-      error.statusCode = 400;
-      throw error;
-    }
-    req.user.trailerReactions.delete(key);
-    await req.user.save();
-    return success(res, { reaction: null }, "Trailer reaction olib tashlandi.");
-  } catch (error) {
-    return next(error);
-  }
-};
-
 const getViewedMovies = async (req, res, next) => {
   try {
     const viewedMovies = Array.isArray(req.user.viewedMovies) ? req.user.viewedMovies : [];
@@ -258,9 +198,6 @@ module.exports = {
   getMovieReaction,
   setMovieReaction,
   removeMovieReaction,
-  getTrailerReactionsByMovie,
-  setTrailerReaction,
-  removeTrailerReaction,
   getViewedMovies,
   addViewedMovie,
 };

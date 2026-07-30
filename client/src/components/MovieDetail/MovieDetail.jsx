@@ -8,7 +8,6 @@ import { useViewedMovies } from '../../context/ViewedMoviesContext';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
 import { useLoading } from '../../context/LoadingContext';
 import LoaderSkeleton from '../LoaderSkeleton/LoaderSkeleton';
-import TrailerModal from './TrailerModal';
 import WatchModal from './WatchModal';
 import MovieComments from './MovieComments';
 import SimilarMovies from './SimilarMovies';
@@ -86,7 +85,6 @@ const MovieDetail = () => {
   const { addMovie } = useViewedMovies();
   const { detailLoading, setLoading } = useLoading();
   const [movie, setMovie] = useState(null);
-  const [showTrailerModal, setShowTrailerModal] = useState(false);
   const [showWatchModal, setShowWatchModal] = useState(false);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState(null);
   const [seasonsLang, setSeasonsLang] = useState(i18n.language === 'uz' ? 'uz' : 'ru');
@@ -826,12 +824,6 @@ const MovieDetail = () => {
                 >
                   {t('detail.watch')}
                 </button>
-                <button
-                  className="movie-detail-btn movie-detail-btn-secondary"
-                  onClick={() => setShowTrailerModal(true)}
-                >
-                  {t('detail.trailer')}
-                </button>
               </div>
 
               <div className="movie-detail-description">
@@ -1006,13 +998,6 @@ const MovieDetail = () => {
       <div className="movie-detail-container movie-detail-similar-wrapper">
         <SimilarMovies currentMovie={movie} />
       </div>
-
-      {showTrailerModal && (
-        <TrailerModal
-          movie={movie}
-          onClose={() => setShowTrailerModal(false)}
-        />
-      )}
 
       {showWatchModal && (
         <WatchModal

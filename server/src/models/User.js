@@ -35,11 +35,6 @@ const userSchema = new mongoose.Schema(
       of: String,
       default: {},
     },
-    trailerReactions: {
-      type: Map,
-      of: String,
-      default: {},
-    },
     viewedMovies: {
       type: [
         {

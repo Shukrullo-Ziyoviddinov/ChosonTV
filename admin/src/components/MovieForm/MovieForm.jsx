@@ -4,7 +4,6 @@ import {
   CATEGORY_NAME_OPTIONS,
   CATEGORY_OPTIONS,
   FILTER_GENRE_OPTIONS,
-  TRAILER_TYPE_OPTIONS,
   TYPE_CATEGORY_OPTIONS,
 } from "../../constants/movieFormOptions";
 import UploadProgress from "../UploadProgress/UploadProgress";
@@ -34,16 +33,6 @@ function toDataUrl(file, onProgress) {
   });
 }
 
-const emptyTrailer = () => ({
-  id: Date.now() + Math.floor(Math.random() * 1000),
-  trailers: { uz: "", ru: "" },
-  title: { uz: "", ru: "" },
-  text: { uz: "", ru: "" },
-  like: "",
-  dislike: "",
-  typeTrailers: "action",
-});
-
 const emptySeason = (seasonNumber = 1) => ({
   seasonNumber,
   title: { uz: `Mavsum ${seasonNumber}`, ru: `Сезон ${seasonNumber}` },
@@ -51,27 +40,6 @@ const emptySeason = (seasonNumber = 1) => ({
 });
 
 function normalizeInitialMovie(data = {}) {
-  const safeTrailers = Array.isArray(data.trailersVideo) && data.trailersVideo.length
-    ? data.trailersVideo.map((item, idx) => ({
-        id: item?.id ?? Date.now() + idx,
-        trailers: {
-          uz: item?.trailers?.uz || "",
-          ru: item?.trailers?.ru || "",
-        },
-        title: {
-          uz: item?.title?.uz || "",
-          ru: item?.title?.ru || "",
-        },
-        text: {
-          uz: item?.text?.uz || "",
-          ru: item?.text?.ru || "",
-        },
-        like: String(item?.like ?? ""),
-        dislike: String(item?.dislike ?? ""),
-        typeTrailers: item?.typeTrailers || "action",
-      }))
-    : [emptyTrailer()];
-
   const safeSeasons = Array.isArray(data.seasons) && data.seasons.length
     ? data.seasons.map((season, idx) => ({
         seasonNumber: Number(season?.seasonNumber) || idx + 1,
@@ -137,7 +105,6 @@ function normalizeInitialMovie(data = {}) {
         director: safeDescription?.ru?.director || "",
       },
     },
-    trailersVideo: safeTrailers,
     watchVideo: {
       uz: data?.watchVideo?.uz || "",
       ru: data?.watchVideo?.ru || "",
@@ -193,7 +160,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
       uz: { text: "", year: "", country: "", duration: "", genre: [], director: "" },
       ru: { text: "", year: "", country: "", duration: "", genre: [], director: "" },
     },
-    trailersVideo: [emptyTrailer()],
     watchVideo: { uz: "", ru: "" },
     seasons: [emptySeason(1)],
     actors: [],
@@ -285,12 +251,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
     });
   };
 
-  const updateTrailer = (index, updater) => {
-    const next = [...form.trailersVideo];
-    next[index] = updater(next[index]);
-    patch({ trailersVideo: next });
-  };
-
   const updateSeason = (index, updater) => {
     const next = [...form.seasons];
     next[index] = updater(next[index]);
@@ -368,7 +328,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
         category: form.category,
         genre: form.genre,
         description: form.description,
-        trailersVideo: form.trailersVideo,
         watchVideo: form.watchVideo,
         seasons: form.seasons,
         actors: form.actors,
@@ -510,57 +469,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
         />
       </div>
       </div>
-
-      <h4 className="movie-form__section">Trailerlar</h4>
-      {form.trailersVideo.map((trailer, index) => (
-        <div className="movie-form__box" key={trailer.id}>
-          <div className="movie-form__box-head">
-            <strong>{index + 1}-Treyler</strong>
-            <button type="button" className="movie-form__mini-btn" onClick={() => patch({ trailersVideo: form.trailersVideo.filter((_, i) => i !== index) })} disabled={form.trailersVideo.length === 1}>
-              O'chirish
-            </button>
-          </div>
-          <div className="movie-form__grid">
-            <label className="movie-form__label">typeTrailers</label>
-            <select className="movie-form__input" value={trailer.typeTrailers} onChange={(e) => updateTrailer(index, (prev) => ({ ...prev, typeTrailers: e.target.value }))}>
-              {TRAILER_TYPE_OPTIONS.map((item) => <option key={item} value={item}>{item}</option>)}
-            </select>
-            <label className="movie-form__label">Title UZ</label>
-            <input className="movie-form__input" value={trailer.title.uz} onChange={(e) => updateTrailer(index, (prev) => ({ ...prev, title: { ...prev.title, uz: e.target.value } }))} />
-            <label className="movie-form__label">Title RU</label>
-            <input className="movie-form__input" value={trailer.title.ru} onChange={(e) => updateTrailer(index, (prev) => ({ ...prev, title: { ...prev.title, ru: e.target.value } }))} />
-            <label className="movie-form__label">Text UZ</label>
-            <textarea className="movie-form__textarea" value={trailer.text.uz} onChange={(e) => updateTrailer(index, (prev) => ({ ...prev, text: { ...prev.text, uz: e.target.value } }))} />
-            <label className="movie-form__label">Text RU</label>
-            <textarea className="movie-form__textarea" value={trailer.text.ru} onChange={(e) => updateTrailer(index, (prev) => ({ ...prev, text: { ...prev.text, ru: e.target.value } }))} />
-            <label className="movie-form__label">Like</label>
-            <input className="movie-form__input" type="number" value={trailer.like} onChange={(e) => updateTrailer(index, (prev) => ({ ...prev, like: e.target.value }))} />
-            <label className="movie-form__label">Dislike</label>
-            <input className="movie-form__input" type="number" value={trailer.dislike} onChange={(e) => updateTrailer(index, (prev) => ({ ...prev, dislike: e.target.value }))} />
-          </div>
-          {["uz", "ru"].map((lang) => {
-            const key = `trailer-${index}-${lang}`;
-            return renderUploadField({
-              keyName: key,
-              label: `Trailer video ${lang.toUpperCase()}`,
-              accept: "video/*",
-              onFile: (file) =>
-                onPickFile(
-                  key,
-                  (prev, data) => {
-                    const next = [...prev.trailersVideo];
-                    next[index] = { ...next[index], trailers: { ...next[index].trailers, [lang]: data } };
-                    return { ...prev, trailersVideo: next };
-                  },
-                  file
-                ),
-            });
-          })}
-        </div>
-      ))}
-      <button type="button" className="movie-form__add-btn" onClick={() => patch({ trailersVideo: [...form.trailersVideo, emptyTrailer()] })}>
-        + Treyler qo'shish
-      </button>
 
       <h4 className="movie-form__section">Seasons</h4>
       {form.seasons.map((season, seasonIndex) => (

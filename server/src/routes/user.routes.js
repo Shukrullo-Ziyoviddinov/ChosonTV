@@ -9,9 +9,6 @@ const {
   getMovieReaction,
   setMovieReaction,
   removeMovieReaction,
-  getTrailerReactionsByMovie,
-  setTrailerReaction,
-  removeTrailerReaction,
   getViewedMovies,
   addViewedMovie,
 } = require("../controllers/user.controller");
@@ -26,9 +23,6 @@ router.delete("/wishlist/:movieId", authMiddleware, removeWishlistItem);
 router.get("/reactions/movie/:movieId", authMiddleware, getMovieReaction);
 router.post("/reactions/movie", authMiddleware, setMovieReaction);
 router.delete("/reactions/movie/:movieId", authMiddleware, removeMovieReaction);
-router.get("/reactions/trailer", authMiddleware, getTrailerReactionsByMovie);
-router.post("/reactions/trailer", authMiddleware, setTrailerReaction);
-router.delete("/reactions/trailer/:movieId/:trailerId", authMiddleware, removeTrailerReaction);
 router.get("/viewed-movies", authMiddleware, getViewedMovies);
 router.post("/viewed-movies", authMiddleware, addViewedMovie);
 

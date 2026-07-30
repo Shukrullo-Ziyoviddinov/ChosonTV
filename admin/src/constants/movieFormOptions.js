@@ -11,8 +11,6 @@ export const FILTER_GENRE_OPTIONS = [
   "Fantastika",
 ];
 
-export const TRAILER_TYPE_OPTIONS = ["action", "romance", "comedy", "drama", "animation"];
-
 export const TYPE_CATEGORY_OPTIONS = [
   "action",
   "drama",
