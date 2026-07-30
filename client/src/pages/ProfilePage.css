@@ -17,20 +17,7 @@
   left: 0;
   right: 0;
   height: 320px;
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-}
-
-.profile-page-bg::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 80%;
-  background: linear-gradient(to top, #000 0%, transparent 100%);
-  pointer-events: none;
+  background: var(--bg-body);
 }
 
 .profile-page-content {
@@ -144,24 +131,6 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   object-fit: cover;
   flex-shrink: 0;
-}
-
-.profile-violet-market-logo {
-  width: 31px;
-  height: 31px;
-  border-radius: 6px;
-  background: #00010b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3px;
-  flex-shrink: 0;
-}
-
-.profile-violet-market-logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
 }
 
 .profile-wishlist-left span {
@@ -313,11 +282,5 @@
   .profile-wishlist-flag {
     width: 22px;
     height: 15px;
-  }
-
-  .profile-violet-market-logo {
-    width: 24px;
-    height: 24px;
-    padding: 2px;
   }
 }

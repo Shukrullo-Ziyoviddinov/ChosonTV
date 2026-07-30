@@ -570,9 +570,9 @@
 }
 
 .movie-detail-seasons-tab.active {
-  border-color: #e50914;
   background: rgba(197, 78, 221, 0.2);
   color: #ffffff;
+  font-size: 1rem;
 }
 
 .movie-detail-season-block {
@@ -596,12 +596,12 @@
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid #e50914;
+  border: 2px solid rgba(255, 255, 255, 0.2);
 }
 
 .movie-detail-episode-item:hover {
-  border-color: #e50914;
-  box-shadow: 0 4px 20px rgba(229, 9, 20, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: none;
 }
 
 .movie-detail-episode-video {
@@ -893,8 +893,8 @@
 }
 
 .movie-detail-description-modal-close:hover {
-  border-color: #8b008b;
-  background-color: rgba(157, 78, 221, 0.2);
+  border-color: #e50914;
+  background-color: rgba(229, 9, 20, 0.2);
 }
 
 .movie-detail-description-modal-body {

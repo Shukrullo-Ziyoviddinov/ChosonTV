@@ -157,10 +157,7 @@ const ProfilePage = () => {
   return (
     <div className="profile-page">
       <div className="profile-page-header">
-        <div
-          className="profile-page-bg"
-          style={{ backgroundImage: `url(/img/profilfoto.jpg)` }}
-        />
+        <div className="profile-page-bg" />
         <div className="profile-page-content">
           <div className="profile-page-top">
             {profileLoading ? (
@@ -238,27 +235,6 @@ const ProfilePage = () => {
                 className="profile-wishlist-flag"
               />
               <span>{t('profile.appLanguage')}</span>
-            </div>
-            <svg className="profile-wishlist-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-          </button>
-
-          {/* Violet Market - API joyi: backend yozilganda shu blok orqali Violet Market API ulanishi kerak */}
-          <button
-            className="profile-wishlist-block"
-            type="button"
-            onClick={() => {}}
-          >
-            <div className="profile-wishlist-left">
-              <div className="profile-violet-market-logo">
-                <img
-                  src="/img/photo_2026-02-16_20-30-31_preview_rev_1.png"
-                  alt="Violet Market"
-                  className="profile-violet-market-logo-img"
-                />
-              </div>
-              <span>{t('profile.violetMarket')}</span>
             </div>
             <svg className="profile-wishlist-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <polyline points="9 18 15 12 9 6" />
