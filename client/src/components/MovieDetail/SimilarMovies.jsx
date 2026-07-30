@@ -166,6 +166,9 @@ const SimilarMovies = ({ currentMovie }) => {
                     </div>
                   )}
               </div>
+              {getMovieTitle(movie) && (
+                <p className="similar-movies-item-title">{getMovieTitle(movie)}</p>
+              )}
             </div>
           ))}
       </HorizontalScroll>
