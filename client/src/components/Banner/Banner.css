@@ -326,21 +326,25 @@
         right: clamp(16px, 5vw, 36px);
         bottom: 42px;
         width: auto;
+        align-items: center;
         gap: 9px;
+        text-align: center;
     }
 
     .manga-image .manga-title-img {
-        max-width: 58%;
-        max-height: 104px;
+        max-width: 66%;
+        max-height: 120px;
+        object-position: center;
     }
 
     .manga-description {
-        max-width: 76%;
-        font-size: 12px;
+        max-width: 82%;
+        font-size: 13px;
         line-height: 1.45;
     }
 
     .manga-actions {
+        justify-content: center;
         gap: 10px;
     }
 
