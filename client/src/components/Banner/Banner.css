@@ -267,7 +267,7 @@
 
 @media (max-width: 768px) {
     .banner {
-        margin-top: -70px;
+        margin-top: -45px;
         padding: 0;
     }
 
@@ -297,7 +297,7 @@
     .manga-actions {
         left: clamp(16px, 5vw, 36px);
         right: clamp(16px, 5vw, 36px);
-        bottom: 58px;
+        bottom: 42px;
         gap: 10px;
     }
 
