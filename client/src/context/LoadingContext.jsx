@@ -13,7 +13,6 @@ export const LoadingProvider = ({ children }) => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [bannerLoading, setBannerLoading] = useState(false);
-  const [categoriesLoading, setCategoriesLoading] = useState(false);
   const [wishlistLoading, setWishlistLoading] = useState(false);
   const [recommendedLoading, setRecommendedLoading] = useState(false);
 
@@ -24,7 +23,6 @@ export const LoadingProvider = ({ children }) => {
       profile: setProfileLoading,
       detail: setDetailLoading,
       banner: setBannerLoading,
-      categories: setCategoriesLoading,
       wishlist: setWishlistLoading,
       recommended: setRecommendedLoading,
     };
@@ -37,7 +35,6 @@ export const LoadingProvider = ({ children }) => {
     profileLoading,
     detailLoading,
     bannerLoading,
-    categoriesLoading,
     wishlistLoading,
     recommendedLoading,
     setLoading,

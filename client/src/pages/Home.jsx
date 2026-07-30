@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useLoading } from '../context/LoadingContext';
 import { DEFAULT_LIMIT } from '../components/ShowMoreButton/ShowMoreButton';
 import Banner from '../components/Banner/Banner';
-import Categories from '../components/Categories';
 import Movies from '../components/Movies/Movies';
 import { useMoviesCatalog } from '../context/MoviesCatalogContext';
 import TopRatedContent from '../components/TopRatedContent/TopRatedContent';
@@ -97,7 +96,6 @@ const Home = () => {
   return (
     <div className="home">
       <Banner />
-      <Categories />
       <Movies sectionType="recommended" limit={DEFAULT_LIMIT} showHorizontalScroll={true} moreTo="/recommended" />
       {renderedSections}
     </div>
