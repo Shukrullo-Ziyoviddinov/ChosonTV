@@ -68,7 +68,7 @@
     z-index: 1;
     pointer-events: none;
     background:
-        linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.38) 70%, #000 100%),
+        linear-gradient(180deg, transparent 43%, rgba(0, 0, 0, 0.45) 69%, #000 100%),
         linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.22) 4%, transparent 12%, transparent 88%, rgba(0, 0, 0, 0.22) 96%, rgba(0, 0, 0, 0.7) 100%);
 }
 
@@ -286,7 +286,7 @@
 
     .manga-image::after {
         background:
-            linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.5) 68%, #000 100%),
+            linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, 0.56) 67%, #000 100%),
             linear-gradient(90deg, rgba(0, 0, 0, 0.62) 0%, transparent 6%, transparent 94%, rgba(0, 0, 0, 0.62) 100%);
     }
 
