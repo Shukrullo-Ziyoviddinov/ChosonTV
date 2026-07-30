@@ -442,7 +442,7 @@
 }
 
 .movie-detail-description {
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 100%;
   max-width: 100%;
   padding: 0.5rem 1rem ;
@@ -456,7 +456,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: .5rem;
   gap: 1rem;
 }
 
@@ -542,12 +542,12 @@
 }
 
 .movie-detail-season-btn:hover {
-  border-color: #7b4edd ;
+  border-color: #e50914;
   color: #ffffff;
 }
 
 .movie-detail-season-btn.active {
-  border-color: #7b4edd ;
+  border-color: #e50914;
   background: rgba(197, 78, 221, 0.2);
   color: #ffffff;
 }
@@ -565,12 +565,12 @@
 }
 
 .movie-detail-seasons-tab:hover {
-  border-color: #7b4edd ;
+  border-color: #e50914;
   color: #ffffff;
 }
 
 .movie-detail-seasons-tab.active {
-  border-color: #7b4edd ;
+  border-color: #e50914;
   background: rgba(197, 78, 221, 0.2);
   color: #ffffff;
 }
@@ -596,12 +596,12 @@
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: 2px solid #e50914;
 }
 
 .movie-detail-episode-item:hover {
-  border-color: #c54edd;
-  box-shadow: 0 4px 20px rgba(197, 78, 221, 0.3);
+  border-color: #e50914;
+  box-shadow: 0 4px 20px rgba(229, 9, 20, 0.3);
 }
 
 .movie-detail-episode-video {
@@ -653,22 +653,23 @@
 .movie-detail-actor-item {
   flex-shrink: 0;
   width: 80px;
-  background-color: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 5px;
+  background: none;
+  border: none;
   overflow: hidden;
   transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .movie-detail-actor-image {
   width: 100%;
-  height: 80px;
-  aspect-ratio: 3/4;
+  height: auto;
+  aspect-ratio: 1/1;
   overflow: hidden;
   background: #1a1a1a;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
@@ -682,8 +683,11 @@
   padding: 0.4rem 0.2rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.2rem;
   min-height: 0;
+  width: 100%;
+  text-align: center;
 }
 
 .movie-detail-actor-name {
@@ -1068,6 +1072,10 @@
 
 /* Mobile version */
 @media (max-width: 767px) {
+  .movie-detail-description {
+    margin-top: 0;
+  }
+
   .movie-detail-bg {
     display: none;
   }
@@ -1125,6 +1133,7 @@
 
   .movie-detail-buttons {
     flex-wrap: nowrap;
+    margin-top: 0rem;
   }
 
   .movie-detail-btn {
@@ -1212,7 +1221,7 @@
   }
 
   .movie-detail-actor-image {
-    height: 65px;
+    height: auto;
   }
 
   .movie-detail-description-modal-close {

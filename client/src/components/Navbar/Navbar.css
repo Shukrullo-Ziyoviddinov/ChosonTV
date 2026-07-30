@@ -439,11 +439,14 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
-    background: none;
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.55);
     border: none;
+    border-radius: 50%;
     color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0;
     margin-left: auto;
     transition: color 0.2s;
   }

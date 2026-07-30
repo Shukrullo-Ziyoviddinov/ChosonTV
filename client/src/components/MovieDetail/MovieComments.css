@@ -25,7 +25,7 @@
 }
 
 .movie-detail-comments-input-wrap:hover {
-  border-color: #7b4edd ;
+  border-color: #e50914;
 }
 
 .movie-detail-comments-input {
@@ -161,7 +161,7 @@
   margin-left: 48px;
   margin-top: 0.5rem;
   padding-left: 0.75rem;
-  border-left: 2px solid rgba(197, 78, 221, 0.3);
+  border-left: 2px solid #e50914;
 }
 
 .movie-detail-comment-reply {
@@ -264,9 +264,9 @@
 
 .movie-detail-comments-more-btn {
   background: #0000;
-  border: 2px solid #9f4edd80;
+  border: 2px solid #e50914;
   border-radius: 8px;
-  color: #7b4edd;
+  color: #ffffff;
   cursor: pointer;
   font-size: .7rem;
   font-weight: 600;
@@ -275,8 +275,8 @@
 }
 
 .movie-detail-comments-more-btn:hover {
-  background: rgba(197, 78, 221, 0.2);
-  border-color: #7b4edd;
+  background: rgba(229, 9, 20, 0.2);
+  border-color: #e50914;
 }
 
 /* Comments Modal - slide from bottom like app modal */

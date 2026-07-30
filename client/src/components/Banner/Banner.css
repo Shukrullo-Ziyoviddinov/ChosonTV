@@ -295,7 +295,7 @@
 
 @media (max-width: 768px) {
     .banner {
-        margin-top: -45px;
+        margin-top: -55px;
         padding: 0;
     }
 
@@ -342,7 +342,7 @@
     }
 
     .manga-description {
-        display: block;
+        display: none;
         max-width: 82%;
         margin: 0;
         font-size: 13px;
