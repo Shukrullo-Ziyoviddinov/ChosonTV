@@ -134,6 +134,16 @@ const Banner = () => {
         navigate(image.link);
     };
 
+    const handleBannerAction = (event, image) => {
+        event.stopPropagation();
+        if (!image?.link) return;
+        navigate(image.link);
+    };
+
+    const stopControlDrag = (event) => {
+        event.stopPropagation();
+    };
+
     // Drag tugashi
     const handleDragEnd = useCallback(() => {
         if (!isDragging) return;
@@ -334,6 +344,48 @@ const Banner = () => {
         return 'hidden';
     };
 
+    const renderSlideContent = (image, index, showSkeleton, isActive) => (
+        <>
+            {showSkeleton ? (
+                <LoaderSkeleton variant="banner-image" className="manga-image-skeleton" />
+            ) : (
+                <img
+                    src={normalizeImagePath(image.src)}
+                    alt={`Banner ${index + 1}`}
+                    draggable={false}
+                    onError={(e) => {
+                        e.target.src = normalizeImagePath('/img/no-image.png');
+                    }}
+                />
+            )}
+
+            {!showSkeleton && image.link && isActive && (
+                <div
+                    className="manga-actions"
+                    onMouseDown={stopControlDrag}
+                    onTouchStart={stopControlDrag}
+                >
+                    <button
+                        type="button"
+                        className="manga-action-btn watch"
+                        onClick={(event) => handleBannerAction(event, image)}
+                    >
+                        <span className="manga-play-icon" aria-hidden="true" />
+                        Hozir tomosha qilish
+                    </button>
+                    <button
+                        type="button"
+                        className="manga-action-btn details"
+                        onClick={(event) => handleBannerAction(event, image)}
+                    >
+                        Batafsil
+                        <span className="manga-info-icon" aria-hidden="true">i</span>
+                    </button>
+                </div>
+            )}
+        </>
+    );
+
     if (images.length === 0) {
         if (!bannerLoading) return null;
 
@@ -374,6 +426,8 @@ const Banner = () => {
                 <button
                     className="manga-nav-btn prev"
                     onClick={prevSlide}
+                    onMouseDown={stopControlDrag}
+                    onTouchStart={stopControlDrag}
                     aria-label="Oldingi rasm"
                 >
                     &#10094;
@@ -382,6 +436,8 @@ const Banner = () => {
                 <button
                     className="manga-nav-btn next"
                     onClick={nextSlide}
+                    onMouseDown={stopControlDrag}
+                    onTouchStart={stopControlDrag}
                     aria-label="Keyingi rasm"
                 >
                     &#10095;
@@ -400,18 +456,7 @@ const Banner = () => {
                             onClick={() => !bannerLoading && handleSlideClick(image)}
                             role={image.link ? 'button' : undefined}
                         >
-                            {showSkeleton ? (
-                              <LoaderSkeleton variant="banner-image" className="manga-image-skeleton" />
-                            ) : (
-                            <img
-                                src={normalizeImagePath(image.src)}
-                                alt={`Banner ${index + 1}`}
-                                draggable={false}
-                                onError={(e) => {
-                                    e.target.src = normalizeImagePath('/img/no-image.png');
-                                }}
-                            />
-                            )}
+                            {renderSlideContent(image, index, showSkeleton, slideClass === 'center')}
                         </li>
                         );
                     })}
@@ -428,18 +473,7 @@ const Banner = () => {
                             onClick={() => !bannerLoading && handleSlideClick(image)}
                             role={image.link ? 'button' : undefined}
                         >
-                            {showSkeleton ? (
-                              <LoaderSkeleton variant="banner-image" className="manga-image-skeleton" />
-                            ) : (
-                            <img
-                                src={normalizeImagePath(image.src)}
-                                alt={`Banner ${index + 1}`}
-                                draggable={false}
-                                onError={(e) => {
-                                    e.target.src = normalizeImagePath('/img/no-image.png');
-                                }}
-                            />
-                            )}
+                            {renderSlideContent(image, index, showSkeleton, slideClass === 'center')}
                         </li>
                         );
                     })}
@@ -456,18 +490,7 @@ const Banner = () => {
                             onClick={() => !bannerLoading && handleSlideClick(image)}
                             role={image.link ? 'button' : undefined}
                         >
-                            {showSkeleton ? (
-                              <LoaderSkeleton variant="banner-image" className="manga-image-skeleton" />
-                            ) : (
-                            <img
-                                src={normalizeImagePath(image.src)}
-                                alt={`Banner ${index + 1}`}
-                                draggable={false}
-                                onError={(e) => {
-                                    e.target.src = normalizeImagePath('/img/no-image.png');
-                                }}
-                            />
-                            )}
+                            {renderSlideContent(image, index, showSkeleton, slideClass === 'center')}
                         </li>
                         );
                     })}
@@ -475,10 +498,13 @@ const Banner = () => {
 
                 <div className="manga-dots">
                     {images.map((_, index) => (
-                        <div
+                        <button
+                            type="button"
                             key={index}
                             className={`manga-dot ${index === currentIndex ? 'active' : ''}`}
                             onClick={() => goToSlide(index)}
+                            onMouseDown={stopControlDrag}
+                            onTouchStart={stopControlDrag}
                             aria-label={`Rasm ${index + 1}ga o'tish`}
                             aria-current={index === currentIndex ? 'true' : 'false'}
                         />

@@ -1,7 +1,6 @@
-
 .banner {
     margin-bottom: 3rem;
-    padding: 0 2rem;
+    padding: 0 12px;
     overflow: hidden;
 }
 
@@ -9,25 +8,27 @@
     max-width: 1400px;
     margin: 0 auto;
     overflow: hidden;
+    border-radius: 16px;
 }
 
 .manga-carousel {
-    margin-top: 3rem;
     position: relative;
     width: 100%;
-    height: 570px;
+    aspect-ratio: 2.35 / 1;
+    margin-top: 3rem;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: grab;
+    background: #07090d;
+    touch-action: pan-y;
 }
 
 .manga-carousel.is-dragging {
     cursor: grabbing;
 }
 
-/* Slides Container - Rasmlar bir qatorda */
 .manga-slides {
     position: relative;
     width: 100%;
@@ -38,47 +39,43 @@
     justify-content: flex-start;
     margin: 0;
     padding: 0;
-    gap: 7px;
+    gap: 0;
 }
 
-/* Rasm Konteyneri */
 .manga-image {
     position: relative;
-    flex-shrink: 0;
-    min-height: 0;
-    width: 35%;
+    width: 100%;
     height: 100%;
-    border-radius: 15px;
+    min-height: 0;
+    flex-shrink: 0;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    /* background: rgba(0, 0, 0, 0.3); */
-    border: 2px solid #dddddd3e;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0.6;
-    /* transform: scale(0.94); */
-    filter: brightness(0.85);
+    background: #07090d;
+    opacity: 1;
+    transition: opacity 0.45s ease;
 }
 
-.manga-image .manga-image-skeleton {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  min-width: 0;
-  min-height: 0;
+.manga-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, transparent 58%, rgba(2, 4, 9, 0.68) 100%),
+        linear-gradient(90deg, rgba(2, 4, 9, 0.2), transparent 46%);
 }
 
+.manga-image .manga-image-skeleton,
 .manga-image-skeleton .loader-skeleton {
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
 .manga-image img {
@@ -90,208 +87,242 @@
     user-select: none;
 }
 
-/* Slayd Pozitsiyalari */
 .manga-image.center {
     opacity: 1;
-    transform: scale(1);
-    filter: brightness(1.3);
     z-index: 10;
 }
 
-.manga-image.left {
-    /* opacity: 0.6; */
-    transform: scale(0.95);
-    filter: brightness(1.3);
-    z-index: 5;
-}
-
+.manga-image.left,
 .manga-image.right {
-    /* opacity: 0.6; */
-    transform: scale(0.95);
-    filter: brightness(1.3);
+    opacity: 1;
     z-index: 5;
 }
 
 .manga-image.hidden {
     opacity: 0;
-    transform: scale(0.75);
     z-index: 1;
 }
 
-/* Navigation Tugmalari */
-.manga-nav-btn {
+.manga-actions {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20;
-    background: #ddd;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 20px;
-    color: #333;
-    cursor: pointer;
+    left: clamp(28px, 5vw, 72px);
+    bottom: clamp(48px, 7vw, 76px);
+    z-index: 4;
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+    gap: 14px;
+    transition: opacity 0.25s ease;
+}
+
+.manga-image:not(.center) .manga-actions {
     opacity: 0;
     pointer-events: none;
 }
 
-.manga-nav-btn.prev {
-    left: 2%;
+.manga-action-btn {
+    min-height: 48px;
+    padding: 0 22px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 11px;
+    color: #fff;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
-.manga-nav-btn.next {
-    right: 2%;
+.manga-action-btn:hover {
+    transform: translateY(-2px);
 }
 
-.manga-carousel:hover .manga-nav-btn {
-    opacity: 1;
-    pointer-events: auto;
+.manga-action-btn.watch {
+    border: 1px solid #e50914;
+    background: #e50914;
+    box-shadow: 0 8px 24px rgba(229, 9, 20, 0.3);
 }
 
-.manga-nav-btn:hover {
-    transform: translateY(-50%) scale(1.1);
+.manga-action-btn.watch:hover {
+    background: #f21622;
 }
 
-/* Dots (Indikatorlar) */
-.manga-dots {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 15;
-    display: flex;
-    gap: 12px;
-    padding: 10px 18px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 24px;
+.manga-action-btn.details {
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    background: rgba(5, 8, 14, 0.64);
     backdrop-filter: blur(8px);
 }
 
-.manga-dot {
-    width: 7px;
-    height: 7px;
+.manga-action-btn.details:hover {
+    border-color: rgba(255, 255, 255, 0.7);
+    background: rgba(18, 22, 30, 0.82);
+}
+
+.manga-play-icon {
+    width: 0;
+    height: 0;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 11px solid #fff;
+}
+
+.manga-info-icon {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid currentColor;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: serif;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.manga-nav-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 20;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    background: rgba(9, 13, 21, 0.7);
+    color: #fff;
+    font-size: 18px;
+    line-height: 1;
     cursor: pointer;
-    transition: all 0.3s ease;
+    opacity: 0.72;
+    backdrop-filter: blur(7px);
+    transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+}
+
+.manga-nav-btn.prev {
+    left: 12px;
+}
+
+.manga-nav-btn.next {
+    right: 12px;
+}
+
+.manga-nav-btn:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.07);
+    background: rgba(20, 25, 35, 0.9);
+}
+
+.manga-dots {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    z-index: 15;
+    display: flex;
+    gap: 8px;
+    transform: translateX(-50%);
+}
+
+.manga-dot {
+    width: 26px;
+    height: 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.28);
+    cursor: pointer;
+    transition: width 0.25s ease, background 0.25s ease;
 }
 
 .manga-dot.active {
-    background: #fff;
-    width: 28px;
-    border-radius: 12px;
+    width: 34px;
+    background: #e50914;
 }
 
-.manga-carousel:hover .manga-image.left,
-.manga-carousel:hover .manga-image.right {
-    opacity: 0.9;
-    filter: brightness(1.4);
-}
-
-/* Responsive - Tablet (max-width: 992px) */
-@media (max-width: 992px) {
-    .manga-carousel {
-        height: 570px;
-    }
-    .manga-image {
-        width: 50%;
-    }
-}
-
-/* Responsive - Kichik Tablet / Katta Telefon (max-width: 768px) */
 @media (max-width: 768px) {
-
     .banner {
-        padding: 0 ;
+        padding: 0;
+    }
+
+    .banner-container {
+        border-radius: 0;
     }
 
     .manga-carousel {
-        margin-top: 2.5rem;
+        aspect-ratio: 1 / 1.04;
+        margin-top: 2rem;
     }
-    
-    .manga-carousel {
-        height: 560px;
+
+    .manga-image img {
+        object-position: center;
     }
-    .manga-image {
-        width: 57%;
+
+    .manga-image::after {
+        background: linear-gradient(180deg, transparent 48%, rgba(2, 4, 9, 0.84) 100%);
     }
+
     .manga-nav-btn {
         display: none;
     }
-    .manga-dots {
-        bottom: 15px;
-        padding: 7px 15px;
-    }
-    .manga-dot {
-        width: 6px;
-        height: 6px;
-    }
-}
 
-/* Responsive - Telefon (max-width: 576px) */
-@media (max-width: 576px) {
-
-    .banner {
-        padding: 0 ;
+    .manga-actions {
+        left: clamp(16px, 5vw, 36px);
+        right: clamp(16px, 5vw, 36px);
+        bottom: 58px;
+        gap: 10px;
     }
 
-    .manga-carousel {
-        margin-top: 2rem;
-    }
-    
-    .manga-carousel {
-        height: 500px;
-    }
-    .manga-image {
-        width: 70%;
-    }
-}
-
-/* Responsive - Kichik Telefon (max-width: 400px) */
-@media (max-width: 470px) {
-
-    .banner {
-        padding: 0 ;
+    .manga-action-btn {
+        min-height: 46px;
+        padding: 0 17px;
+        font-size: 14px;
     }
 
-    .manga-carousel {
-        height: 370px;
-    }
-    .manga-image {
-        width: 75%;
+    .manga-action-btn.watch {
+        flex: 1;
     }
 
     .manga-dots {
-        bottom: 15px;
-        padding: 5px 13px;
+        bottom: 18px;
+        gap: 7px;
     }
+
     .manga-dot {
-        width: 4px;
-        height: 4px;
+        width: 24px;
+    }
+
+    .manga-dot.active {
+        width: 32px;
     }
 }
 
-/* Responsive - Kichik Telefon (max-width: 350px) */
-@media (max-width: 350px) {
-    .manga-carousel {
-        height: 200px;
+@media (max-width: 430px) {
+    .manga-action-btn {
+        min-height: 43px;
+        padding: 0 13px;
+        gap: 8px;
+        font-size: 12px;
     }
-    .manga-image {
-        width: 78%;
-    }
-}
 
-/* Responsive - Kichik Telefon (max-width: 320px) */
-@media (max-width: 320px) {
-    .manga-carousel {
-        height: 180px;
+    .manga-action-btn.details {
+        min-width: 104px;
     }
-    .manga-image {
-        width: 80%;
+
+    .manga-info-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 12px;
+    }
+
+    .manga-play-icon {
+        border-top-width: 6px;
+        border-bottom-width: 6px;
+        border-left-width: 9px;
     }
 }
