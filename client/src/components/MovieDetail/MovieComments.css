@@ -47,7 +47,7 @@
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, #7b4edd 0%, #692cbf 100%);
+  background: linear-gradient(135deg, #f0141e 0%, #c9000b 100%);
   color: #fff;
   cursor: pointer;
   display: flex;
@@ -263,15 +263,15 @@
 }
 
 .movie-detail-comments-more-btn {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 2px solid rgba(159, 78, 221, 0.5);
+  background: #0000;
+  border: 2px solid #9f4edd80;
   border-radius: 8px;
   color: #7b4edd;
-  font-size: 0.9rem;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s;
+  font-size: .7rem;
+  font-weight: 600;
+  padding: .3rem 1rem;
+  transition: all .25s;
 }
 
 .movie-detail-comments-more-btn:hover {
