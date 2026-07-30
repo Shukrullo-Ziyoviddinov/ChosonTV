@@ -63,9 +63,6 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
               alt={getMovieTitle(movie)}
               className="movies-item-image"
             />
-            {getMovieTitle(movie) && (
-              <p className="movies-item-title">{getMovieTitle(movie)}</p>
-            )}
             <button
               className={`movies-item-wishlist-btn ${isInWishlist(movie.id) ? 'active' : ''}`}
               onClick={(e) => {
@@ -97,6 +94,9 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
           </>
         )}
       </div>
+      {!isLoading && getMovieTitle(movie) && (
+        <p className="movies-item-title">{getMovieTitle(movie)}</p>
+      )}
     </div>
   );
 
