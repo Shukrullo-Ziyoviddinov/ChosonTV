@@ -49,6 +49,7 @@ const Banner = () => {
                 src: banner.image || '',
                 titleImg: banner.titleImg || '',
                 description: banner.description || '',
+                specs: banner.specs || null,
                 link: banner.movieId ? `/movie/${banner.movieId}` : null,
             }))
             .filter((img) => img.src);
@@ -377,6 +378,28 @@ const Banner = () => {
                     )}
                     {image.description && (
                         <p className="manga-description">{image.description}</p>
+                    )}
+                    {image.specs && (
+                        <div className="manga-specs">
+                            {image.specs.duration != null && image.specs.duration !== '' && (
+                                <span>
+                                    {image.specs.duration} {contentLang === 'ru' ? 'мин' : 'daqiqa'}
+                                </span>
+                            )}
+                            {image.specs.year != null && image.specs.year !== '' && (
+                                <span>
+                                    {image.specs.year}{contentLang === 'ru' ? ' г.' : '-yil'}
+                                </span>
+                            )}
+                            {image.specs.ageRating && (
+                                <span>
+                                    {image.specs.ageRating} {contentLang === 'ru' ? 'лет' : 'yosh'}
+                                </span>
+                            )}
+                            {Array.isArray(image.specs.countries) && image.specs.countries.length > 0 && (
+                                <span>{image.specs.countries.join(', ')}</span>
+                            )}
+                        </div>
                     )}
                     {image.link && (
                         <div

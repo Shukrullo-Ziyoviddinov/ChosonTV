@@ -1,5 +1,6 @@
 const express = require("express");
 const Banner = require("../models/banner");
+const Movie = require("../models/movies");
 const { success, fail } = require("../utils/apiResponse");
 const { parsePagination, buildPaginationMeta } = require("../utils/pagination");
 const { applyPagination } = require("../utils/queryOptimizer");
@@ -33,7 +34,37 @@ router.get("/active", async (req, res, next) => {
       .sort({ sortOrder: 1, bannerId: 1 })
       .select("-__v")
       .lean();
-    return success(res, banners, "Aktiv bannerlar");
+
+    const movieIds = [...new Set(
+      banners
+        .map((banner) => Number(banner.movieId))
+        .filter(Number.isFinite)
+    )];
+    const movies = movieIds.length
+      ? await Movie.find({
+          $or: [
+            { movieId: { $in: movieIds } },
+            { id: { $in: movieIds } },
+          ],
+        })
+          .select("movieId id specs")
+          .lean()
+      : [];
+    const specsByMovieId = new Map();
+    movies.forEach((movie) => {
+      if (Number.isFinite(Number(movie.movieId))) {
+        specsByMovieId.set(Number(movie.movieId), movie.specs || null);
+      }
+      if (Number.isFinite(Number(movie.id))) {
+        specsByMovieId.set(Number(movie.id), movie.specs || null);
+      }
+    });
+    const rows = banners.map((banner) => ({
+      ...banner,
+      specs: specsByMovieId.get(Number(banner.movieId)) || null,
+    }));
+
+    return success(res, rows, "Aktiv bannerlar");
   } catch (error) {
     return next(error);
   }
