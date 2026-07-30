@@ -1,16 +1,17 @@
 .banner {
     margin-bottom: 3rem;
     margin-top: -72px;
-    padding: 0 12px;
+    padding: 0;
     overflow: hidden;
     background: #000;
 }
 
 .banner-container {
-    max-width: 1400px;
+    max-width: none;
+    width: 100%;
     margin: 0 auto;
     overflow: hidden;
-    border-radius: 16px;
+    border-radius: 0;
 }
 
 .manga-carousel {
@@ -40,7 +41,8 @@
     align-items: center;
     justify-content: flex-start;
     margin: 0;
-    padding: 0;
+    padding: 8px 0 0;
+    box-sizing: border-box;
     gap: 0;
 }
 
@@ -66,8 +68,8 @@
     z-index: 1;
     pointer-events: none;
     background:
-        linear-gradient(180deg, transparent 48%, rgba(0, 0, 0, 0.42) 72%, #000 100%),
-        linear-gradient(90deg, rgba(2, 4, 9, 0.2), transparent 46%);
+        linear-gradient(180deg, transparent 45%, rgba(0, 0, 0, 0.38) 70%, #000 100%),
+        linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.44) 7%, transparent 20%, transparent 80%, rgba(0, 0, 0, 0.44) 93%, #000 100%);
 }
 
 .manga-image .manga-image-skeleton,
@@ -267,7 +269,9 @@
     }
 
     .manga-image::after {
-        background: linear-gradient(180deg, transparent 42%, rgba(0, 0, 0, 0.52) 70%, #000 100%);
+        background:
+            linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.5) 68%, #000 100%),
+            linear-gradient(90deg, #000 0%, transparent 10%, transparent 90%, #000 100%);
     }
 
     .manga-nav-btn {
