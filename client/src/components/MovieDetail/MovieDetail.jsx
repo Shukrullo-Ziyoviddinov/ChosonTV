@@ -20,6 +20,63 @@ import { useAuthModal } from '../../context/AuthModalContext';
 import { fetchMovieReaction, removeMovieReaction, setMovieReaction } from '../../api/userApi';
 import './MovieDetail.css';
 
+const MovieSpecIcon = ({ type }) => {
+  const commonProps = {
+    width: 16,
+    height: 16,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: 'currentColor',
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+    'aria-hidden': true,
+  };
+
+  if (type === 'duration') {
+    return (
+      <svg {...commonProps}>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </svg>
+    );
+  }
+
+  if (type === 'age') {
+    return (
+      <svg {...commonProps}>
+        <path d="M12 3l8 4v5c0 5-3.4 8-8 9-4.6-1-8-4-8-9V7l8-4z" />
+        <path d="M9 12h6" />
+      </svg>
+    );
+  }
+
+  if (type === 'year') {
+    return (
+      <svg {...commonProps}>
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M16 3v4M8 3v4M3 10h18" />
+      </svg>
+    );
+  }
+
+  if (type === 'country') {
+    return (
+      <svg {...commonProps}>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M3 12h18M12 3c3 3.3 3 14.7 0 18M12 3c-3 3.3-3 14.7 0 18" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...commonProps}>
+      <path d="M4 5h10M9 3v2M6 5c.7 3 2.5 5.3 5 7M12 5c-.8 3.8-3.3 7-7 9" />
+      <path d="M14 13h6M17 10l4 10M13 20l4-10" />
+    </svg>
+  );
+};
+
 const MovieDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -648,27 +705,27 @@ const MovieDetail = () => {
               <div className="movie-detail-specs">
                 {movie.specs && (
                   <ScrollTouch className="movie-detail-specs-container">
-                    <div className="movie-detail-spec-item">
-                      <span className="movie-detail-spec-label">{t('detail.duration')}</span>
+                    <div className="movie-detail-spec-item" title={t('detail.duration')}>
+                      <MovieSpecIcon type="duration" />
                       <span className="movie-detail-spec-value">{movie.specs.duration} min</span>
                     </div>
-                    <div className="movie-detail-spec-item">
-                      <span className="movie-detail-spec-label">{t('detail.ageRating')}</span>
+                    <div className="movie-detail-spec-item" title={t('detail.ageRating')}>
+                      <MovieSpecIcon type="age" />
                       <span className="movie-detail-spec-value">{movie.specs.ageRating}</span>
                     </div>
-                    <div className="movie-detail-spec-item">
-                      <span className="movie-detail-spec-label">{t('detail.year')}</span>
+                    <div className="movie-detail-spec-item" title={t('detail.year')}>
+                      <MovieSpecIcon type="year" />
                       <span className="movie-detail-spec-value">{movie.specs.year}</span>
                     </div>
                     {movie.specs.countries && movie.specs.countries.length > 0 && (
-                      <div className="movie-detail-spec-item">
-                        <span className="movie-detail-spec-label">{t('detail.countries')}</span>
+                      <div className="movie-detail-spec-item" title={t('detail.countries')}>
+                        <MovieSpecIcon type="country" />
                         <span className="movie-detail-spec-value">{movie.specs.countries.join(', ')}</span>
                       </div>
                     )}
                     {movie.specs.languages && movie.specs.languages.length > 0 && (
-                      <div className="movie-detail-spec-item">
-                        <span className="movie-detail-spec-label">{t('detail.languages')}</span>
+                      <div className="movie-detail-spec-item" title={t('detail.languages')}>
+                        <MovieSpecIcon type="language" />
                         <span className="movie-detail-spec-value">{movie.specs.languages.join(', ')}</span>
                       </div>
                     )}
