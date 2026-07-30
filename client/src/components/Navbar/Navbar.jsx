@@ -135,6 +135,10 @@ const Navbar = () => {
     setShowSearchModal(true);
   };
 
+  const openMobileSearch = () => {
+    window.dispatchEvent(new CustomEvent('open-mobile-search'));
+  };
+
   const handleProfileClick = () => {
     if (!isAuthenticated()) {
       openAuthModal({ redirectToProfile: true });
@@ -153,7 +157,7 @@ const Navbar = () => {
           </div>
           <button
             className="navbar-mobile-search-trigger"
-            onClick={openSearchModal}
+            onClick={openMobileSearch}
             aria-label={t('navbar.search')}
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

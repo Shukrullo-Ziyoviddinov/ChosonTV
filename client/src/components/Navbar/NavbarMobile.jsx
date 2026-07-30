@@ -19,6 +19,12 @@ const NavbarMobile = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
+  useEffect(() => {
+    const openMobileSearch = () => setShowSearch(true);
+    window.addEventListener('open-mobile-search', openMobileSearch);
+    return () => window.removeEventListener('open-mobile-search', openMobileSearch);
+  }, []);
+
   const isHomeActive = pathname === '/';
   const isSearchActive = pathname.startsWith('/search');
   const isWishlistActive = pathname === '/wishlist';
