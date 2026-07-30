@@ -114,8 +114,6 @@
 }
 
 .video-control-btn:hover {
-  background-color: rgba(192, 78, 221, 0.9);
-  border-color: #c54edd;
   transform: scale(1.1);
 }
 
@@ -542,12 +540,12 @@
 }
 
 .movie-detail-season-btn:hover {
-  border-color: #e7fb08;
+  border-color: #ffc107;
   color: #ffffff;
 }
 
 .movie-detail-season-btn.active {
-  border-color: #e7fb08;
+  border-color: #ffc107;
   background: rgba(197, 78, 221, 0.2);
   color: #ffffff;
 }
@@ -565,12 +563,12 @@
 }
 
 .movie-detail-seasons-tab:hover {
-  border-color: #e7fb08;
+  border-color: #ffc107;
   color: #ffffff;
 }
 
 .movie-detail-seasons-tab.active {
-  border-color: #e7fb08;
+  border-color: #ffc107;
   background: rgba(197, 78, 221, 0.2);
   color: #ffffff;
   font-size: 1rem;

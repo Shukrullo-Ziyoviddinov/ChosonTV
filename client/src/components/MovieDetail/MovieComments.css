@@ -161,7 +161,7 @@
   margin-left: 48px;
   margin-top: 0.5rem;
   padding-left: 0.75rem;
-  border-left: 2px solid #e50914;
+  border-left: 2px solid #ffc107;
 }
 
 .movie-detail-comment-reply {
@@ -263,8 +263,8 @@
 }
 
 .movie-detail-comments-more-btn {
-  background: #0000;
-  border: 2px solid #e50914;
+  background-color: var(--bg-card);
+  border: none;
   border-radius: 8px;
   color: #ffffff;
   cursor: pointer;
@@ -275,8 +275,7 @@
 }
 
 .movie-detail-comments-more-btn:hover {
-  background: rgba(229, 9, 20, 0.2);
-  border-color: #e50914;
+  background-color: var(--bg-card);
 }
 
 /* Comments Modal - slide from bottom like app modal */
