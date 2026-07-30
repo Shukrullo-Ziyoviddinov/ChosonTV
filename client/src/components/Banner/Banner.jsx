@@ -290,7 +290,11 @@ const Banner = () => {
 
             const containerWidth = carouselEl.offsetWidth;
             const slidesStyle = getComputedStyle(slidesEl);
-            const gap = parseFloat(slidesStyle.columnGap) || parseFloat(slidesStyle.gap) || 8;
+            const columnGap = parseFloat(slidesStyle.columnGap);
+            const generalGap = parseFloat(slidesStyle.gap);
+            const gap = Number.isFinite(columnGap)
+                ? columnGap
+                : (Number.isFinite(generalGap) ? generalGap : 0);
 
             // Markazdagi slayd elementini olish (asosiy blokdagi currentIndex)
             const centerSlideIndex = images.length + currentIndex;

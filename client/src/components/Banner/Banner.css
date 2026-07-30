@@ -1,7 +1,9 @@
 .banner {
     margin-bottom: 3rem;
+    margin-top: -72px;
     padding: 0 12px;
     overflow: hidden;
+    background: #000;
 }
 
 .banner-container {
@@ -15,7 +17,7 @@
     position: relative;
     width: 100%;
     aspect-ratio: 2.35 / 1;
-    margin-top: 3rem;
+    margin-top: 0;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -64,7 +66,7 @@
     z-index: 1;
     pointer-events: none;
     background:
-        linear-gradient(180deg, transparent 58%, rgba(2, 4, 9, 0.68) 100%),
+        linear-gradient(180deg, transparent 48%, rgba(0, 0, 0, 0.42) 72%, #000 100%),
         linear-gradient(90deg, rgba(2, 4, 9, 0.2), transparent 46%);
 }
 
@@ -247,6 +249,7 @@
 
 @media (max-width: 768px) {
     .banner {
+        margin-top: -70px;
         padding: 0;
     }
 
@@ -256,7 +259,7 @@
 
     .manga-carousel {
         aspect-ratio: 1 / 1.04;
-        margin-top: 2rem;
+        margin-top: 0;
     }
 
     .manga-image img {
@@ -264,7 +267,7 @@
     }
 
     .manga-image::after {
-        background: linear-gradient(180deg, transparent 48%, rgba(2, 4, 9, 0.84) 100%);
+        background: linear-gradient(180deg, transparent 42%, rgba(0, 0, 0, 0.52) 70%, #000 100%);
     }
 
     .manga-nav-btn {
