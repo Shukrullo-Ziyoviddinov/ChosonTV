@@ -116,6 +116,22 @@
     align-items: center;
     gap: 14px;
     transition: opacity 0.25s ease;
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    animation: manga-actions-in 0.48s cubic-bezier(0.22, 1, 0.36, 1) 0.18s forwards;
+    will-change: opacity, transform;
+}
+
+@keyframes manga-actions-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .manga-image:not(.center) .manga-actions {
