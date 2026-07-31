@@ -103,9 +103,6 @@ const MovieDetail = () => {
   const commentsModalRef = useRef(null);
   const [commentsCount, setCommentsCount] = useState(0);
   const [movieActors, setMovieActors] = useState([]);
-  const [isMobileDetail, setIsMobileDetail] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth <= 766 : false
-  );
   const modalHeaderRef = React.useRef(null);
   const isDraggingRef = React.useRef(false);
   const modalStartYRef = React.useRef(0);
@@ -113,14 +110,6 @@ const MovieDetail = () => {
   useEffect(() => {
     if (movie) addMovie(movie);
   }, [movie, addMovie]);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(max-width: 766px)');
-    const syncMobile = () => setIsMobileDetail(mediaQuery.matches);
-    syncMobile();
-    mediaQuery.addEventListener('change', syncMobile);
-    return () => mediaQuery.removeEventListener('change', syncMobile);
-  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -653,16 +642,6 @@ const MovieDetail = () => {
                     alt={getMovieTitle()}
                     className="movie-detail-video"
                   />
-                  {isMobileDetail && movie.titleImg ? (
-                    <div className="movie-detail-title-img-wrapper movie-detail-title-img-wrapper--media">
-                      <img
-                        src={movie.titleImg[contentLang] || movie.titleImg.uz || movie.titleImg.ru}
-                        alt={getMovieTitle()}
-                        className="movie-detail-title-img"
-                      />
-                      <h1 className="movie-detail-title movie-detail-title-sr-only">{getMovieTitle()}</h1>
-                    </div>
-                  ) : null}
                 </div>
               ) : (
                 <div className="movie-detail-video-placeholder">
@@ -674,20 +653,7 @@ const MovieDetail = () => {
 
           <div className="movie-detail-info-block">
             <div className="movie-detail-info">
-              {isMobileDetail ? (
-                movie.titleImg && movieMediaImg ? null : movie.titleImg ? (
-                  <div className="movie-detail-title-img-wrapper">
-                    <img
-                      src={movie.titleImg[contentLang] || movie.titleImg.uz || movie.titleImg.ru}
-                      alt={getMovieTitle()}
-                      className="movie-detail-title-img"
-                    />
-                    <h1 className="movie-detail-title movie-detail-title-sr-only">{getMovieTitle()}</h1>
-                  </div>
-                ) : (
-                  <h1 className="movie-detail-title">{getMovieTitle()}</h1>
-                )
-              ) : movie.titleImg ? (
+              {movie.titleImg ? (
                 <div className="movie-detail-title-img-wrapper">
                   <img
                     src={movie.titleImg[contentLang] || movie.titleImg.uz || movie.titleImg.ru}
