@@ -558,3 +558,17 @@
     justify-content: flex-start;
   }
 }
+
+@media (max-width: 480px) {
+  .movie-detail-comments-title {
+    font-size: 0.9rem;
+  }
+
+  .movie-detail-comment-like-btn {
+    background: none;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+  }
+}
