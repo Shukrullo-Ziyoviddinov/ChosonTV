@@ -1180,17 +1180,6 @@
     z-index: 0;
   }
 
-  /* Title img yo'q — matnli title: info video pastiga ko'tariladi */
-  .movie-detail-content:not(:has(.movie-detail-title-img-wrapper--media)) .movie-detail-info-block {
-    margin-top: -5.5rem;
-    z-index: 3;
-  }
-
-  .movie-detail-content:not(:has(.movie-detail-title-img-wrapper--media)) .movie-detail-title:not(.movie-detail-title-sr-only) {
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
-    margin-bottom: 0.25rem;
-  }
-
   .movie-detail-title {
     font-size: 1.75rem;
   }
