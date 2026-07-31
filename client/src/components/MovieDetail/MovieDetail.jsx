@@ -637,7 +637,6 @@ const MovieDetail = () => {
             <div className="movie-detail-image">
               {movieMediaImg ? (
                 <div className="movie-detail-video-wrapper">
-                  <ShareButton movie={movie} />
                   <img
                     src={movieMediaImg}
                     alt={getMovieTitle()}
@@ -752,6 +751,8 @@ const MovieDetail = () => {
                   </svg>
                   <span className="movie-detail-action-count">{formatActionCount(commentsCount)}</span>
                 </button>
+
+                <ShareButton movie={movie} />
               </ScrollTouch>
 
               <div className="movie-detail-rating">
