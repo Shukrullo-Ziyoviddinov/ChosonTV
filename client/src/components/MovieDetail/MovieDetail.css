@@ -1037,30 +1037,61 @@
   }
 
   .movie-detail {
-    padding: 1rem;
+    padding: 0 0 1rem 0;
+  }
+
+  .movie-detail-bg-block {
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .movie-detail-container {
-    padding: 0 0.5rem;
+    padding: 0;
   }
 
   .movie-detail-content {
     padding: 0 0 2rem 0;
+    gap: 1.5rem;
     background: transparent;
+    border-radius: 0;
   }
 
   .movie-detail-image-block {
     width: 100%;
     max-width: 100%;
+    margin: 0;
   }
 
   .movie-detail-image {
     height: 750px;
+    border-radius: 15px;
+  }
+
+  /* 580px+ : yonlardan bo'shliq */
+  .movie-detail-video-wrapper {
+    margin: 0 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .movie-detail-image:has(.movie-detail-video-wrapper) {
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .movie-detail-image:has(.movie-detail-video-wrapper) .movie-detail-video {
+    border-radius: 15px;
   }
 
   .movie-detail-video-wrapper .share-button-wrapper {
     left: 12px;
     bottom: 12px;
+  }
+
+  .movie-detail-info-block {
+    padding: 0 1rem;
   }
 
   .movie-detail-title {
@@ -1172,18 +1203,35 @@
   
 }
 
+/* 579px va pastida: yon bo'shliq yo'q, full-bleed */
+@media (max-width: 579px) {
+  .movie-detail-video-wrapper {
+    margin: 0;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .movie-detail-image:has(.movie-detail-video-wrapper) .movie-detail-video {
+    border-radius: 0;
+  }
+
+  .movie-detail-image {
+    border-radius: 0;
+  }
+}
+
 /* Small mobile version */
 @media (max-width: 480px) {
   .movie-detail {
-    padding: 0.2rem 0.25rem;
+    padding: 0 0 0.75rem 0;
   }
 
   .movie-detail-container {
-    padding: 0 0.25rem;
+    padding: 0;
   }
 
   .movie-detail-content {
-    padding: 0.4rem 0.4rem 1.5rem 0.4rem;
+    padding: 0 0 1.5rem 0;
   }
 
   .movie-detail-image {
