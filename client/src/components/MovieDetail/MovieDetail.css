@@ -131,7 +131,18 @@
 }
 
 .movie-detail-title-img-wrapper--media {
-  display: none;
+  position: absolute;
+  left: 1rem;
+  bottom: 1.25rem;
+  z-index: 2;
+  margin: 0;
+  pointer-events: none;
+}
+
+.movie-detail-title-img-wrapper--media .movie-detail-title-img {
+  max-width: 220px;
+  width: auto;
+  height: auto;
 }
 
 .movie-detail-info-block {
@@ -1149,26 +1160,9 @@
     border-radius: 15px;
   }
 
-  /* Faqat title img — video pastida overlay */
   .movie-detail-title-img-wrapper--media {
-    display: block;
-    position: absolute;
     left: 1rem;
-    right: auto;
     bottom: 1.25rem;
-    z-index: 2;
-    margin: 0;
-    pointer-events: none;
-  }
-
-  .movie-detail-title-img-wrapper--media .movie-detail-title-img {
-    max-width: 220px;
-    width: auto;
-    height: auto;
-  }
-
-  .movie-detail-content:has(.movie-detail-title-img-wrapper--media) .movie-detail-title-img-wrapper--info {
-    display: none;
   }
 
   /* Info har doim video ostida, odatiy flow */
