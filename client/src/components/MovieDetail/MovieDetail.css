@@ -1029,34 +1029,55 @@
 
 /* Tablet version */
 @media (max-width: 968px) {
-  .movie-detail-content {
-    flex-direction: column;
-    gap: 2rem;
-    padding: 1.5rem 2rem 2.5rem 2rem;
-  }
-  
-
   .movie-detail {
-    padding: 2rem 1rem;
+    padding: 0 0 1.5rem 0;
+    margin-top: -72px;
+  }
+
+  .movie-detail-bg-block {
+    margin-top: 0;
+    padding-top: 0;
   }
 
   .movie-detail-container {
-    padding: 0 0.5rem;
+    padding: 0;
+  }
+
+  .movie-detail-content {
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0 0 2rem 0;
+    background: transparent;
+    border-radius: 0;
   }
 
   .movie-detail-image-block {
     width: 100%;
-    max-width: 450px;
-    margin: 0 auto;
+    max-width: 100%;
+    margin: 0;
     position: static;
   }
 
   .movie-detail-image {
     height: 550px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .movie-detail-video-wrapper {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .movie-detail-video-wrapper::after {
+    border-radius: 0;
   }
 
   .movie-detail-info-block {
     width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
   }
 
   .movie-detail-title {
@@ -1079,31 +1100,42 @@
   }
 
   .movie-detail {
-    padding: 1rem;
+    padding: 0 0 1rem 0;
+    margin-top: -45px;
   }
 
   .movie-detail-container {
-    padding: 0 0.5rem;
+    padding: 0;
   }
 
   .movie-detail-content {
     padding: 0 0 2rem 0;
+    gap: 0.1rem;
     background: transparent;
   }
 
   .movie-detail-image-block {
     width: 100%;
     max-width: 100%;
+    margin: 0;
   }
 
   .movie-detail-image {
     height: 750px;
+    border-radius: 0;
+  }
+
+  .movie-detail-video-wrapper {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
   }
 
   .movie-detail-info-block {
-    padding: 0;
+    padding: 0 1rem;
     margin: 0;
     background: transparent;
+    box-sizing: border-box;
   }
 
   .movie-detail-title {
@@ -1218,19 +1250,26 @@
 /* Small mobile version */
 @media (max-width: 480px) {
   .movie-detail {
-    padding: 0.2rem 0.25rem;
+    padding: 0 0 0.75rem 0;
+    margin-top: -45px;
   }
 
   .movie-detail-container {
-    padding: 0 0.25rem;
+    padding: 0;
   }
 
   .movie-detail-content {
-    padding: 0.4rem 0.4rem 1.5rem 0.4rem;
+    padding: 0 0 1.5rem 0;
+    gap: 0.1rem;
   }
 
   .movie-detail-image {
     height: 370px;
+    border-radius: 0;
+  }
+
+  .movie-detail-info-block {
+    padding: 0 0.75rem;
   }
 
   .movie-detail-btn {
