@@ -1092,8 +1092,10 @@
     display: none;
   }
 
+  /* Butun detail navbar ostiga chiqadi — image/info nisbati buzilmaydi */
   .movie-detail {
     padding: 0 0 1rem 0;
+    margin-top: -125px;
   }
 
   .movie-detail-bg-block {
@@ -1107,7 +1109,7 @@
 
   .movie-detail-content {
     padding: 0 0 2rem 0;
-    gap: 1.5rem;
+    gap: 1.25rem;
     background: transparent;
     border-radius: 0;
   }
@@ -1117,9 +1119,6 @@
     max-width: 100%;
     margin: 0;
     position: relative;
-    z-index: 0;
-    transform: translateY(-125px);
-    margin-bottom: -125px;
   }
 
   .movie-detail-image {
@@ -1129,6 +1128,7 @@
 
   /* 580px+ : yonlardan bo'shliq */
   .movie-detail-video-wrapper {
+    position: relative;
     margin: 0 1rem;
     width: calc(100% - 2rem);
     border-radius: 15px;
@@ -1149,6 +1149,7 @@
     border-radius: 15px;
   }
 
+  /* Faqat title img — video pastida overlay */
   .movie-detail-title-img-wrapper--media {
     display: block;
     position: absolute;
@@ -1156,6 +1157,7 @@
     right: auto;
     bottom: 1.25rem;
     z-index: 2;
+    margin: 0;
     pointer-events: none;
   }
 
@@ -1169,17 +1171,11 @@
     display: none;
   }
 
+  /* Info har doim video ostida, odatiy flow */
   .movie-detail-info-block {
-    position: relative;
-    z-index: 0;
     padding: 0 1rem;
-    margin-top: 0;
-    background: var(--bg-body);
-  }
-
-  .movie-detail-info {
-    position: relative;
-    z-index: 0;
+    margin: 0;
+    background: transparent;
   }
 
   .movie-detail-title {
