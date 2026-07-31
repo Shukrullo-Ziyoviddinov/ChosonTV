@@ -357,13 +357,102 @@ async function sendVideoFromResolvedSource(bot, chatId, source, caption, options
   }
 }
 
-async function sendMovieVideo(bot, chatId, movie, language) {
-  const primarySrc = movie?.movieMedia?.[language]?.video?.src;
-  const fallbackLanguage = language === "ru" ? "uz" : "ru";
-  const fallbackSrc = movie?.movieMedia?.[fallbackLanguage]?.video?.src;
+async function sendPhotoWithCache(
+  bot,
+  chatId,
+  photoInput,
+  cacheKey,
+  caption,
+  options = {}
+) {
+  const photoOptions = { ...options };
+  if (caption != null && caption !== "") {
+    photoOptions.caption = caption;
+  }
 
-  const videoSrc = primarySrc || fallbackSrc;
-  const source = resolveVideoSource(videoSrc);
+  const cachedFileId = telegramVideoCache.get(`photo:${cacheKey}`);
+  if (cachedFileId) {
+    await bot.sendPhoto(chatId, cachedFileId, photoOptions);
+    return;
+  }
+
+  const isLocalPath =
+    typeof photoInput === "string" && fs.existsSync(photoInput) && path.isAbsolute(photoInput);
+  const fileInput = isLocalPath ? fs.createReadStream(photoInput) : photoInput;
+  const fileOptions = isLocalPath
+    ? {
+        filename: path.basename(photoInput),
+        contentType: "image/jpeg",
+      }
+    : undefined;
+
+  const sentMessage = await bot.sendPhoto(chatId, fileInput, photoOptions, fileOptions);
+  const fileId = sentMessage?.photo?.[sentMessage.photo.length - 1]?.file_id;
+  if (fileId) {
+    telegramVideoCache.set(`photo:${cacheKey}`, fileId);
+  }
+}
+
+async function sendPhotoFromResolvedSource(bot, chatId, source, caption, options = {}) {
+  if (!source) {
+    return false;
+  }
+
+  if (source.localPath && fs.existsSync(source.localPath)) {
+    try {
+      await sendPhotoWithCache(
+        bot,
+        chatId,
+        source.localPath,
+        source.cacheKey,
+        caption,
+        options
+      );
+      return true;
+    } catch (localError) {
+      console.warn("Mahalliy rasm yuborilmadi, URL sinanadi:", localError.message);
+    }
+  }
+
+  try {
+    await sendPhotoWithCache(
+      bot,
+      chatId,
+      source.publicUrl,
+      source.cacheKey,
+      caption,
+      options
+    );
+    return true;
+  } catch (urlError) {
+    if (source.localPath && fs.existsSync(source.localPath)) {
+      await sendPhotoWithCache(
+        bot,
+        chatId,
+        source.localPath,
+        source.cacheKey,
+        caption,
+        options
+      );
+      return true;
+    }
+    throw urlError;
+  }
+}
+
+async function sendMovieVideo(bot, chatId, movie, language) {
+  const primarySrc =
+    movie?.movieMedia?.[language]?.img?.src ||
+    movie?.movieMedia?.[language]?.video?.src;
+  const fallbackLanguage = language === "ru" ? "uz" : "ru";
+  const fallbackSrc =
+    movie?.movieMedia?.[fallbackLanguage]?.img?.src ||
+    movie?.movieMedia?.[fallbackLanguage]?.video?.src;
+  const homeFallback =
+    movie?.homeImg?.[language] || movie?.homeImg?.uz || movie?.homeImg?.ru;
+
+  const mediaSrc = primarySrc || fallbackSrc || homeFallback;
+  const source = resolveVideoSource(mediaSrc);
   const caption = buildCaption(movie, language);
   const reply_markup = buildMovieInlineKeyboard(movie, language);
 
@@ -372,7 +461,7 @@ async function sendMovieVideo(bot, chatId, movie, language) {
     return;
   }
 
-  await sendVideoFromResolvedSource(bot, chatId, source, caption, { reply_markup });
+  await sendPhotoFromResolvedSource(bot, chatId, source, caption, { reply_markup });
 }
 
 async function messageHandler(bot, msg) {
@@ -448,7 +537,7 @@ async function messageHandler(bot, msg) {
         // Edit bo'lmasa ham davom etamiz.
       }
     }
-    await bot.sendChatAction(chatId, "upload_video");
+    await bot.sendChatAction(chatId, "upload_photo");
     await sendMovieVideo(bot, chatId, movie, language);
     if (statusMessageId) {
       try {

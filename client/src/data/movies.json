@@ -16,15 +16,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/video4.5.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie1.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie2.jpg"
         }
       }
     },
@@ -255,15 +255,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/video_4-5ulcham.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie2.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie2.jpg"
         }
       }
     },
@@ -483,15 +483,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie3.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/4-5video.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie3.jpg"
         }
       }
     },
@@ -712,15 +712,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie4.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie4.jpg"
         }
       }
     },
@@ -815,15 +815,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie5.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie5.jpg"
         }
       }
     },
@@ -915,15 +915,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1016,15 +1016,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1116,15 +1116,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1216,15 +1216,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1316,15 +1316,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1416,15 +1416,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1517,15 +1517,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1618,15 +1618,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1719,15 +1719,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1793,15 +1793,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1894,15 +1894,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -1990,15 +1990,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2091,15 +2091,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2170,15 +2170,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2271,15 +2271,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2372,15 +2372,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2451,15 +2451,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2552,15 +2552,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2631,15 +2631,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2731,15 +2731,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2810,15 +2810,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -2888,15 +2888,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie15.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie15.jpg"
         }
       }
     },
@@ -2989,15 +2989,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -3068,15 +3068,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie5.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie5.jpg"
         }
       }
     },
@@ -3169,15 +3169,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie16.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie16.jpg"
         }
       }
     },
@@ -3248,15 +3248,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -3353,15 +3353,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -3457,15 +3457,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie9.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie9.jpg"
         }
       }
     },
@@ -3561,15 +3561,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie18.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie18.jpg"
         }
       }
     },
@@ -3663,15 +3663,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie5.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie5.jpg"
         }
       }
     },
@@ -3765,15 +3765,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie3.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie3.jpg"
         }
       }
     },
@@ -3867,15 +3867,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -3969,15 +3969,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie9.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie9.jpg"
         }
       }
     },
@@ -4067,15 +4067,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie1.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie1.jpg"
         }
       }
     },
@@ -4169,15 +4169,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie2.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie2.jpg"
         }
       }
     },
@@ -4271,15 +4271,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie4.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie4.jpg"
         }
       }
     },
@@ -4372,15 +4372,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie6.jpg"
         }
       }
     },
@@ -4474,15 +4474,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie8.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie8.jpg"
         }
       }
     },
@@ -4572,15 +4572,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -4675,15 +4675,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -4778,15 +4778,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -4881,15 +4881,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },
@@ -4984,15 +4984,15 @@
     },
     "movieMedia": {
       "uz": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       },
       "ru": {
-        "video": {
-          "type": "video",
-          "src": "/video/mainDetailvideo.mp4"
+        "img": {
+          "type": "img",
+          "src": "/img/movie12.jpg"
         }
       }
     },

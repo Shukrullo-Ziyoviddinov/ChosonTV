@@ -75,15 +75,15 @@ function normalizeInitialMovie(data = {}) {
     },
     movieMedia: {
       uz: {
-        video: {
-          type: "video",
-          src: data?.movieMedia?.uz?.video?.src || "",
+        img: {
+          type: "img",
+          src: data?.movieMedia?.uz?.img?.src || data?.movieMedia?.uz?.video?.src || "",
         },
       },
       ru: {
-        video: {
-          type: "video",
-          src: data?.movieMedia?.ru?.video?.src || "",
+        img: {
+          type: "img",
+          src: data?.movieMedia?.ru?.img?.src || data?.movieMedia?.ru?.video?.src || "",
         },
       },
     },
@@ -145,8 +145,8 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
     titleImg: { uz: "", ru: "" },
     homeImg: { uz: "", ru: "" },
     movieMedia: {
-      uz: { video: { type: "video", src: "" } },
-      ru: { video: { type: "video", src: "" } },
+      uz: { img: { type: "img", src: "" } },
+      ru: { img: { type: "img", src: "" } },
     },
     rating: "",
     ratingImdb: "",
@@ -388,9 +388,35 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
       })}
       </div>
 
-      <h4 className="movie-form__section">Asosiy videolar</h4>
+      <h4 className="movie-form__section">Detail rasm (movieMedia)</h4>
       <div className="movie-form__section-card movie-form__upload-grid">
-      {["movieMedia.uz", "movieMedia.ru", "watchVideo.uz", "watchVideo.ru"].map((key) => {
+      {["movieMedia.uz", "movieMedia.ru"].map((key) => {
+        return renderUploadField({
+          keyName: key,
+          label: key,
+          accept: "image/*",
+          onFile: (file) =>
+            onPickFile(
+              key,
+              (prev, data) => {
+                const lang = key.endsWith(".uz") ? "uz" : "ru";
+                return {
+                  ...prev,
+                  movieMedia: {
+                    ...prev.movieMedia,
+                    [lang]: { img: { type: "img", src: data } },
+                  },
+                };
+              },
+              file
+            ),
+        });
+      })}
+      </div>
+
+      <h4 className="movie-form__section">Tomosha videolari</h4>
+      <div className="movie-form__section-card movie-form__upload-grid">
+      {["watchVideo.uz", "watchVideo.ru"].map((key) => {
         return renderUploadField({
           keyName: key,
           label: key,
@@ -399,16 +425,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
             onPickFile(
               key,
               (prev, data) => {
-                if (key.startsWith("movieMedia")) {
-                  const lang = key.endsWith(".uz") ? "uz" : "ru";
-                  return {
-                    ...prev,
-                    movieMedia: {
-                      ...prev.movieMedia,
-                      [lang]: { video: { type: "video", src: data } },
-                    },
-                  };
-                }
                 const lang = key.endsWith(".uz") ? "uz" : "ru";
                 return { ...prev, watchVideo: { ...prev.watchVideo, [lang]: data } };
               },

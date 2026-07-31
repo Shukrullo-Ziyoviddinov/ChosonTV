@@ -94,13 +94,11 @@ const MovieDetail = () => {
   const [dislikeCount, setDislikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
   const [showDescriptionModal, setShowDescriptionModal] = useState(false);
   const [actorsLoading, setActorsLoading] = useState(false);
   const [modalStartY, setModalStartY] = useState(0);
   const [modalCurrentY, setModalCurrentY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
-  const videoRef = React.useRef(null);
   const modalRef = React.useRef(null);
   const commentsModalRef = useRef(null);
   const [commentsCount, setCommentsCount] = useState(0);
@@ -484,26 +482,27 @@ const MovieDetail = () => {
     return null;
   };
 
-  const getMovieVideo = () => {
+  const getMovieMediaImg = () => {
     const lang = contentLang;
-    
+
     if (!movie.movieMedia || typeof movie.movieMedia !== 'object') {
       return null;
     }
-    
+
     const langData = movie.movieMedia[lang] || movie.movieMedia.uz || movie.movieMedia.ru;
-    
+
     if (!langData || typeof langData !== 'object') {
       return null;
     }
-    
-    if (langData.video && typeof langData.video === 'object') {
-      const src = langData.video.src;
+
+    const media = langData.img || langData.video;
+    if (media && typeof media === 'object') {
+      const src = media.src;
       if (src && typeof src === 'string' && src.trim() !== '') {
         return src;
       }
     }
-    
+
     return null;
   };
 
@@ -585,13 +584,6 @@ const MovieDetail = () => {
     }
   };
 
-  const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
-
   // Mobile swipe handlers for modal
   const handleModalHeaderTouchStart = (e) => {
     if (window.innerWidth <= 768) {
@@ -623,7 +615,7 @@ const MovieDetail = () => {
     }
   };
 
-  const movieVideo = getMovieVideo();
+  const movieMediaImg = getMovieMediaImg();
   const descriptionText = getDescriptionText();
   const descriptionData = getDescriptionData();
   const isNewFormat = descriptionData !== null;
@@ -643,43 +635,18 @@ const MovieDetail = () => {
           <div className="movie-detail-content">
           <div className="movie-detail-image-block">
             <div className="movie-detail-image">
-              {movieVideo ? (
+              {movieMediaImg ? (
                 <div className="movie-detail-video-wrapper">
                   <ShareButton movie={movie} />
-                  <video 
-                    ref={videoRef}
-                    src={movieVideo} 
+                  <img
+                    src={movieMediaImg}
                     alt={getMovieTitle()}
                     className="movie-detail-video"
-                    playsInline
-                    autoPlay
-                    muted={isMuted}
-                    loop
                   />
-                  <div className="movie-detail-video-controls">
-                    <button 
-                      className="video-control-btn mute-btn"
-                      onClick={toggleMute}
-                      aria-label={isMuted ? "Unmute" : "Mute"}
-                    >
-                      {isMuted ? (
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
-                          <line x1="23" y1="9" x2="17" y2="15" />
-                          <line x1="17" y1="9" x2="23" y2="15" />
-                        </svg>
-                      ) : (
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" />
-                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
-                        </svg>
-                      )}
-                    </button>
-                  </div>
                 </div>
               ) : (
                 <div className="movie-detail-video-placeholder">
-                  <span>Video topilmadi</span>
+                  <span>Rasm topilmadi</span>
                 </div>
               )}
             </div>
