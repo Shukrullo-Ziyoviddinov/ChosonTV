@@ -642,6 +642,15 @@ const MovieDetail = () => {
                     alt={getMovieTitle()}
                     className="movie-detail-video"
                   />
+                  {movie.titleImg ? (
+                    <div className="movie-detail-title-img-wrapper movie-detail-title-img-wrapper--media">
+                      <img
+                        src={movie.titleImg[contentLang] || movie.titleImg.uz || movie.titleImg.ru}
+                        alt={getMovieTitle()}
+                        className="movie-detail-title-img"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ) : (
                 <div className="movie-detail-video-placeholder">
@@ -654,7 +663,7 @@ const MovieDetail = () => {
           <div className="movie-detail-info-block">
             <div className="movie-detail-info">
               {movie.titleImg ? (
-                <div className="movie-detail-title-img-wrapper">
+                <div className="movie-detail-title-img-wrapper movie-detail-title-img-wrapper--info">
                   <img
                     src={movie.titleImg[contentLang] || movie.titleImg.uz || movie.titleImg.ru}
                     alt={getMovieTitle()}
