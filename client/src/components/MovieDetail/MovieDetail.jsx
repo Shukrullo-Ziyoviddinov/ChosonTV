@@ -103,6 +103,7 @@ const MovieDetail = () => {
   const commentsModalRef = useRef(null);
   const [commentsCount, setCommentsCount] = useState(0);
   const [movieActors, setMovieActors] = useState([]);
+  const [episodeDurations, setEpisodeDurations] = useState({});
   const modalHeaderRef = React.useRef(null);
   const isDraggingRef = React.useRef(false);
   const modalStartYRef = React.useRef(0);
@@ -856,6 +857,14 @@ const MovieDetail = () => {
                           {(season.episodes || []).map((ep, epIndex) => {
                             const videoSrc = ep[seasonsLang];
                             if (!videoSrc || videoSrc === 'none') return null;
+                            const durationKey = `${season.seasonNumber}-${epIndex}-${seasonsLang}-${videoSrc}`;
+                            const durationMin = episodeDurations[durationKey];
+                            const episodeLabel = i18n.language === 'ru'
+                              ? `${epIndex + 1} серия`
+                              : `${epIndex + 1} qisim`;
+                            const durationLabel = durationMin != null
+                              ? (i18n.language === 'ru' ? `${durationMin} мин` : `${durationMin} daqiqa`)
+                              : null;
                             return (
                               <div
                                 key={epIndex}
@@ -873,15 +882,30 @@ const MovieDetail = () => {
                                   if (v) { v.pause(); v.currentTime = 0; }
                                 }}
                               >
-                                <video
-                                  src={videoSrc}
-                                  preload="metadata"
-                                  muted
-                                  loop
-                                  playsInline
-                                  className="movie-detail-episode-video"
-                                />
-                                <span className="movie-detail-episode-number">{epIndex + 1}</span>
+                                <div className="movie-detail-episode-media">
+                                  <video
+                                    src={videoSrc}
+                                    preload="metadata"
+                                    muted
+                                    loop
+                                    playsInline
+                                    className="movie-detail-episode-video"
+                                    onLoadedMetadata={(e) => {
+                                      const d = e.currentTarget.duration;
+                                      if (!Number.isFinite(d) || d <= 0) return;
+                                      const minutes = Math.max(1, Math.round(d / 60));
+                                      setEpisodeDurations((prev) => (
+                                        prev[durationKey] === minutes ? prev : { ...prev, [durationKey]: minutes }
+                                      ));
+                                    }}
+                                  />
+                                </div>
+                                <div className="movie-detail-episode-meta">
+                                  <span className="movie-detail-episode-number">{episodeLabel}</span>
+                                  {durationLabel && (
+                                    <span className="movie-detail-episode-duration">{durationLabel}</span>
+                                  )}
+                                </div>
                               </div>
                             );
                           })}
