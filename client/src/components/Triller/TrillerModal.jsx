@@ -11,7 +11,9 @@ const getLocalized = (value, lang) => {
   return String(value);
 };
 
-const TrillerModal = ({ item, onClose }) => {
+const getItemKey = (item) => item?.trillerId ?? item?.id;
+
+const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
   const { contentLang } = useContentLanguage();
   const sheetRef = useRef(null);
   const handleRef = useRef(null);
@@ -28,8 +30,10 @@ const TrillerModal = ({ item, onClose }) => {
   const [closing, setClosing] = useState(false);
   const [dragClose, setDragClose] = useState(false);
 
+  const activeKey = getItemKey(item);
   const name = getLocalized(item?.name, contentLang);
   const description = getLocalized(item?.description, contentLang);
+  const listItems = Array.isArray(items) && items.length ? items : item ? [item] : [];
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -51,6 +55,7 @@ const TrillerModal = ({ item, onClose }) => {
     video.addEventListener('pause', onPause);
     video.addEventListener('ended', onEnded);
 
+    setShowControls(true);
     video.play().catch(() => {
       setIsPlaying(false);
       setShowControls(true);
@@ -62,7 +67,7 @@ const TrillerModal = ({ item, onClose }) => {
       video.removeEventListener('ended', onEnded);
       video.pause();
     };
-  }, [item?.trillerVideo]);
+  }, [item?.trillerVideo, activeKey]);
 
   const requestClose = useCallback((options = {}) => {
     if (closingRef.current) return;
@@ -74,7 +79,6 @@ const TrillerModal = ({ item, onClose }) => {
     if (fromDrag) {
       setDragClose(true);
       const h = sheetRef.current?.offsetHeight || window.innerHeight;
-      // Joriy joydan pastga davom — 0 ga qaytib "qayta ochilish" bo'lmasin
       setDragY(Math.max(dragYRef.current, h));
     }
 
@@ -190,6 +194,7 @@ const TrillerModal = ({ item, onClose }) => {
 
         <div className="triller-modal-video-wrap">
           <video
+            key={activeKey}
             ref={videoRef}
             className="triller-modal-video"
             src={item?.trillerVideo ? encodeURI(item.trillerVideo) : ''}
@@ -207,9 +212,46 @@ const TrillerModal = ({ item, onClose }) => {
           />
         </div>
 
-        <div className="triller-modal-meta">
-          {name ? <h3 className="triller-modal-name">{name}</h3> : null}
-          {description ? <p className="triller-modal-description">{description}</p> : null}
+        <div className="triller-modal-body">
+          <div className="triller-modal-meta">
+            {name ? <h3 className="triller-modal-name">{name}</h3> : null}
+            {description ? <p className="triller-modal-description">{description}</p> : null}
+          </div>
+
+          {listItems.length > 0 ? (
+            <div className="triller-modal-list">
+              {listItems.map((row) => {
+                const key = getItemKey(row);
+                const isActive = key === activeKey;
+                const rowName = getLocalized(row?.name, contentLang);
+                const rowDesc = getLocalized(row?.description, contentLang);
+                const imgSrc = row?.img ? encodeURI(row.img) : '';
+
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    className={`triller-modal-list-item${isActive ? ' is-active' : ''}`}
+                    onClick={() => {
+                      if (!isActive) onSelect?.(row);
+                    }}
+                  >
+                    <div className="triller-modal-list-thumb">
+                      {imgSrc ? (
+                        <img src={imgSrc} alt={rowName || ''} loading="lazy" />
+                      ) : (
+                        <span className="triller-modal-list-thumb-empty" />
+                      )}
+                    </div>
+                    <div className="triller-modal-list-info">
+                      {rowName ? <p className="triller-modal-list-name">{rowName}</p> : null}
+                      {rowDesc ? <p className="triller-modal-list-description">{rowDesc}</p> : null}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

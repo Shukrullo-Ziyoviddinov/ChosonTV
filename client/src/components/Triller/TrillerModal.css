@@ -104,9 +104,7 @@
 }
 
 .triller-modal-meta {
-  padding: 14px 16px 22px;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+  padding: 14px 16px 10px;
 }
 
 .triller-modal-name {
@@ -122,6 +120,97 @@
   font-size: 0.9rem;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.72);
+}
+
+.triller-modal-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 16px;
+}
+
+.triller-modal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px 12px 8px;
+}
+
+.triller-modal-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.triller-modal-list-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.triller-modal-list-item.is-active {
+  background: rgba(229, 57, 53, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(229, 57, 53, 0.45);
+}
+
+.triller-modal-list-thumb {
+  flex-shrink: 0;
+  width: 88px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.triller-modal-list-thumb img,
+.triller-modal-list-thumb-empty {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.triller-modal-list-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.triller-modal-list-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.triller-modal-list-description {
+  margin: 0.2rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.62);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.triller-modal-list-item.is-active .triller-modal-list-name {
+  color: #fff;
+}
+
+.triller-modal-list-item.is-active .triller-modal-list-description {
+  color: rgba(255, 255, 255, 0.78);
 }
 
 @keyframes triller-overlay-in {
@@ -156,6 +245,19 @@
 
   .triller-modal-name {
     font-size: 1rem;
+  }
+
+  .triller-modal-list-thumb {
+    width: 76px;
+    height: 43px;
+  }
+
+  .triller-modal-list-name {
+    font-size: 0.85rem;
+  }
+
+  .triller-modal-list-description {
+    font-size: 0.72rem;
   }
 }
 

@@ -88,7 +88,12 @@ const Triller = () => {
       </div>
 
       {selected ? (
-        <TrillerModal item={selected} onClose={() => setSelected(null)} />
+        <TrillerModal
+          item={selected}
+          items={items}
+          onSelect={setSelected}
+          onClose={() => setSelected(null)}
+        />
       ) : null}
     </section>
   );
