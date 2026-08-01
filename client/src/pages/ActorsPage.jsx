@@ -65,10 +65,17 @@ const ActorsPage = () => {
     <div className="actors-page">
       <div className="actors-page-header">
         {isPageLoading ? (
-          <LoaderSkeleton variant="actors-page-back" width={100} height={40} className="actors-page-back-skeleton" />
+          <LoaderSkeleton variant="actors-page-back" width={40} height={40} className="actors-page-back-skeleton" />
         ) : (
-          <button className="actors-page-back" onClick={() => navigate(-1)}>
-            ← {i18n.language === 'uz' ? 'Orqaga' : 'Назад'}
+          <button
+            type="button"
+            className="actors-page-back"
+            onClick={() => navigate(-1)}
+            aria-label={i18n.language === 'uz' ? 'Orqaga' : 'Назад'}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
           </button>
         )}
         <div className="actors-page-profile">

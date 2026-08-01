@@ -271,8 +271,9 @@
 /* Actors page */
 .loader-skeleton--actors-page-back {
   height: 40px;
-  min-width: 100px;
-  border-radius: 8px;
+  width: 40px;
+  min-width: 40px;
+  border-radius: 50%;
 }
 
 .loader-skeleton--actors-page-image {
