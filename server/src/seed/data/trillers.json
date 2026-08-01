@@ -3,13 +3,14 @@
     {
       "trillerId": 1,
       "name": {
-        "uz": "The Amateur — Rasmiy Triller",
-        "ru": "The Amateur — Официальный трейлер"
+        "uz": "Soul — Rasmiy Triller",
+        "ru": "Душа — Официальный трейлер"
       },
       "description": {
-        "uz": "Yangi jangari-triller. Qisqa tanishuv — tez orada to‘liq film.",
-        "ru": "Новый боевик-триллер. Короткое знакомство — скоро полный фильм."
+        "uz": "Pixar animatsiyasi. Jazz, orzular va hayotning ma’nosi haqida issiq hikoya.",
+        "ru": "Анимация Pixar. Тёплая история о джазе, мечтах и смысле жизни."
       },
+      "img": "/img/movie-4.5-1.avif",
       "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
       "isActive": true,
       "sortOrder": 1
@@ -17,70 +18,75 @@
     {
       "trillerId": 2,
       "name": {
-        "uz": "Inception — Triller",
-        "ru": "Начало — Трейлер"
+        "uz": "Oppenheimer — Triller",
+        "ru": "Оппенгеймер — Трейлер"
       },
       "description": {
-        "uz": "Tush ichida tush. Klassik fantastika trilleridan qisqa lavha.",
-        "ru": "Сон во сне. Короткий фрагмент классического фантастического триллера."
+        "uz": "Atom bombasi yaratuvchisi haqidagi epik drama. Kuchli kadrlar va kuchli hikoya.",
+        "ru": "Эпическая драма о создателе атомной бомбы. Сильные кадры и мощный сюжет."
       },
-      "trillerVideo": "/video/video1.mp4",
+      "img": "/img/movie-4.5-2.jpeg",
+      "trillerVideo": "/video/Zivert - Life   Премьера клипа.mp4",
       "isActive": true,
       "sortOrder": 2
     },
     {
       "trillerId": 3,
       "name": {
-        "uz": "Yangi serial — Teaser",
-        "ru": "Новый сериал — Тизер"
+        "uz": "The First Ritual",
+        "ru": "The First Ritual"
       },
       "description": {
-        "uz": "Tez kunda chiqadigan serialning qisqa teaseri.",
-        "ru": "Короткий тизер сериала, который скоро выйдет."
+        "uz": "Qorong‘u triller. Maxfiy marosim va omon qolish uchun kurash.",
+        "ru": "Тёмный триллер. Тайный ритуал и борьба за выживание."
       },
-      "trillerVideo": "/video/shorts6.mp4",
+      "img": "/img/movie-4.5-3.jpg",
+      "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
       "isActive": true,
       "sortOrder": 3
     },
     {
       "trillerId": 4,
       "name": {
-        "uz": "Ruscha triller",
-        "ru": "Русский трейлер"
+        "uz": "The Incredibles",
+        "ru": "Суперсемейка"
       },
       "description": {
-        "uz": "Rus tilidagi qisqa video tanishuv.",
-        "ru": "Короткое видео-знакомство на русском языке."
+        "uz": "Superqahramon oila yana birga. Sarguzasht va oilaviy komediya.",
+        "ru": "Семья супергероев снова вместе. Приключения и семейная комедия."
       },
-      "trillerVideo": "/video/rumovie.mp4",
+      "img": "/img/movie-4.5-4.webp",
+      "trillerVideo": "/video/Zivert - Life   Премьера клипа.mp4",
       "isActive": true,
       "sortOrder": 4
     },
     {
       "trillerId": 5,
       "name": {
-        "uz": "CHOSON.TV tanlovi",
-        "ru": "Выбор CHOSON.TV"
+        "uz": "Homestead",
+        "ru": "Homestead"
       },
       "description": {
-        "uz": "Platforma tavsiya qilgan eng qiziq trillerlardan biri.",
-        "ru": "Один из самых интересных трейлеров по выбору платформы."
+        "uz": "Fermani himoya qilish uchun kurash. Jangari-survival triller.",
+        "ru": "Борьба за защиту дома. Боевик-триллер о выживании."
       },
-      "trillerVideo": "/video/video1.mp4",
+      "img": "/img/movie-4.5-5.jpg",
+      "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
       "isActive": true,
       "sortOrder": 5
     },
     {
       "trillerId": 6,
       "name": {
-        "uz": "Drama — Qisqa lavha",
-        "ru": "Драма — Короткий фрагмент"
+        "uz": "Spider-Man — Triller",
+        "ru": "Человек-паук — Трейлер"
       },
       "description": {
-        "uz": "Kuchli dramatik syujetli filmning teaseri.",
-        "ru": "Тизер фильма с сильным драматическим сюжетом."
+        "uz": "Yosh qahramon yangi sinovlar oldida. Marvel sarguzashti.",
+        "ru": "Юный герой перед новыми испытаниями. Приключение Marvel."
       },
-      "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
+      "img": "/img/movie-4.5-6.avif",
+      "trillerVideo": "/video/Zivert - Life   Премьера клипа.mp4",
       "isActive": true,
       "sortOrder": 6
     }

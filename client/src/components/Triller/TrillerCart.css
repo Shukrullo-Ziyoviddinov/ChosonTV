@@ -1,6 +1,6 @@
 .triller-cart {
   flex-shrink: 0;
-  width: 148px;
+  width: 280px;
   border: none;
   background: transparent;
   padding: 0;
@@ -12,19 +12,24 @@
 .triller-cart-media {
   position: relative;
   width: 100%;
-  padding-top: 145%;
-  border-radius: 10px;
+  padding-top: 56.25%; /* 16:9 width format */
+  border-radius: 12px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.08);
 }
 
-.triller-cart-video {
+.triller-cart-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  display: block;
+}
+
+.triller-cart-img--empty {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .triller-cart-play {
@@ -32,8 +37,8 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: rgba(229, 57, 53, 0.92);
   color: #fff;
@@ -44,22 +49,45 @@
 }
 
 .triller-cart-name {
-  margin: 0.45rem 0 0;
-  font-size: 0.82rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.88rem;
+  font-weight: 600;
   line-height: 1.3;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.triller-cart-description {
+  margin: 0.28rem 0 0;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.62);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .triller-cart:hover .triller-cart-media {
   outline: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+@media (max-width: 768px) {
+  .triller-cart {
+    width: 240px;
+  }
+}
+
 @media (max-width: 480px) {
   .triller-cart {
-    width: 124px;
+    width: 210px;
+  }
+
+  .triller-cart-play {
+    width: 40px;
+    height: 40px;
   }
 }

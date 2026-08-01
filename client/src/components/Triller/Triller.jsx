@@ -50,7 +50,7 @@ const Triller = () => {
           )}
         </div>
 
-        <HorizontalScroll scrollAmount={160}>
+        <HorizontalScroll scrollAmount={300}>
           {loading && items.length === 0
             ? Array.from({ length: PLACEHOLDER_COUNT }).map((_, index) => (
                 <div key={`triller-skel-${index}`} className="triller-cart-skeleton">

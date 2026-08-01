@@ -160,7 +160,7 @@ const TrillerModal = ({ item, onClose }) => {
           <video
             ref={videoRef}
             className="triller-modal-video"
-            src={item?.trillerVideo || ''}
+            src={item?.trillerVideo ? encodeURI(item.trillerVideo) : ''}
             playsInline
             preload="auto"
             onClick={() => setShowControls((v) => !v)}

@@ -49,6 +49,7 @@ const createTriller = async (payload = {}) => {
       ru: payload?.description?.ru || "",
     },
     trillerVideo: String(payload.trillerVideo || "").trim(),
+    img: String(payload.img || "").trim(),
     isActive: payload.isActive !== false,
     sortOrder: Number(payload.sortOrder) || nextId,
   });

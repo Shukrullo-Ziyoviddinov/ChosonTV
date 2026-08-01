@@ -26,6 +26,11 @@ const trillerSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    img: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     isActive: {
       type: Boolean,
       default: true,

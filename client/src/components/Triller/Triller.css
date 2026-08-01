@@ -29,14 +29,14 @@
 
 .triller-cart-skeleton {
   flex-shrink: 0;
-  width: 148px;
+  width: 280px;
 }
 
 .triller-cart-skeleton .loader-skeleton {
   width: 100% !important;
   height: 0 !important;
-  padding-top: 145%;
-  border-radius: 10px;
+  padding-top: 56.25%;
+  border-radius: 12px;
 }
 
 @media (max-width: 768px) {
@@ -47,10 +47,14 @@
   .triller-title {
     font-size: 1.15rem;
   }
+
+  .triller-cart-skeleton {
+    width: 240px;
+  }
 }
 
 @media (max-width: 480px) {
   .triller-cart-skeleton {
-    width: 124px;
+    width: 210px;
   }
 }
