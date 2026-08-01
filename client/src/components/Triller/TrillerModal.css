@@ -256,8 +256,8 @@
   }
 
   .triller-modal-list-thumb {
-    height: 65px;
-    width: 130px;
+    height: 75px;
+    width: 140px;
   }
 
   .triller-modal-list-name {
@@ -266,6 +266,7 @@
 
   .triller-modal-list-description {
     font-size: 0.72rem;
+    -webkit-line-clamp: 3;
   }
 }
 
