@@ -180,17 +180,17 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
       >
         <div ref={handleRef} className="triller-modal-handle-zone">
           <div className="triller-modal-handle" aria-hidden />
-          <button
-            type="button"
-            className="triller-modal-close"
-            onClick={() => requestClose()}
-            aria-label="Yopish"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
         </div>
+        <button
+          type="button"
+          className="triller-modal-close"
+          onClick={() => requestClose()}
+          aria-label="Yopish"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
 
         <div className="triller-modal-content">
           <div className="triller-modal-main">
@@ -221,37 +221,42 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
           </div>
 
           {listItems.length > 0 ? (
-            <div className="triller-modal-list">
-              {listItems.map((row) => {
-                const key = getItemKey(row);
-                const isActive = key === activeKey;
-                const rowName = getLocalized(row?.name, contentLang);
-                const rowDesc = getLocalized(row?.description, contentLang);
-                const imgSrc = row?.img ? encodeURI(row.img) : '';
+            <div className="triller-modal-side">
+              <h4 className="triller-modal-list-title">
+                {contentLang === 'ru' ? 'Другие трейлеры' : 'Boshqa trillerlar'}
+              </h4>
+              <div className="triller-modal-list">
+                {listItems.map((row) => {
+                  const key = getItemKey(row);
+                  const isActive = key === activeKey;
+                  const rowName = getLocalized(row?.name, contentLang);
+                  const rowDesc = getLocalized(row?.description, contentLang);
+                  const imgSrc = row?.img ? encodeURI(row.img) : '';
 
-                return (
-                  <button
-                    key={key}
-                    type="button"
-                    className={`triller-modal-list-item${isActive ? ' is-active' : ''}`}
-                    onClick={() => {
-                      if (!isActive) onSelect?.(row);
-                    }}
-                  >
-                    <div className="triller-modal-list-thumb">
-                      {imgSrc ? (
-                        <img src={imgSrc} alt={rowName || ''} loading="lazy" />
-                      ) : (
-                        <span className="triller-modal-list-thumb-empty" />
-                      )}
-                    </div>
-                    <div className="triller-modal-list-info">
-                      {rowName ? <p className="triller-modal-list-name">{rowName}</p> : null}
-                      {rowDesc ? <p className="triller-modal-list-description">{rowDesc}</p> : null}
-                    </div>
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`triller-modal-list-item${isActive ? ' is-active' : ''}`}
+                      onClick={() => {
+                        if (!isActive) onSelect?.(row);
+                      }}
+                    >
+                      <div className="triller-modal-list-thumb">
+                        {imgSrc ? (
+                          <img src={imgSrc} alt={rowName || ''} loading="lazy" />
+                        ) : (
+                          <span className="triller-modal-list-thumb-empty" />
+                        )}
+                      </div>
+                      <div className="triller-modal-list-info">
+                        {rowName ? <p className="triller-modal-list-name">{rowName}</p> : null}
+                        {rowDesc ? <p className="triller-modal-list-description">{rowDesc}</p> : null}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           ) : null}
         </div>
