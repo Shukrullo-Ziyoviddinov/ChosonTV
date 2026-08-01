@@ -112,7 +112,7 @@ const SiginModal = ({ onClose, onSuccess }) => {
         onClick={onClose}
         style={{
           backgroundImage:
-            "linear-gradient(rgba(18, 4, 6, 0.84), rgba(28, 6, 8, 0.88)), url('/img/profilfoto.jpg')",
+            "linear-gradient(rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.88)), url('/img/profilfoto.jpg')",
         }}
       />
       <div className="sigin-modal" onClick={(e) => e.stopPropagation()}>

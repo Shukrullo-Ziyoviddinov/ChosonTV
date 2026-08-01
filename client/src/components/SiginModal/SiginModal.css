@@ -1,7 +1,7 @@
 .sigin-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(18, 4, 6, 0.84);
+  background-color: rgba(0, 0, 0, 0.85);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
