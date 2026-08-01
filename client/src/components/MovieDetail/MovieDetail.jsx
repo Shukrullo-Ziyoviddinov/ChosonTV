@@ -898,12 +898,36 @@ const MovieDetail = () => {
                                         prev[durationKey] === minutes ? prev : { ...prev, [durationKey]: minutes }
                                       ));
                                     }}
+                                    onError={() => {
+                                      setEpisodeDurations((prev) => (
+                                        prev[durationKey] != null ? prev : { ...prev, [durationKey]: 0 }
+                                      ));
+                                    }}
                                   />
                                 </div>
                                 <div className="movie-detail-episode-meta">
-                                  <span className="movie-detail-episode-number">{episodeLabel}</span>
-                                  {durationLabel && (
-                                    <span className="movie-detail-episode-duration">{durationLabel}</span>
+                                  {durationMin != null ? (
+                                    <>
+                                      <span className="movie-detail-episode-number">{episodeLabel}</span>
+                                      {durationMin > 0 && (
+                                        <span className="movie-detail-episode-duration">{durationLabel}</span>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <>
+                                      <LoaderSkeleton
+                                        variant="text"
+                                        className="movie-detail-episode-number-skeleton"
+                                        width={72}
+                                        height={14}
+                                      />
+                                      <LoaderSkeleton
+                                        variant="text"
+                                        className="movie-detail-episode-duration-skeleton"
+                                        width={88}
+                                        height={12}
+                                      />
+                                    </>
                                   )}
                                 </div>
                               </div>

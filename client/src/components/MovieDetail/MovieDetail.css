@@ -633,6 +633,20 @@
   line-height: 1.2;
 }
 
+.movie-detail-episode-number-skeleton .loader-skeleton,
+.movie-detail-episode-duration-skeleton .loader-skeleton {
+  border-radius: 4px;
+  max-width: 100%;
+}
+
+.movie-detail-episode-number-skeleton .loader-skeleton {
+  height: 14px;
+}
+
+.movie-detail-episode-duration-skeleton .loader-skeleton {
+  height: 12px;
+}
+
 /* Actors section */
 .movie-detail-actors {
   /* margin-top: 2rem; */
@@ -1357,6 +1371,10 @@
 
   .movie-detail-description-modal-text p {
     font-size: 0.9rem;
+  }
+
+  .movie-detail-actors-title {
+    font-size: 1rem;
   }
 }
 
