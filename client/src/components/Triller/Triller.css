@@ -1,0 +1,56 @@
+.triller {
+  margin-bottom: 1rem;
+  padding: 0 2rem;
+}
+
+.triller-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.triller-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  min-height: 28px;
+}
+
+.triller-title {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.triller-title-skeleton .loader-skeleton {
+  border-radius: 6px;
+}
+
+.triller-cart-skeleton {
+  flex-shrink: 0;
+  width: 148px;
+}
+
+.triller-cart-skeleton .loader-skeleton {
+  width: 100% !important;
+  height: 0 !important;
+  padding-top: 145%;
+  border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+  .triller {
+    padding: 0 1rem;
+  }
+
+  .triller-title {
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .triller-cart-skeleton {
+    width: 124px;
+  }
+}

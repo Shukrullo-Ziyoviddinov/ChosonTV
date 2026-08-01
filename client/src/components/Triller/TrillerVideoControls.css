@@ -1,0 +1,72 @@
+.triller-video-controls {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.18) 0%,
+    rgba(0, 0, 0, 0.45) 55%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 3;
+}
+
+.triller-video-controls.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  touch-action: manipulation;
+}
+
+.triller-video-controls-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.4rem;
+}
+
+.triller-video-control-btn {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.triller-video-control-btn-play {
+  width: 68px;
+  height: 68px;
+  background: rgba(229, 57, 53, 0.92);
+}
+
+.triller-video-control-btn:active {
+  transform: scale(0.96);
+}
+
+@media (max-width: 480px) {
+  .triller-video-controls-center {
+    gap: 1.6rem;
+  }
+
+  .triller-video-control-btn {
+    width: 46px;
+    height: 46px;
+  }
+
+  .triller-video-control-btn-play {
+    width: 60px;
+    height: 60px;
+  }
+}

@@ -1,0 +1,165 @@
+.triller-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1500;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.triller-modal-overlay {
+  position: absolute;
+  inset: 0;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.62);
+  cursor: pointer;
+  animation: triller-overlay-in 0.22s ease;
+}
+
+.triller-modal-sheet {
+  position: relative;
+  z-index: 1;
+  width: min(640px, 100%);
+  max-height: min(92vh, 860px);
+  background: #121212;
+  border-radius: 18px 18px 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.45);
+  transform: translateY(0);
+  animation: triller-sheet-in 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.triller-modal.is-closing .triller-modal-overlay {
+  animation: triller-overlay-out 0.22s ease forwards;
+}
+
+.triller-modal.is-closing .triller-modal-sheet {
+  animation: triller-sheet-out 0.22s ease forwards;
+}
+
+.triller-modal.is-dragging .triller-modal-sheet {
+  transition: none;
+}
+
+.triller-modal-handle-zone {
+  position: relative;
+  flex-shrink: 0;
+  padding: 10px 48px 8px;
+  touch-action: none;
+  cursor: grab;
+}
+
+.triller-modal-handle {
+  width: 42px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  margin: 0 auto;
+}
+
+.triller-modal-close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.triller-modal-video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.triller-modal-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000;
+}
+
+.triller-modal-meta {
+  padding: 14px 16px 22px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.triller-modal-name {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.triller-modal-description {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@keyframes triller-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes triller-overlay-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes triller-sheet-in {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes triller-sheet-out {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+@media (min-width: 769px) {
+  .triller-modal {
+    align-items: center;
+    padding: 24px;
+  }
+
+  .triller-modal-sheet {
+    border-radius: 16px;
+    max-height: min(88vh, 820px);
+    animation: triller-desktop-in 0.22s ease;
+  }
+
+  .triller-modal.is-closing .triller-modal-sheet {
+    animation: triller-desktop-out 0.2s ease forwards;
+  }
+
+  @keyframes triller-desktop-in {
+    from { opacity: 0; transform: translateY(18px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes triller-desktop-out {
+    from { opacity: 1; transform: translateY(0) scale(1); }
+    to { opacity: 0; transform: translateY(12px) scale(0.98); }
+  }
+}

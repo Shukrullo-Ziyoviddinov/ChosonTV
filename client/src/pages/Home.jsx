@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLoading } from '../context/LoadingContext';
 import Banner from '../components/Banner/Banner';
 import Movies from '../components/Movies/Movies';
+import Triller from '../components/Triller';
 import {
   useMoviesCatalog,
   HOME_SECTION_LIMIT,
@@ -92,6 +93,7 @@ const Home = () => {
   return (
     <div className="home">
       <Banner />
+      <Triller />
       {(anonsSectionLoading || anonsMovies.length > 0) && (
         <Movies
           sectionType="anonslar"

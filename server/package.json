@@ -12,6 +12,7 @@
     "seed:genres": "node src/seed/seedGenres.js",
     "seed:social": "node src/seed/seedSocialLink.js",
     "seed:ads": "node src/seed/seedAdsData.js",
+    "seed:trillers": "node src/seed/seedTrillers.js",
     "seed:movies": "node src/seed/seedMovies.js",
     "seed:movies-catalog": "node src/seed/seedMoviesCatalog.js",
     "seed:translations": "node src/seed/seedTranslations.js"

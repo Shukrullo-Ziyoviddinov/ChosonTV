@@ -1,0 +1,88 @@
+{
+  "trillers": [
+    {
+      "trillerId": 1,
+      "name": {
+        "uz": "The Amateur — Rasmiy Triller",
+        "ru": "The Amateur — Официальный трейлер"
+      },
+      "description": {
+        "uz": "Yangi jangari-triller. Qisqa tanishuv — tez orada to‘liq film.",
+        "ru": "Новый боевик-триллер. Короткое знакомство — скоро полный фильм."
+      },
+      "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
+      "isActive": true,
+      "sortOrder": 1
+    },
+    {
+      "trillerId": 2,
+      "name": {
+        "uz": "Inception — Triller",
+        "ru": "Начало — Трейлер"
+      },
+      "description": {
+        "uz": "Tush ichida tush. Klassik fantastika trilleridan qisqa lavha.",
+        "ru": "Сон во сне. Короткий фрагмент классического фантастического триллера."
+      },
+      "trillerVideo": "/video/video1.mp4",
+      "isActive": true,
+      "sortOrder": 2
+    },
+    {
+      "trillerId": 3,
+      "name": {
+        "uz": "Yangi serial — Teaser",
+        "ru": "Новый сериал — Тизер"
+      },
+      "description": {
+        "uz": "Tez kunda chiqadigan serialning qisqa teaseri.",
+        "ru": "Короткий тизер сериала, который скоро выйдет."
+      },
+      "trillerVideo": "/video/shorts6.mp4",
+      "isActive": true,
+      "sortOrder": 3
+    },
+    {
+      "trillerId": 4,
+      "name": {
+        "uz": "Ruscha triller",
+        "ru": "Русский трейлер"
+      },
+      "description": {
+        "uz": "Rus tilidagi qisqa video tanishuv.",
+        "ru": "Короткое видео-знакомство на русском языке."
+      },
+      "trillerVideo": "/video/rumovie.mp4",
+      "isActive": true,
+      "sortOrder": 4
+    },
+    {
+      "trillerId": 5,
+      "name": {
+        "uz": "CHOSON.TV tanlovi",
+        "ru": "Выбор CHOSON.TV"
+      },
+      "description": {
+        "uz": "Platforma tavsiya qilgan eng qiziq trillerlardan biri.",
+        "ru": "Один из самых интересных трейлеров по выбору платформы."
+      },
+      "trillerVideo": "/video/video1.mp4",
+      "isActive": true,
+      "sortOrder": 5
+    },
+    {
+      "trillerId": 6,
+      "name": {
+        "uz": "Drama — Qisqa lavha",
+        "ru": "Драма — Короткий фрагмент"
+      },
+      "description": {
+        "uz": "Kuchli dramatik syujetli filmning teaseri.",
+        "ru": "Тизер фильма с сильным драматическим сюжетом."
+      },
+      "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
+      "isActive": true,
+      "sortOrder": 6
+    }
+  ]
+}
