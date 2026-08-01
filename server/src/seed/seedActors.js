@@ -9,8 +9,8 @@ const actors = [
     name: { uz: "Leonardo DiCaprio", ru: "Леонардо ДиКаприо" },
     image: "/img/leanordo.jpg",
     info: {
-      uz: "Amerikalik aktyor va produser. Inception, Titanic, The Revenant kabi filmlarda rol o'ynagan.",
-      ru: "Американский актёр и продюсер. Снимался в фильмах Начало, Титаник, Выживший.",
+      uz: "Amerikalik aktyor va produser. Inception, Titanic, The Revenant kabi filmlarda rol o'ynagan. Oscar mukofoti sohibi, atrof-muhit himoyasi bilan ham faol shug'ullanadi va ko'plab yirik kinoloyihalarda ishtirok etgan.",
+      ru: "Американский актёр и продюсер. Снимался в фильмах Начало, Титаник, Выживший. Обладатель премии Оскар, активно занимается защитой окружающей среды и участвует в крупных кинопроектах.",
     },
   },
   {
@@ -18,8 +18,8 @@ const actors = [
     name: { uz: "Tobey Maguire", ru: "Тоби Магуайр" },
     image: "/img/toby.jpg",
     info: {
-      uz: "Amerikalik aktyor. Spider-Man trilogiyasida Peter Parker rolini ijro etgan.",
-      ru: "Американский актёр. Исполнил роль Питера Паркера в трилогии Человек-паук.",
+      uz: "Amerikalik aktyor. Spider-Man trilogiyasida Peter Parker rolini ijro etgan. Dramatik rollari bilan ham tanilgan, Seabiscuit va Brothers kabi filmlarda kuchli ijro ko'rsatgan.",
+      ru: "Американский актёр. Исполнил роль Питера Паркера в трилогии Человек-паук. Также известен драматическими ролями, ярко сыграл в фильмах Seabiscuit и Brothers.",
     },
   },
   {
@@ -27,8 +27,8 @@ const actors = [
     name: { uz: "Katrina Kaif", ru: "Катрина Кайф" },
     image: "/img/katrinas.jpg",
     info: {
-      uz: "Hindiston-Britaniya aktrisasi. Bollywood filmlarida suratga tushgan.",
-      ru: "Индийско-британская актриса. Снималась в фильмах Болливуда.",
+      uz: "Hindiston-Britaniya aktrisasi. Bollywood filmlarida suratga tushgan. Namastey London, Zindagi Na Milegi Dobara kabi mashhur filmlari bilan keng auditoriyaga tanilgan.",
+      ru: "Индийско-британская актриса. Снималась в фильмах Болливуда. Широко известна по популярным картинам Namastey London и Zindagi Na Milegi Dobara.",
     },
   },
   {
@@ -36,8 +36,8 @@ const actors = [
     name: { uz: "Leonardo DiCaprio", ru: "Леонардо ДиКаприо" },
     image: "/img/leanordo.jpg",
     info: {
-      uz: "Amerikalik aktyor va produser. Inception, Titanic, The Revenant kabi filmlarda rol o'ynagan.",
-      ru: "Американский актёр и продюсер. Снимался в фильмах Начало, Титаник, Выживший.",
+      uz: "Amerikalik aktyor va produser. Inception, Titanic, The Revenant kabi filmlarda rol o'ynagan. Oscar mukofoti sohibi, atrof-muhit himoyasi bilan ham faol shug'ullanadi va ko'plab yirik kinoloyihalarda ishtirok etgan.",
+      ru: "Американский актёр и продюсер. Снимался в фильмах Начало, Титаник, Выживший. Обладатель премии Оскар, активно занимается защитой окружающей среды и участвует в крупных кинопроектах.",
     },
   },
   {
@@ -45,8 +45,8 @@ const actors = [
     name: { uz: "Tobey Maguire", ru: "Тоби Магуайр" },
     image: "/img/toby.jpg",
     info: {
-      uz: "Amerikalik aktyor. Spider-Man trilogiyasida Peter Parker rolini ijro etgan.",
-      ru: "Американский актёр. Исполнил роль Питера Паркера в трилогии Человек-паук.",
+      uz: "Amerikalik aktyor. Spider-Man trilogiyasida Peter Parker rolini ijro etgan. Dramatik rollari bilan ham tanilgan, Seabiscuit va Brothers kabi filmlarda kuchli ijro ko'rsatgan.",
+      ru: "Американский актёр. Исполнил роль Питера Паркера в трилогии Человек-паук. Также известен драматическими ролями, ярко сыграл в фильмах Seabiscuit и Brothers.",
     },
   },
   {
@@ -54,8 +54,8 @@ const actors = [
     name: { uz: "Katrina Kaif", ru: "Катрина Кайф" },
     image: "/img/katrinas.jpg",
     info: {
-      uz: "Hindiston-Britaniya aktrisasi. Bollywood filmlarida suratga tushgan.",
-      ru: "Индийско-британская актриса. Снималась в фильмах Болливуда.",
+      uz: "Hindiston-Britaniya aktrisasi. Bollywood filmlarida suratga tushgan. Namastey London, Zindagi Na Milegi Dobara kabi mashhur filmlari bilan keng auditoriyaga tanilgan.",
+      ru: "Индийско-британская актриса. Снималась в фильмах Болливуда. Широко известна по популярным картинам Namastey London и Zindagi Na Milegi Dobara.",
     },
   },
 ];

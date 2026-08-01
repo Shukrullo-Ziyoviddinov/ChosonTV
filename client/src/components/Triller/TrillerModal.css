@@ -163,12 +163,12 @@
 }
 
 .triller-modal-list-thumb {
-  flex-shrink: 0;
-  width: 88px;
-  height: 50px;
+  background: #ffffff14;
   border-radius: 6px;
+  flex-shrink: 0;
+  height: 75px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
+  width: 150px;
 }
 
 .triller-modal-list-thumb img,
@@ -248,8 +248,8 @@
   }
 
   .triller-modal-list-thumb {
-    width: 76px;
-    height: 43px;
+    height: 65px;
+    width: 130px;
   }
 
   .triller-modal-list-name {
@@ -287,16 +287,27 @@
   }
 
   .triller-modal-handle-zone {
-    padding: 10px 12px 4px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 5;
+    padding: 0;
+    width: 0;
+    height: 0;
+    overflow: visible;
     cursor: default;
     touch-action: auto;
   }
 
   .triller-modal-close {
     display: flex;
-    top: 8px;
-    right: 8px;
+    top: 12px;
+    right: 12px;
     transform: none;
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.55);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
   }
 
   .triller-modal-name {
