@@ -19,12 +19,14 @@ const TrillerModal = ({ item, onClose }) => {
   const startYRef = useRef(0);
   const dragYRef = useRef(0);
   const draggingRef = useRef(false);
+  const closingRef = useRef(false);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [closing, setClosing] = useState(false);
+  const [dragClose, setDragClose] = useState(false);
 
   const name = getLocalized(item?.name, contentLang);
   const description = getLocalized(item?.description, contentLang);
@@ -62,10 +64,21 @@ const TrillerModal = ({ item, onClose }) => {
     };
   }, [item?.trillerVideo]);
 
-  const requestClose = useCallback(() => {
+  const requestClose = useCallback((options = {}) => {
+    if (closingRef.current) return;
+    closingRef.current = true;
+    const fromDrag = Boolean(options.fromDrag);
     setClosing(true);
     videoRef.current?.pause();
-    window.setTimeout(() => onClose?.(), 220);
+
+    if (fromDrag) {
+      setDragClose(true);
+      const h = sheetRef.current?.offsetHeight || window.innerHeight;
+      // Joriy joydan pastga davom — 0 ga qaytib "qayta ochilish" bo'lmasin
+      setDragY(Math.max(dragYRef.current, h));
+    }
+
+    window.setTimeout(() => onClose?.(), 240);
   }, [onClose]);
 
   const handlePlayPause = () => {
@@ -84,6 +97,8 @@ const TrillerModal = ({ item, onClose }) => {
     if (!el) return undefined;
 
     const onStart = (e) => {
+      if (closingRef.current) return;
+      if (window.innerWidth > 768) return;
       const y = e.touches[0].clientY;
       startYRef.current = y;
       dragYRef.current = 0;
@@ -93,7 +108,7 @@ const TrillerModal = ({ item, onClose }) => {
     };
 
     const onMove = (e) => {
-      if (!draggingRef.current) return;
+      if (!draggingRef.current || closingRef.current) return;
       e.preventDefault();
       const y = e.touches[0].clientY;
       const delta = Math.max(0, y - startYRef.current);
@@ -111,7 +126,7 @@ const TrillerModal = ({ item, onClose }) => {
       const delta = dragYRef.current;
 
       if (delta >= threshold) {
-        requestClose();
+        requestClose({ fromDrag: true });
       } else {
         dragYRef.current = 0;
         setDragY(0);
@@ -131,25 +146,42 @@ const TrillerModal = ({ item, onClose }) => {
     };
   }, [requestClose]);
 
+  const sheetTransform =
+    dragY > 0 || dragClose
+      ? `translateY(${dragY}px)`
+      : undefined;
+
   return (
-    <div className={`triller-modal ${closing ? 'is-closing' : ''} ${isDragging ? 'is-dragging' : ''}`}>
+    <div
+      className={[
+        'triller-modal',
+        closing ? 'is-closing' : '',
+        isDragging ? 'is-dragging' : '',
+        dragClose ? 'is-drag-close' : '',
+      ].filter(Boolean).join(' ')}
+    >
       <button
         type="button"
         className="triller-modal-overlay"
         aria-label="Yopish"
-        onClick={requestClose}
+        onClick={() => requestClose()}
       />
       <div
         ref={sheetRef}
         className="triller-modal-sheet"
         style={{
-          transform: dragY > 0 ? `translateY(${dragY}px)` : undefined,
+          transform: sheetTransform,
           transition: isDragging ? 'none' : undefined,
         }}
       >
         <div ref={handleRef} className="triller-modal-handle-zone">
-          <div className="triller-modal-handle" />
-          <button type="button" className="triller-modal-close" onClick={requestClose} aria-label="Yopish">
+          <div className="triller-modal-handle" aria-hidden />
+          <button
+            type="button"
+            className="triller-modal-close"
+            onClick={() => requestClose()}
+            aria-label="Yopish"
+          >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
