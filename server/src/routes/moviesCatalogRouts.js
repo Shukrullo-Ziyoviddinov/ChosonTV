@@ -126,13 +126,23 @@ router.get("/home", async (req, res, next) => {
 
     let recommendedMovies = [];
     if (batch === 0) {
-      const recommended = await loadSectionPreview("recommended", limitPerSection, {
-        user,
-        popularMovieScores,
-      });
+      const [recommended, anonslar] = await Promise.all([
+        loadSectionPreview("recommended", limitPerSection, {
+          user,
+          popularMovieScores,
+        }),
+        loadSectionPreview("anonslar", limitPerSection, {
+          user,
+          popularMovieScores,
+        }),
+      ]);
       recommendedMovies = recommended.items;
       sectionHasMore.recommended = recommended.hasMore;
       recommended.items.forEach((movie) => allMovies.push(movie));
+
+      sections.anonslar = anonslar.items;
+      sectionHasMore.anonslar = anonslar.hasMore;
+      anonslar.items.forEach((movie) => allMovies.push(movie));
     }
 
     const apiSectionKeys = sectionKeys.filter((key) => key && key !== "topRated");
@@ -173,6 +183,7 @@ router.get("/home", async (req, res, next) => {
         visibleCount,
         totalSections: HOME_SECTION_ORDER.length,
         includeRecommended: batch === 0,
+        includeAnonslar: batch === 0,
       }
     );
   } catch (error) {

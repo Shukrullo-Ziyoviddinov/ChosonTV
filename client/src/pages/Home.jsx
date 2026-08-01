@@ -11,7 +11,7 @@ import TopRatedContent from '../components/TopRatedContent/TopRatedContent';
 import './Home.css';
 
 const Home = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { setLoading } = useLoading();
   const {
     sections,
@@ -88,6 +88,18 @@ const Home = () => {
   return (
     <div className="home">
       <Banner />
+      {(catalogLoading || (sections?.anonslar?.length || 0) > 0) && (
+        <Movies
+          sectionType="anonslar"
+          filteredMovies={sections?.anonslar || []}
+          limit={HOME_SECTION_LIMIT}
+          showHorizontalScroll={true}
+          headerTitle={i18n.language === 'ru' ? 'Скоро' : 'Tez kunda'}
+          moreTo="/category/anonslar"
+          isLoading={catalogLoading && (sections?.anonslar?.length || 0) === 0}
+          sectionHasMore={Boolean(sectionHasMore?.anonslar)}
+        />
+      )}
       <Movies
         sectionType="recommended"
         filteredMovies={recommendedMovies}

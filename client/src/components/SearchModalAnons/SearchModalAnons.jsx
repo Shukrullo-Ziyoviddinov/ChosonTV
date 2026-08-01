@@ -9,7 +9,7 @@ import { fetchMoviesCatalog } from '../../api/moviesCatalogApi';
 import './SearchModalAnons.css';
 
 const SearchModalAnons = ({ onAnonsClick }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
   const { sections, allMovies } = useMoviesCatalog();
@@ -77,7 +77,9 @@ const SearchModalAnons = ({ onAnonsClick }) => {
   return (
     <div className="search-modal-anons">
       <div className="search-modal-anons-header">
-        <h3 className="search-modal-anons-title">{t('searchModal.anonslar', 'Anonslar')}</h3>
+        <h3 className="search-modal-anons-title">
+          {i18n.language === 'ru' ? 'Скоро' : 'Tez kunda'}
+        </h3>
         <ShowMoreButton to="/category/anonslar" onClick={handleMoreClick} className="search-modal-anons-more-btn" />
       </div>
       <HorizontalScroll scrollAmount={120}>
