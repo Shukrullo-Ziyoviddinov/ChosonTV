@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
 import TrillerVideoControls from './TrillerVideoControls';
 import './TrillerModal.css';
@@ -62,11 +62,11 @@ const TrillerModal = ({ item, onClose }) => {
     };
   }, [item?.trillerVideo]);
 
-  const requestClose = () => {
+  const requestClose = useCallback(() => {
     setClosing(true);
     videoRef.current?.pause();
     window.setTimeout(() => onClose?.(), 220);
-  };
+  }, [onClose]);
 
   const handlePlayPause = () => {
     const video = videoRef.current;
@@ -129,7 +129,7 @@ const TrillerModal = ({ item, onClose }) => {
       el.removeEventListener('touchend', onEnd);
       el.removeEventListener('touchcancel', onEnd);
     };
-  }, []);
+  }, [requestClose]);
 
   return (
     <div className={`triller-modal ${closing ? 'is-closing' : ''} ${isDragging ? 'is-dragging' : ''}`}>
