@@ -12,11 +12,11 @@
   width: 47px;
   height: 47px;
   border-radius: 50%;
-  border: 5px solid rgba(123, 78, 221, 0.25);
-  border-top-color: #7b4edd;
-  border-right-color: #692cbf;
+  border: 5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #ffffff;
+  border-right-color: rgba(255, 255, 255, 0.85);
   animation: videoLoaderSpin 0.9s linear infinite;
-  filter: drop-shadow(0 0 8px rgba(123, 78, 221, 0.45));
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
 }
 
 .video-loader__text {
