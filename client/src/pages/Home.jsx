@@ -98,8 +98,25 @@ const Home = () => {
         sectionHasMore={Boolean(sectionHasMore?.recommended)}
       />
       {renderedSections}
-      {isLoadingMore && homeHasMoreSections && (
-        <div className="home-sections-loading" aria-hidden="true" />
+      {isLoadingMore && (
+        <>
+          <Movies
+            key="home-section-loader-1"
+            sectionType="koreaDrama"
+            filteredMovies={[]}
+            limit={HOME_SECTION_LIMIT}
+            showHorizontalScroll
+            isLoading
+          />
+          <Movies
+            key="home-section-loader-2"
+            sectionType="kinolar"
+            filteredMovies={[]}
+            limit={HOME_SECTION_LIMIT}
+            showHorizontalScroll
+            isLoading
+          />
+        </>
       )}
     </div>
   );

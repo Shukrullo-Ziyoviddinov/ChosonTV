@@ -130,6 +130,10 @@ export const MoviesCatalogProvider = ({ children }) => {
     loadingLockRef.current = true;
     try {
       setIsLoadingMore(true);
+      // Skeleton birinchi chizilsin, keyin so'rov
+      await new Promise((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve));
+      });
       await loadHomeBatch(batchToLoad);
       setError(null);
     } catch (err) {

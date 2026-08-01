@@ -408,7 +408,15 @@ const RecommendedPage = () => {
         hideHeader
         isLoading={recommendedLoading}
       />
-      {loadingMore && <div className="recommended-page-loading-more" aria-hidden="true" />}
+      {loadingMore && (
+        <Movies
+          sectionType="all"
+          limit={null}
+          filteredMovies={[]}
+          hideHeader
+          isLoading
+        />
+      )}
     </div>
   );
 };
