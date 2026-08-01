@@ -105,8 +105,8 @@
 }
 
 .navbar-search-input:focus {
-  border-color: rgba(192, 78, 221, 0.7);
-  box-shadow: 0 0 0 3px rgba(197, 78, 221, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  border-color: #e53935;
+  box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.18), inset 0 1px 2px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, rgb(8 12 20 / 72%) 0%, rgb(10 16 28 / 62%) 100%);
 }
 
@@ -128,13 +128,13 @@
 }
 
 .navbar-search-icon:hover {
-  color: rgba(192, 78, 221, 0.9);
-  background: rgba(157, 78, 221, 0.2);
+  color: #e53935;
+  background: rgba(229, 57, 53, 0.18);
 }
 
 .navbar-search-wrap:focus-within .navbar-search-icon {
-  color: rgba(192, 78, 221, 0.7);
-  background: rgba(157, 78, 221, 0.2);
+  color: #e53935;
+  background: rgba(229, 57, 53, 0.18);
 }
 
 .navbar-right {
@@ -339,13 +339,13 @@
 }
 
 .navbar-search-icon-btn:hover {
-  color: rgba(192, 78, 221, 0.9);
-  background: rgba(157, 78, 221, 0.2);
+  color: #e53935;
+  background: rgba(229, 57, 53, 0.18);
 }
 
 .navbar-search-input-wrap:focus-within .navbar-search-icon-btn {
-  color: rgba(192, 78, 221, 0.7);
-  background: rgba(157, 78, 221, 0.2);
+  color: #e53935;
+  background: rgba(229, 57, 53, 0.18);
 }
 
 @media (max-width: 768px) {

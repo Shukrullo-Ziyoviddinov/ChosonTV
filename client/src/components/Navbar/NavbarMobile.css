@@ -175,8 +175,8 @@
   }
 
   .navbar-mobile-search-icon-btn:hover {
-    color: rgba(192, 78, 221, 0.9);
-    background: rgba(157, 78, 221, 0.2);
+    color: #e53935;
+    background: rgba(229, 57, 53, 0.18);
   }
 
   .navbar-mobile-search-input {

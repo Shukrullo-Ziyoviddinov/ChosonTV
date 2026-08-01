@@ -44,8 +44,8 @@
 }
 
 .language-modal-flag-item:hover {
-  background-color: rgba(157, 78, 221, 0.2);
-  border-color: rgba(157, 78, 221, 0.5);
+  background-color: rgba(229, 57, 53, 0.18);
+  border-color: #e53935;
 }
 
 .language-modal-flag-item.active {
