@@ -104,7 +104,7 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
             ) : (
               <h2 className="movies-title">{headerTitle || t(`movies.${sectionType}`)}</h2>
             )}
-            {headerCount === null && hasMoreMovies && (
+            {headerCount === null && (hasMoreMovies || (isLoading && moreTo)) && (
               isLoading ? (
                 <LoaderSkeleton variant="button" className="more-btn-skeleton" width="90px" height="36px" />
               ) : (

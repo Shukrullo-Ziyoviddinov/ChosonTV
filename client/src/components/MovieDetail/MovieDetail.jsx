@@ -633,6 +633,19 @@ const MovieDetail = () => {
 
   const movieMediaImg = getMovieMediaImg();
   const descriptionText = getDescriptionText();
+  const isAnonsMovie =
+    movie?.category === 'anonslar' ||
+    movie?.categoryName === 'anons' ||
+    (Array.isArray(movie?.typeCategory) && movie.typeCategory.includes('anonslar'));
+  const hasWatchVideo = Boolean(
+    (movie?.watchVideo && typeof movie.watchVideo === 'object'
+      ? movie.watchVideo.uz || movie.watchVideo.ru
+      : movie?.watchVideo) ||
+      movie?.watchUrl ||
+      movie?.videoUrl
+  );
+  // Anonsda tugma faqat qisqa video yuklangan bo'lsa ko'rinadi
+  const showWatchButton = !isAnonsMovie || hasWatchVideo;
   const descriptionData = getDescriptionData();
   const isNewFormat = descriptionData !== null;
 
@@ -792,17 +805,19 @@ const MovieDetail = () => {
                 )}
               </div>
 
-              <div className="movie-detail-buttons">
-                <button
-                  className="movie-detail-btn movie-detail-btn-primary"
-                  onClick={() => {
-                    setSelectedVideoUrl(null);
-                    setShowWatchModal(true);
-                  }}
-                >
-                  {t('detail.watch')}
-                </button>
-              </div>
+              {showWatchButton && (
+                <div className="movie-detail-buttons">
+                  <button
+                    className="movie-detail-btn movie-detail-btn-primary"
+                    onClick={() => {
+                      setSelectedVideoUrl(null);
+                      setShowWatchModal(true);
+                    }}
+                  >
+                    {t('detail.watch')}
+                  </button>
+                </div>
+              )}
 
               <div className="movie-detail-description">
                 <div className="movie-detail-description-header">

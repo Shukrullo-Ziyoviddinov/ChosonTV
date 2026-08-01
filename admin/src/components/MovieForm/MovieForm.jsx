@@ -2,8 +2,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { createMovie, fetchActorsForMovie, fetchMovies } from "../../services/movieApi";
 import {
   CATEGORY_NAME_OPTIONS,
+  CATEGORY_NAME_TO_SECTION,
   CATEGORY_OPTIONS,
   FILTER_GENRE_OPTIONS,
+  isAnonsCategory,
+  SECTION_TO_CATEGORY_NAME,
   TYPE_CATEGORY_OPTIONS,
 } from "../../constants/movieFormOptions";
 import UploadProgress from "../UploadProgress/UploadProgress";
@@ -205,6 +208,8 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
     return () => document.removeEventListener("mousedown", onOutside);
   }, []);
 
+  const isAnons = isAnonsCategory(form.categoryName, form.category);
+
   const canSave = useMemo(() => {
     return Boolean(
       form.title.uz.trim() &&
@@ -215,6 +220,26 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
         form.categoryName
     );
   }, [form]);
+
+  const selectCategoryName = (categoryName) => {
+    const section = CATEGORY_NAME_TO_SECTION[categoryName] || form.category;
+    patch({ categoryName, category: section || form.category });
+    setCategoryNameOpen(false);
+  };
+
+  const selectCategory = (category) => {
+    const categoryName = SECTION_TO_CATEGORY_NAME[category] || form.categoryName;
+    patch({ category, categoryName: categoryName || form.categoryName });
+    setCategoryOpen(false);
+  };
+
+  const buildTypeCategoryForSection = (section, previous = []) => {
+    const next = (Array.isArray(previous) ? previous : [])
+      .filter((item) => item && item !== "anonslar" && item !== "anons" && item !== section);
+    if (section) next.push(section);
+    if (section === "koreaDrama" && !next.includes("korea")) next.push("korea");
+    return next;
+  };
 
   const setUpload = (key, patch) => {
     setUploadState((prev) => ({ ...prev, [key]: { ...(prev[key] || {}), ...patch } }));
@@ -310,6 +335,17 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
     setError("");
     setSaving(true);
     try {
+      const section =
+        CATEGORY_NAME_TO_SECTION[form.categoryName] || form.category || "";
+      const categoryName =
+        form.categoryName || SECTION_TO_CATEGORY_NAME[section] || "";
+      // Anons uchun watchVideo bo'sh bo'lishi mumkin; boshqa bo'limga o'tkazganda
+      // video qo'shilgan bo'lsa saqlanadi, eski ma'lumotlar o'chirilmaydi.
+      const watchVideo = {
+        uz: form.watchVideo?.uz || "",
+        ru: form.watchVideo?.ru || "",
+      };
+
       const payload = {
         id: toNumberOrDefault(form.movieId, 0),
         movieId: toNumberOrDefault(form.movieId, 0),
@@ -322,14 +358,14 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
         ratingKinopoisk: form.ratingKinopoisk === "" ? 0 : Number(form.ratingKinopoisk),
         ratingNetflix: form.ratingNetflix === "" ? 0 : Number(form.ratingNetflix),
         ageRestriction: toNumberOrDefault(form.ageRestriction, 0),
-        categoryName: form.categoryName,
-        category: form.category,
+        categoryName,
+        category: section,
         genre: form.genre,
         description: form.description,
-        watchVideo: form.watchVideo,
+        watchVideo,
         seasons: form.seasons,
         actors: form.actors,
-        typeCategory: form.typeCategory,
+        typeCategory: buildTypeCategoryForSection(section, form.typeCategory),
         filterCountry: form.filterCountry,
         filterGenre: form.filterGenre,
         like: String(form.like || ""),
@@ -412,12 +448,23 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
       })}
       </div>
 
-      <h4 className="movie-form__section">Tomosha videolari</h4>
+      <h4 className="movie-form__section">
+        Tomosha videolari
+        {isAnons ? (
+          <span className="movie-form__optional-hint"> (ixtiyoriy — anons)</span>
+        ) : null}
+      </h4>
       <div className="movie-form__section-card movie-form__upload-grid">
+      {isAnons && (
+        <p className="movie-form__hint">
+          Anons bo‘limida video majburiy emas. Keyinroq video qo‘shib boshqa
+          bo‘limga o‘tkazsangiz, kino anonsdan chiqib yangi bo‘limga tushadi.
+        </p>
+      )}
       {["watchVideo.uz", "watchVideo.ru"].map((key) => {
         return renderUploadField({
           keyName: key,
-          label: key,
+          label: isAnons ? `${key} (ixtiyoriy)` : key,
           accept: "video/*",
           onFile: (file) =>
             onPickFile(
@@ -559,12 +606,10 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
                   key={item}
                   type="button"
                   className={`movie-form__option-btn${form.categoryName === item ? " is-active" : ""}`}
-                  onClick={() => {
-                    patch({ categoryName: item });
-                    setCategoryNameOpen(false);
-                  }}
+                  onClick={() => selectCategoryName(item)}
                 >
                   {item}
+                  {item === "anons" ? " → anonslar" : ""}
                 </button>
               ))}
             </div>
@@ -586,10 +631,7 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
                   key={item}
                   type="button"
                   className={`movie-form__option-btn${form.category === item ? " is-active" : ""}`}
-                  onClick={() => {
-                    patch({ category: item });
-                    setCategoryOpen(false);
-                  }}
+                  onClick={() => selectCategory(item)}
                 >
                   {item}
                 </button>

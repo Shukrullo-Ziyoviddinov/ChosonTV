@@ -12,6 +12,24 @@
   color: #2a2d37;
 }
 
+.movie-form__optional-hint {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.movie-form__hint {
+  grid-column: 1 / -1;
+  margin: 0 0 4px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fff8e6;
+  border: 1px solid #f0e0b2;
+  color: #6b5a2a;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
 .movie-form__section-card {
   border: 1px solid #e1e6f2;
   background: #fbfcff;

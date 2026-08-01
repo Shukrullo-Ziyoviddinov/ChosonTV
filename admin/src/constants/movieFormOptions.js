@@ -14,7 +14,7 @@ export const FILTER_GENRE_OPTIONS = [
 export const TYPE_CATEGORY_OPTIONS = [
   "action",
   "drama",
-  "hollywood",
+  "thriller",
   "comedy",
   "hindi",
   "bollywood",
@@ -27,23 +27,34 @@ export const TYPE_CATEGORY_OPTIONS = [
   "usa xitoy",
 ];
 
-export const CATEGORY_NAME_OPTIONS = [
-  "koreaDrama",
-  "kinolar",
-  "worldMovies",
-  "animations",
-  "turkishSeries",
-  "russianMovies",
-  "tvSeries",
-  "actionMovies",
-  "horrorMovies",
-  "anime",
-  "adventureMovies",
-  "romanceMovies",
-  "retroMovies",
-  "uzbekMovies",
-  "anonslar",
-];
+/** DB / catalog `categoryName` qiymatlari (moviesCatalogTransform bilan mos) */
+export const CATEGORY_NAME_TO_SECTION = {
+  russianMovie: "russianMovies",
+  retroMovie: "retroMovies",
+  romanceMovie: "romanceMovies",
+  turkishMovie: "turkishSeries",
+  worldMovie: "worldMovies",
+  uzbekMovie: "uzbekMovies",
+  tvSeries: "tvSeries",
+  horrorMovie: "horrorMovies",
+  koreaDrama: "koreaDrama",
+  kinolar: "kinolar",
+  anime: "anime",
+  adventureMovie: "adventureMovies",
+  anons: "anonslar",
+  actionMovie: "actionMovies",
+  animation: "animations",
+  animationMovie: "animations",
+  multFilm: "animations",
+};
+
+export const CATEGORY_NAME_OPTIONS = Object.keys(CATEGORY_NAME_TO_SECTION).filter(
+  (name, index, arr) => {
+    // animations uchun asosiy: animation (dublikatlarni olib tashlash)
+    if (name === "animationMovie" || name === "multFilm") return false;
+    return arr.indexOf(name) === index;
+  }
+);
 
 export const CATEGORY_OPTIONS = [
   "russianMovies",
@@ -62,3 +73,15 @@ export const CATEGORY_OPTIONS = [
   "actionMovies",
   "animations",
 ];
+
+/** Section → asosiy categoryName */
+export const SECTION_TO_CATEGORY_NAME = Object.entries(CATEGORY_NAME_TO_SECTION).reduce(
+  (acc, [categoryName, section]) => {
+    if (!acc[section]) acc[section] = categoryName;
+    return acc;
+  },
+  {}
+);
+
+export const isAnonsCategory = (categoryName, category) =>
+  categoryName === "anons" || category === "anonslar";

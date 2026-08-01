@@ -1,21 +1,32 @@
 const CATEGORY_NAME_TO_SECTION = {
   russianMovie: "russianMovies",
+  russianMovies: "russianMovies",
   retroMovie: "retroMovies",
+  retroMovies: "retroMovies",
   romanceMovie: "romanceMovies",
+  romanceMovies: "romanceMovies",
   turkishMovie: "turkishSeries",
+  turkishSeries: "turkishSeries",
   worldMovie: "worldMovies",
+  worldMovies: "worldMovies",
   uzbekMovie: "uzbekMovies",
+  uzbekMovies: "uzbekMovies",
   tvSeries: "tvSeries",
   horrorMovie: "horrorMovies",
+  horrorMovies: "horrorMovies",
   koreaDrama: "koreaDrama",
   kinolar: "kinolar",
   anime: "anime",
   adventureMovie: "adventureMovies",
+  adventureMovies: "adventureMovies",
   anons: "anonslar",
+  anonslar: "anonslar",
   actionMovie: "actionMovies",
+  actionMovies: "actionMovies",
   animation: "animations",
   animationMovie: "animations",
   multFilm: "animations",
+  animations: "animations",
 };
 
 const SECTION_TO_CATEGORY_NAMES = Object.entries(CATEGORY_NAME_TO_SECTION).reduce((acc, [categoryName, section]) => {
@@ -29,6 +40,10 @@ const { buildPersonalizedRecommendations } = require("../services/recommendation
 const resolveSectionKey = (movie) => {
   if (movie?.categoryName && CATEGORY_NAME_TO_SECTION[movie.categoryName]) {
     return CATEGORY_NAME_TO_SECTION[movie.categoryName];
+  }
+  // Fallback: to'g'ridan-to'g'ri category (section) saqlangan bo'lsa
+  if (movie?.category && CATEGORY_NAME_TO_SECTION[movie.category]) {
+    return CATEGORY_NAME_TO_SECTION[movie.category];
   }
   return null;
 };

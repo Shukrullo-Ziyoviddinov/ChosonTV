@@ -3,10 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
 import ShowMoreButton from '../ShowMoreButton/ShowMoreButton';
+import LoaderSkeleton from '../LoaderSkeleton/LoaderSkeleton';
 import { useMoviesCatalog, HOME_SECTION_LIMIT } from '../../context/MoviesCatalogContext';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
 import { fetchMoviesCatalog } from '../../api/moviesCatalogApi';
 import './SearchModalAnons.css';
+
+const PLACEHOLDER_COUNT = 6;
 
 const SearchModalAnons = ({ onAnonsClick }) => {
   const { t, i18n } = useTranslation();
@@ -14,11 +17,13 @@ const SearchModalAnons = ({ onAnonsClick }) => {
   const { contentLang } = useContentLanguage();
   const { sections, allMovies } = useMoviesCatalog();
   const [anonsPreview, setAnonsPreview] = useState([]);
+  const [anonsLoading, setAnonsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
     const load = async () => {
       try {
+        setAnonsLoading(true);
         const data = await fetchMoviesCatalog({
           page: 1,
           limit: HOME_SECTION_LIMIT,
@@ -27,6 +32,8 @@ const SearchModalAnons = ({ onAnonsClick }) => {
         if (!cancelled) setAnonsPreview(data.allMovies || []);
       } catch (_error) {
         if (!cancelled) setAnonsPreview([]);
+      } finally {
+        if (!cancelled) setAnonsLoading(false);
       }
     };
     load();
@@ -50,6 +57,7 @@ const SearchModalAnons = ({ onAnonsClick }) => {
     });
     return Array.from(map.values()).slice(0, HOME_SECTION_LIMIT);
   }, [anonsPreview, sections, allMovies]);
+
   const getTitle = (item) => {
     if (item.title && typeof item.title === 'object') {
       return item.title[contentLang] || item.title.uz || item.title.ru;
@@ -74,38 +82,69 @@ const SearchModalAnons = ({ onAnonsClick }) => {
     navigate('/category/anonslar');
   };
 
+  const isLoading = anonsLoading && anonslar.length === 0;
+
+  if (!isLoading && anonslar.length === 0) return null;
+
   return (
     <div className="search-modal-anons">
       <div className="search-modal-anons-header">
-        <h3 className="search-modal-anons-title">
-          {i18n.language === 'ru' ? 'Скоро' : 'Tez kunda'}
-        </h3>
-        <ShowMoreButton to="/category/anonslar" onClick={handleMoreClick} className="search-modal-anons-more-btn" />
+        {isLoading ? (
+          <>
+            <LoaderSkeleton
+              variant="text"
+              className="search-modal-anons-title-skeleton"
+              width={120}
+              height={22}
+            />
+            <LoaderSkeleton
+              variant="button"
+              className="search-modal-anons-more-skeleton"
+              width={72}
+              height={28}
+            />
+          </>
+        ) : (
+          <>
+            <h3 className="search-modal-anons-title">
+              {i18n.language === 'ru' ? 'Скоро' : 'Tez kunda'}
+            </h3>
+            <ShowMoreButton to="/category/anonslar" onClick={handleMoreClick} className="search-modal-anons-more-btn" />
+          </>
+        )}
       </div>
       <HorizontalScroll scrollAmount={120}>
-        {anonslar.map((item) => (
-          <div
-            key={item.id}
-            className="search-modal-anons-item"
-            onClick={() => handleClick(item)}
-          >
-            <div className="search-modal-anons-item-image-wrapper">
-              <img
-                src={getImg(item)}
-                alt={getTitle(item)}
-                className="search-modal-anons-item-image"
-              />
-              <span className="search-modal-anons-badge search-modal-anons-badge-soon">
-                {t('searchModal.tezOrada', 'Tez orada')}
-              </span>
-              {item.ageRestriction != null && (
-                <span className="search-modal-anons-badge search-modal-anons-badge-age">
-                  {item.ageRestriction}+
-                </span>
-              )}
-            </div>
-          </div>
-        ))}
+        {isLoading
+          ? Array.from({ length: PLACEHOLDER_COUNT }).map((_, index) => (
+              <div key={`anons-skeleton-${index}`} className="search-modal-anons-item">
+                <div className="search-modal-anons-item-image-wrapper search-modal-anons-item-skeleton">
+                  <LoaderSkeleton variant="image" />
+                </div>
+              </div>
+            ))
+          : anonslar.map((item) => (
+              <div
+                key={item.id}
+                className="search-modal-anons-item"
+                onClick={() => handleClick(item)}
+              >
+                <div className="search-modal-anons-item-image-wrapper">
+                  <img
+                    src={getImg(item)}
+                    alt={getTitle(item)}
+                    className="search-modal-anons-item-image"
+                  />
+                  <span className="search-modal-anons-badge search-modal-anons-badge-soon">
+                    {t('searchModal.tezOrada', 'Tez orada')}
+                  </span>
+                  {item.ageRestriction != null && (
+                    <span className="search-modal-anons-badge search-modal-anons-badge-age">
+                      {item.ageRestriction}+
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
       </HorizontalScroll>
     </div>
   );

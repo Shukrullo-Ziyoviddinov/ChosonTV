@@ -110,6 +110,12 @@ router.post("/", async (req, res, next) => {
       return fail(res, "homeImg.uz yoki homeImg.ru majburiy.", 400);
     }
 
+    // watchVideo ixtiyoriy (ayniqsa anons / tez kunda kinolar uchun)
+    const watchVideo = {
+      uz: payload?.watchVideo?.uz || "",
+      ru: payload?.watchVideo?.ru || "",
+    };
+
     let nextMovieId = Number(payload.movieId ?? payload.id);
     if (!Number.isFinite(nextMovieId) || nextMovieId <= 0) {
       const last = await Movie.findOne().sort({ movieId: -1 }).select("movieId").lean();
@@ -118,6 +124,7 @@ router.post("/", async (req, res, next) => {
 
     const created = await Movie.create({
       ...payload,
+      watchVideo,
       movieId: nextMovieId,
       id: nextMovieId,
       filterGenre: Array.isArray(payload.filterGenre) ? payload.filterGenre : [],
@@ -139,9 +146,17 @@ router.put("/:id", async (req, res, next) => {
     if (!Number.isFinite(movieId)) {
       return fail(res, "Noto'g'ri movieId.", 400);
     }
+    const body = { ...(req.body || {}) };
+    // watchVideo bo'sh bo'lsa ham xato bermaslik — anonsdan boshqa bo'limga o'tkazish mumkin
+    if (body.watchVideo != null) {
+      body.watchVideo = {
+        uz: body.watchVideo?.uz || "",
+        ru: body.watchVideo?.ru || "",
+      };
+    }
     const updated = await Movie.findOneAndUpdate(
       { movieId },
-      { $set: req.body || {} },
+      { $set: body },
       { new: true, runValidators: false }
     ).lean();
     if (!updated) {
