@@ -598,10 +598,23 @@
   overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.2);
   transition: border-color 0.3s ease;
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .movie-detail-episode-item:hover .movie-detail-episode-media {
   border-color: rgba(255, 255, 255, 0.4);
+}
+
+.movie-detail-episode-video-skeleton {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.movie-detail-episode-video-skeleton .loader-skeleton {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0;
 }
 
 .movie-detail-episode-video {
@@ -609,6 +622,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.movie-detail-episode-video.is-ready {
+  opacity: 1;
 }
 
 .movie-detail-episode-meta {

@@ -103,10 +103,25 @@ const MovieDetail = () => {
   const commentsModalRef = useRef(null);
   const [commentsCount, setCommentsCount] = useState(0);
   const [movieActors, setMovieActors] = useState([]);
-  const [episodeDurations, setEpisodeDurations] = useState({});
+  const [episodeMeta, setEpisodeMeta] = useState({});
   const modalHeaderRef = React.useRef(null);
   const isDraggingRef = React.useRef(false);
   const modalStartYRef = React.useRef(0);
+
+  const updateEpisodeMeta = (key, patch) => {
+    setEpisodeMeta((prev) => {
+      const current = prev[key] || {};
+      const resolved = typeof patch === 'function' ? patch(current) : patch;
+      const next = { ...current, ...resolved };
+      if (
+        current.minutes === next.minutes &&
+        current.videoReady === next.videoReady
+      ) {
+        return prev;
+      }
+      return { ...prev, [key]: next };
+    });
+  };
 
   useEffect(() => {
     if (movie) addMovie(movie);
@@ -857,14 +872,36 @@ const MovieDetail = () => {
                           {(season.episodes || []).map((ep, epIndex) => {
                             const videoSrc = ep[seasonsLang];
                             if (!videoSrc || videoSrc === 'none') return null;
-                            const durationKey = `${season.seasonNumber}-${epIndex}-${seasonsLang}-${videoSrc}`;
-                            const durationMin = episodeDurations[durationKey];
+                            const episodeKey = `${season.seasonNumber}-${epIndex}-${seasonsLang}-${videoSrc}`;
+                            const meta = episodeMeta[episodeKey];
+                            const durationMin = meta?.minutes;
+                            const isEpisodeReady = Boolean(meta?.videoReady && durationMin != null);
                             const episodeLabel = i18n.language === 'ru'
                               ? `${epIndex + 1} серия`
                               : `${epIndex + 1} qisim`;
-                            const durationLabel = durationMin != null
+                            const durationLabel = durationMin > 0
                               ? (i18n.language === 'ru' ? `${durationMin} мин` : `${durationMin} daqiqa`)
                               : null;
+
+                            const markDuration = (videoEl) => {
+                              const d = videoEl?.duration;
+                              if (!Number.isFinite(d) || d <= 0) return;
+                              updateEpisodeMeta(episodeKey, { minutes: Math.max(1, Math.round(d / 60)) });
+                            };
+
+                            const markVideoReady = (videoEl) => {
+                              updateEpisodeMeta(episodeKey, (current) => {
+                                const d = videoEl?.duration;
+                                const minutes = Number.isFinite(d) && d > 0
+                                  ? Math.max(1, Math.round(d / 60))
+                                  : current.minutes;
+                                return {
+                                  ...(minutes != null ? { minutes } : {}),
+                                  videoReady: true,
+                                };
+                              });
+                            };
+
                             return (
                               <div
                                 key={epIndex}
@@ -874,6 +911,7 @@ const MovieDetail = () => {
                                   setShowWatchModal(true);
                                 }}
                                 onMouseEnter={(e) => {
+                                  if (!isEpisodeReady) return;
                                   const v = e.currentTarget.querySelector('video');
                                   if (v) v.play().catch(() => {});
                                 }}
@@ -883,33 +921,34 @@ const MovieDetail = () => {
                                 }}
                               >
                                 <div className="movie-detail-episode-media">
+                                  {!isEpisodeReady && (
+                                    <LoaderSkeleton
+                                      variant="image"
+                                      className="movie-detail-episode-video-skeleton"
+                                      width="100%"
+                                      height="100%"
+                                    />
+                                  )}
                                   <video
                                     src={videoSrc}
-                                    preload="metadata"
+                                    preload="auto"
                                     muted
                                     loop
                                     playsInline
-                                    className="movie-detail-episode-video"
-                                    onLoadedMetadata={(e) => {
-                                      const d = e.currentTarget.duration;
-                                      if (!Number.isFinite(d) || d <= 0) return;
-                                      const minutes = Math.max(1, Math.round(d / 60));
-                                      setEpisodeDurations((prev) => (
-                                        prev[durationKey] === minutes ? prev : { ...prev, [durationKey]: minutes }
-                                      ));
-                                    }}
+                                    className={`movie-detail-episode-video${isEpisodeReady ? ' is-ready' : ''}`}
+                                    onLoadedMetadata={(e) => markDuration(e.currentTarget)}
+                                    onLoadedData={(e) => markVideoReady(e.currentTarget)}
+                                    onCanPlay={(e) => markVideoReady(e.currentTarget)}
                                     onError={() => {
-                                      setEpisodeDurations((prev) => (
-                                        prev[durationKey] != null ? prev : { ...prev, [durationKey]: 0 }
-                                      ));
+                                      updateEpisodeMeta(episodeKey, { minutes: 0, videoReady: true });
                                     }}
                                   />
                                 </div>
                                 <div className="movie-detail-episode-meta">
-                                  {durationMin != null ? (
+                                  {isEpisodeReady ? (
                                     <>
                                       <span className="movie-detail-episode-number">{episodeLabel}</span>
-                                      {durationMin > 0 && (
+                                      {durationLabel && (
                                         <span className="movie-detail-episode-duration">{durationLabel}</span>
                                       )}
                                     </>
