@@ -1,48 +1,15 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { registerUser, loginUser } from '../../api/authApi';
 import { saveAuthSession } from '../../utils/authStorage';
 import { useToast } from '../../context/ToastContext';
 import './SiginModal.css';
 
-const loadImageFromFile = (file) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.onerror = () => reject(new Error('Image load failed'));
-      img.src = reader.result;
-    };
-    reader.onerror = () => reject(new Error('File read failed'));
-    reader.readAsDataURL(file);
-  });
-
-const compressAvatar = async (file) => {
-  const image = await loadImageFromFile(file);
-  const maxSize = 720;
-  const scale = Math.min(1, maxSize / Math.max(image.width, image.height));
-  const targetWidth = Math.max(1, Math.round(image.width * scale));
-  const targetHeight = Math.max(1, Math.round(image.height * scale));
-
-  const canvas = document.createElement('canvas');
-  canvas.width = targetWidth;
-  canvas.height = targetHeight;
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) {
-    throw new Error('Canvas context unavailable');
-  }
-  ctx.drawImage(image, 0, 0, targetWidth, targetHeight);
-  return canvas.toDataURL('image/jpeg', 0.78);
-};
-
 const SiginModal = ({ onClose, onSuccess }) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
   const [mode, setMode] = useState('register');
   const [registerForm, setRegisterForm] = useState({
-    avatar: null,
     firstName: '',
     lastName: '',
     phone: '',
@@ -53,14 +20,11 @@ const SiginModal = ({ onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [showRegisterPassword, setShowRegisterPassword] = useState(false);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
-  const fileInputRef = useRef(null);
 
   const isRegister = mode === 'register';
-  const MAX_AVATAR_SIZE_BYTES = 2 * 1024 * 1024;
 
   const registerValidation = useMemo(
     () => ({
-      avatar: !registerForm.avatar ? t('auth.validation.avatar') : '',
       firstName: !registerForm.firstName.trim() ? t('auth.validation.firstName') : '',
       lastName: !registerForm.lastName.trim() ? t('auth.validation.lastName') : '',
       phone: !registerForm.phone.trim() ? t('auth.validation.phone') : '',
@@ -82,30 +46,6 @@ const SiginModal = ({ onClose, onSuccess }) => {
     setErrors({});
   };
 
-  const handleAvatarSelect = () => fileInputRef.current?.click();
-
-  const handleAvatarChange = async (e) => {
-    const file = e.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      if (file.size > MAX_AVATAR_SIZE_BYTES) {
-        const message = t('auth.validation.avatarSize');
-        setErrors((prev) => ({ ...prev, avatar: message }));
-        showToast(message, 'error');
-        e.target.value = '';
-        return;
-      }
-
-      try {
-        const compressedAvatar = await compressAvatar(file);
-        setRegisterForm((prev) => ({ ...prev, avatar: compressedAvatar || null }));
-        setErrors((prev) => ({ ...prev, avatar: '' }));
-      } catch (_error) {
-        showToast(t('auth.errorFallback'), 'error');
-      }
-    }
-    e.target.value = '';
-  };
-
   const handleSubmitRegister = async (e) => {
     e.preventDefault();
     const nextErrors = registerValidation;
@@ -120,7 +60,7 @@ const SiginModal = ({ onClose, onSuccess }) => {
         lastName: registerForm.lastName.trim(),
         phone: registerForm.phone.trim(),
         password: registerForm.password.trim(),
-        avatar: registerForm.avatar,
+        avatar: null,
       });
       saveAuthSession(result);
       showToast(t('auth.registerSuccess'), 'success');
@@ -172,13 +112,17 @@ const SiginModal = ({ onClose, onSuccess }) => {
         onClick={onClose}
         style={{
           backgroundImage:
-            "linear-gradient(rgba(4, 8, 20, 0.72), rgba(4, 8, 20, 0.72)), url('/img/profilfoto.jpg')",
+            "linear-gradient(rgba(18, 4, 6, 0.84), rgba(28, 6, 8, 0.88)), url('/img/profilfoto.jpg')",
         }}
       />
       <div className="sigin-modal" onClick={(e) => e.stopPropagation()}>
         <div className="sigin-modal-header">
           <div className="sigin-modal-header-logo">
-            <img src="/img/KinoMaxLogo_preview_rev_1.png" alt="KinoMax" className="sigin-modal-header-logo-img" />
+            <img
+              src="/img/chosontv_preview_rev_1.png"
+              alt="CHOSON.TV"
+              className="sigin-modal-header-logo-img"
+            />
           </div>
           <button className="sigin-modal-close" onClick={onClose} aria-label={t('detail.close')}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -207,17 +151,6 @@ const SiginModal = ({ onClose, onSuccess }) => {
 
         {isRegister ? (
           <form className="sigin-modal-form" onSubmit={handleSubmitRegister}>
-            <input ref={fileInputRef} type="file" accept="image/*" className="sigin-modal-hidden-input" onChange={handleAvatarChange} />
-
-            <button type="button" className="sigin-modal-avatar-picker" onClick={handleAvatarSelect}>
-              {registerForm.avatar ? (
-                <img src={registerForm.avatar} alt="" className="sigin-modal-avatar-img" />
-              ) : (
-                <span>{t('auth.uploadImage')}</span>
-              )}
-            </button>
-            {errors.avatar ? <span className="sigin-modal-error">{errors.avatar}</span> : null}
-
             <input
               type="text"
               placeholder={t('profile.name')}
