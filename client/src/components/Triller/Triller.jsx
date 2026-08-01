@@ -54,7 +54,27 @@ const Triller = () => {
           {loading && items.length === 0
             ? Array.from({ length: PLACEHOLDER_COUNT }).map((_, index) => (
                 <div key={`triller-skel-${index}`} className="triller-cart-skeleton">
-                  <LoaderSkeleton variant="image" />
+                  <div className="triller-cart-skeleton-media">
+                    <LoaderSkeleton variant="image" />
+                  </div>
+                  <LoaderSkeleton
+                    variant="text"
+                    className="triller-cart-skeleton-name"
+                    width="75%"
+                    height={18}
+                  />
+                  <LoaderSkeleton
+                    variant="text"
+                    className="triller-cart-skeleton-description"
+                    width="100%"
+                    height={14}
+                  />
+                  <LoaderSkeleton
+                    variant="text"
+                    className="triller-cart-skeleton-description triller-cart-skeleton-description--second"
+                    width="88%"
+                    height={14}
+                  />
                 </div>
               ))
             : items.map((item) => (

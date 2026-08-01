@@ -56,11 +56,20 @@ const SimilarMovies = ({ currentMovie }) => {
     return (
       <div className="similar-movies similar-movies-skeleton">
         <LoaderSkeleton variant="similar-movies-title" className="similar-movies-title-skeleton" width={200} height={28} />
-        <div style={{ display: 'flex', gap: '1rem', overflow: 'hidden' }}>
-          <LoaderSkeleton variant="similar-movies-item-image" className="similar-movies-item-skeleton" width={150} />
-          <LoaderSkeleton variant="similar-movies-item-image" className="similar-movies-item-skeleton" width={150} />
-          <LoaderSkeleton variant="similar-movies-item-image" className="similar-movies-item-skeleton" width={150} />
-          <LoaderSkeleton variant="similar-movies-item-image" className="similar-movies-item-skeleton" width={150} />
+        <div className="similar-movies-skeleton-row">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <div key={`similar-skel-${index}`} className="similar-movies-item similar-movies-item-skeleton-card">
+              <div className="similar-movies-item-image-wrapper">
+                <LoaderSkeleton variant="similar-movies-item-image" className="similar-movies-item-skeleton" />
+              </div>
+              <LoaderSkeleton
+                variant="text"
+                className="similar-movies-item-title-skeleton"
+                width="85%"
+                height={16}
+              />
+            </div>
+          ))}
         </div>
       </div>
     );

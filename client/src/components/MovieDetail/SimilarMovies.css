@@ -150,6 +150,45 @@
   white-space: nowrap;
 }
 
+.similar-movies-skeleton-row {
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+.similar-movies-item-skeleton-card {
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.similar-movies-item-skeleton-card .similar-movies-item-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 140%;
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.similar-movies-item-skeleton-card .similar-movies-item-skeleton,
+.similar-movies-item-skeleton-card .loader-skeleton--similar-movies-item-image {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 8px;
+}
+
+.similar-movies-item-title-skeleton {
+  margin-top: 0.55rem;
+  display: block;
+}
+
+.similar-movies-item-title-skeleton .loader-skeleton {
+  height: 1.1rem;
+  border-radius: 6px;
+}
+
 @media (max-width: 768px) {
   .similar-movies-item {
     width: 140px;
@@ -179,5 +218,9 @@
 @media (max-width: 600px) {
   .similar-movies-item-title {
     font-size: 1rem;
+  }
+
+  .similar-movies-item-title-skeleton .loader-skeleton {
+    height: 1rem;
   }
 }

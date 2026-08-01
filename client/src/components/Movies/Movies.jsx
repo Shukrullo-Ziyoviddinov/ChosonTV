@@ -85,8 +85,12 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
           </>
         )}
       </div>
-      {!isLoading && getMovieTitle(movie) && (
-        <p className="movies-item-title">{getMovieTitle(movie)}</p>
+      {isLoading ? (
+        <LoaderSkeleton variant="text" className="movies-item-title-skeleton" width="85%" height={16} />
+      ) : (
+        getMovieTitle(movie) && (
+          <p className="movies-item-title">{getMovieTitle(movie)}</p>
+        )
       )}
     </div>
   );
@@ -125,6 +129,7 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
                       <div className="movies-item-image-wrapper">
                         <LoaderSkeleton variant="image" />
                       </div>
+                      <LoaderSkeleton variant="text" className="movies-item-title-skeleton" width="85%" height={16} />
                     </div>
                   ))
                 : displayMovies.map((movie, index) => renderMovieItem(movie, index))}
@@ -140,6 +145,7 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
                       <div className="movies-item-image-wrapper">
                         <LoaderSkeleton variant="image" />
                       </div>
+                      <LoaderSkeleton variant="text" className="movies-item-title-skeleton" width="85%" height={16} />
                     </div>
                   ))
                 : displayMovies.map((movie, index) => renderMovieItem(movie, index))}
