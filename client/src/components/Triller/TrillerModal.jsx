@@ -192,30 +192,32 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
           </button>
         </div>
 
-        <div className="triller-modal-video-wrap">
-          <video
-            key={activeKey}
-            ref={videoRef}
-            className="triller-modal-video"
-            src={item?.trillerVideo ? encodeURI(item.trillerVideo) : ''}
-            playsInline
-            preload="auto"
-            onClick={() => setShowControls((v) => !v)}
-          />
-          <TrillerVideoControls
-            videoRef={videoRef}
-            isPlaying={isPlaying}
-            onPlayPause={handlePlayPause}
-            show={showControls}
-            onToggle={() => setShowControls((v) => !v)}
-            onInteraction={() => setShowControls(true)}
-          />
-        </div>
+        <div className="triller-modal-content">
+          <div className="triller-modal-main">
+            <div className="triller-modal-video-wrap">
+              <video
+                key={activeKey}
+                ref={videoRef}
+                className="triller-modal-video"
+                src={item?.trillerVideo ? encodeURI(item.trillerVideo) : ''}
+                playsInline
+                preload="auto"
+                onClick={() => setShowControls((v) => !v)}
+              />
+              <TrillerVideoControls
+                videoRef={videoRef}
+                isPlaying={isPlaying}
+                onPlayPause={handlePlayPause}
+                show={showControls}
+                onToggle={() => setShowControls((v) => !v)}
+                onInteraction={() => setShowControls(true)}
+              />
+            </div>
 
-        <div className="triller-modal-body">
-          <div className="triller-modal-meta">
-            {name ? <h3 className="triller-modal-name">{name}</h3> : null}
-            {description ? <p className="triller-modal-description">{description}</p> : null}
+            <div className="triller-modal-meta">
+              {name ? <h3 className="triller-modal-name">{name}</h3> : null}
+              {description ? <p className="triller-modal-description">{description}</p> : null}
+            </div>
           </div>
 
           {listItems.length > 0 ? (

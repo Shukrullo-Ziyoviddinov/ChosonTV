@@ -103,6 +103,18 @@
   background: #000;
 }
 
+.triller-modal-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.triller-modal-main {
+  flex-shrink: 0;
+}
+
 .triller-modal-meta {
   padding: 14px 16px 10px;
 }
@@ -122,19 +134,15 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
-.triller-modal-body {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 16px;
-}
-
 .triller-modal-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 4px 12px 8px;
+  padding: 4px 12px 16px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .triller-modal-list-item {
@@ -261,7 +269,7 @@
   }
 }
 
-/* Desktop: chiziqcha yo'q, X bor */
+/* Desktop: chap — video+meta, o'ng — list; X bor */
 @media (min-width: 769px) {
   .triller-modal {
     align-items: center;
@@ -269,6 +277,7 @@
   }
 
   .triller-modal-sheet {
+    width: min(980px, 100%);
     border-radius: 16px;
     max-height: min(88vh, 820px);
     animation: triller-desktop-in 0.22s ease;
@@ -308,6 +317,34 @@
     height: 36px;
     background: rgba(0, 0, 0, 0.55);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  }
+
+  .triller-modal-content {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .triller-modal-main {
+    flex: 1 1 58%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .triller-modal-video-wrap {
+    width: 100%;
+  }
+
+  .triller-modal-meta {
+    padding: 14px 16px 18px;
+  }
+
+  .triller-modal-list {
+    flex: 1 1 42%;
+    min-width: 280px;
+    max-width: 420px;
+    padding: 12px 12px 16px;
   }
 
   .triller-modal-name {
