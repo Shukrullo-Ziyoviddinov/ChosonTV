@@ -80,12 +80,45 @@
   color: #ffffff;
 }
 
+.actors-page-desc-row {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
 .actors-page-desc {
   margin: 0;
+  flex: 1;
+  min-width: 0;
   font-size: 1rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.85);
-  min-height: 1.6em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.actors-page-desc-more {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 0 0 0.1rem;
+  margin: 0;
+  color: #ffc107;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.actors-page-desc-more:hover {
+  color: #e6ac00;
+  text-decoration: underline;
 }
 
 /* Actors page skeleton */

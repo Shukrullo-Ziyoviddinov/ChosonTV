@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { fetchActorById } from '../api/actorsApi';
@@ -6,6 +6,7 @@ import { useMoviesCatalog } from '../context/MoviesCatalogContext';
 import { useContentLanguage } from '../context/ContentLanguageContext';
 import LoaderSkeleton from '../components/LoaderSkeleton/LoaderSkeleton';
 import Movies from '../components/Movies/Movies';
+import ActorsInfoModal from '../components/Actors/ActorsInfoModal';
 import './ActorsPage.css';
 
 const ActorsPage = () => {
@@ -16,6 +17,9 @@ const ActorsPage = () => {
   const { allMovies, isLoading: catalogLoading, ensureFullCatalog } = useMoviesCatalog();
   const [actorsLoading, setActorsLoading] = useState(true);
   const [actor, setActor] = useState(null);
+  const [showInfoModal, setShowInfoModal] = useState(false);
+  const [descOverflows, setDescOverflows] = useState(false);
+  const descRef = useRef(null);
 
   useEffect(() => {
     ensureFullCatalog();
@@ -43,9 +47,31 @@ const ActorsPage = () => {
   }, [id]);
 
   const actorMovies = actor
-    ? allMovies.filter(movie => movie.actors?.includes(actor.actorId))
+    ? allMovies.filter((movie) => movie.actors?.includes(actor.actorId))
     : [];
   const isPageLoading = actorsLoading || catalogLoading;
+
+  const actorName = actor?.name?.[contentLang] || actor?.name?.uz || actor?.name?.ru || '';
+  const actorInfo = actor?.info?.[contentLang] || actor?.info?.uz || actor?.info?.ru || '';
+
+  const measureDescOverflow = useCallback(() => {
+    const el = descRef.current;
+    if (!el) {
+      setDescOverflows(false);
+      return;
+    }
+    setDescOverflows(el.scrollHeight > el.clientHeight + 1);
+  }, []);
+
+  useEffect(() => {
+    if (isPageLoading || !actorInfo) {
+      setDescOverflows(false);
+      return undefined;
+    }
+    measureDescOverflow();
+    window.addEventListener('resize', measureDescOverflow);
+    return () => window.removeEventListener('resize', measureDescOverflow);
+  }, [actorInfo, isPageLoading, measureDescOverflow, contentLang]);
 
   if (!isPageLoading && !actor) {
     return (
@@ -58,8 +84,7 @@ const ActorsPage = () => {
     );
   }
 
-  const actorName = actor?.name?.[contentLang] || actor?.name?.uz || actor?.name?.ru || '';
-  const actorInfo = actor?.info?.[contentLang] || actor?.info?.uz || actor?.info?.ru || '';
+  const moreLabel = i18n.language === 'uz' ? 'yana' : 'ещё';
 
   return (
     <div className="actors-page">
@@ -94,7 +119,20 @@ const ActorsPage = () => {
               </div>
               <div className="actors-page-info">
                 <h1 className="actors-page-name">{actorName}</h1>
-                <p className="actors-page-desc">{actorInfo}</p>
+                <div className="actors-page-desc-row">
+                  <p ref={descRef} className="actors-page-desc">
+                    {actorInfo}
+                  </p>
+                  {descOverflows && (
+                    <button
+                      type="button"
+                      className="actors-page-desc-more"
+                      onClick={() => setShowInfoModal(true)}
+                    >
+                      {moreLabel}
+                    </button>
+                  )}
+                </div>
               </div>
             </>
           )}
@@ -116,6 +154,14 @@ const ActorsPage = () => {
           isLoading={isPageLoading}
         />
       </div>
+
+      {showInfoModal && (
+        <ActorsInfoModal
+          title={actorName}
+          text={actorInfo}
+          onClose={() => setShowInfoModal(false)}
+        />
+      )}
     </div>
   );
 };
