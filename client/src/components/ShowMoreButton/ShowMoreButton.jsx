@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './ShowMoreButton.css';
 
-/** Barcha bo'limlar uchun standart limit */
-export const DEFAULT_LIMIT = 10;
+/** Home / bo'limlar uchun standart limit (ko'rinadigan preview) */
+export const DEFAULT_LIMIT = 7;
 
 /**
  * Ko'rsatiladigan elementlarni limit bo'yicha qirqadi

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
@@ -10,7 +10,11 @@ const SearchModalResults = ({ query, onMovieClick }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
-  const { allMovies } = useMoviesCatalog();
+  const { allMovies, ensureFullCatalog } = useMoviesCatalog();
+
+  useEffect(() => {
+    ensureFullCatalog();
+  }, [ensureFullCatalog]);
 
   const results = searchMoviesByQuery(allMovies, query, contentLang, 20);
 

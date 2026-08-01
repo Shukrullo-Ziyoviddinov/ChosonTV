@@ -10,13 +10,13 @@ import ShowMoreButton, { getDisplayItems, shouldShowMore, DEFAULT_LIMIT } from '
 import LoaderSkeleton from '../LoaderSkeleton/LoaderSkeleton';
 import './Movies.css';
 
-const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMovies = null, showHorizontalScroll = false, headerTitle = null, headerCount = null, hideHeader = false, moreTo = null, isLoading: isLoadingProp = null }) => {
+const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMovies = null, showHorizontalScroll = false, headerTitle = null, headerCount = null, hideHeader = false, moreTo = null, isLoading: isLoadingProp = null, sectionHasMore = false }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { contentLang } = useContentLanguage();
   const { moviesLoading } = useLoading();
-  const { allMovies, recommendedMovies, hasMore: catalogHasMore } = useMoviesCatalog();
+  const { allMovies, recommendedMovies } = useMoviesCatalog();
   const isLoading = isLoadingProp ?? moviesLoading;
 
   let allMoviesData = filteredMovies || allMovies;
@@ -26,8 +26,7 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
 
   const shouldShowLimit = limit != null;
   const displayMovies = getDisplayItems(allMoviesData, shouldShowLimit ? limit : null);
-  const hasMoreMovies = shouldShowMore(allMoviesData, limit, moreTo)
-    || (sectionType === 'recommended' && Boolean(catalogHasMore) && (allMoviesData?.length || 0) > 0);
+  const hasMoreMovies = shouldShowMore(allMoviesData, limit, moreTo) || Boolean(sectionHasMore);
   const placeholderCount = shouldShowLimit ? Math.max(4, Math.min(limit || DEFAULT_LIMIT, 8)) : 8;
   const shouldRenderPlaceholders = isLoading && allMoviesData.length === 0;
 

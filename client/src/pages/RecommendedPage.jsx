@@ -45,8 +45,9 @@ const normalizeFilterValue = (value) =>
     .replace(/[’ʻʼ`]/g, "'");
 
 const resolvePageLimit = () => {
-  if (typeof window === 'undefined') return 30;
-  return window.innerWidth < 768 ? 20 : 30;
+  if (typeof window === 'undefined') return 14;
+  // Birinchi ekranda ko'rinadiganlar + biroz zaxira; qolgani scroll da
+  return window.innerWidth < 768 ? 12 : 14;
 };
 
 const shouldLoadMoreByScroll = () => {
@@ -119,9 +120,7 @@ const RecommendedPage = () => {
   const {
     allMovies,
     isLoading: catalogLoading,
-    isLoadingMore: catalogLoadingMore,
-    hasMore: catalogHasMore,
-    loadMore: loadMoreCatalog,
+    ensureFullCatalog,
   } = useMoviesCatalog();
   const [searchParams] = useSearchParams();
   const genreFromUrl = searchParams.get('genre');
@@ -330,32 +329,16 @@ const RecommendedPage = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, [categoryId, loadTopRatedPage, topRatedHasMore, topRatedLoading, topRatedLoadingMore, topRatedPage]);
 
-  // Genre / similar sahifalar — umumiy katalog scroll
+  // Genre / similar sahifalar — kerakli to'liq katalog (lazy)
   const isSimilarMoviesPage = location.pathname.startsWith('/similar-movies/');
   const isGenreCategoryPage = Boolean(categoryId && CATEGORY_GENRE_MAP[categoryId]);
   const useCatalogScroll = !sectionKey && categoryId !== 'topRated' && (isSimilarMoviesPage || isGenreCategoryPage || Boolean(genreFromUrl));
 
   useEffect(() => {
     if (!useCatalogScroll) return undefined;
-    if (!catalogHasMore || catalogLoading || catalogLoadingMore) return undefined;
-
-    const onScroll = () => {
-      if (shouldLoadMoreByScroll()) {
-        loadMoreCatalog();
-      }
-    };
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [
-    useCatalogScroll,
-    catalogHasMore,
-    catalogLoading,
-    catalogLoadingMore,
-    loadMoreCatalog,
-    allMovies.length,
-  ]);
+    ensureFullCatalog();
+    return undefined;
+  }, [useCatalogScroll, ensureFullCatalog]);
 
   const useAllMoviesForGenre = (genreFromUrl || isGenreCategoryPage) && selectedGenres.length > 0;
 
@@ -402,8 +385,7 @@ const RecommendedPage = () => {
 
   const loadingMore =
     (sectionKey && sectionLoadingMore) ||
-    (categoryId === 'topRated' && topRatedLoadingMore) ||
-    (useCatalogScroll && catalogLoadingMore);
+    (categoryId === 'topRated' && topRatedLoadingMore);
 
   return (
     <div className="recommended-page">

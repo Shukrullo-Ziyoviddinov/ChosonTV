@@ -12,8 +12,12 @@ const SearchModalTavsiya = ({ onMovieClick }) => {
   const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
   const { getViewedItems } = useViewedMovies();
-  const { allMovies } = useMoviesCatalog();
+  const { allMovies, ensureFullCatalog } = useMoviesCatalog();
   const [recommendations, setRecommendations] = useState([]);
+
+  useEffect(() => {
+    ensureFullCatalog();
+  }, [ensureFullCatalog]);
 
   useEffect(() => {
     const viewedItems = getViewedItems();

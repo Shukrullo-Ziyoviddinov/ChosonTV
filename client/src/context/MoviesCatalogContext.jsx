@@ -1,5 +1,27 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { fetchMoviesCatalog } from '../api/moviesCatalogApi';
+import { fetchHomeCatalogBatch, fetchMoviesCatalog } from '../api/moviesCatalogApi';
+
+/** Server defaultlari bilan mos (UI uchun) */
+export const HOME_SECTION_LIMIT = 7;
+export const HOME_SECTIONS_PER_BATCH = 2;
+
+export const HOME_SECTION_ORDER = [
+  'koreaDrama',
+  'kinolar',
+  'worldMovies',
+  'animations',
+  'turkishSeries',
+  'russianMovies',
+  'tvSeries',
+  'topRated',
+  'actionMovies',
+  'horrorMovies',
+  'anime',
+  'adventureMovies',
+  'romanceMovies',
+  'retroMovies',
+  'uzbekMovies',
+];
 
 const EMPTY_CATALOG = {
   allMovies: [],
@@ -12,7 +34,13 @@ const MoviesCatalogContext = createContext({
   isLoading: true,
   isLoadingMore: false,
   hasMore: false,
+  homeVisibleCount: 0,
+  homeHasMoreSections: false,
+  sectionHasMore: {},
+  sectionOrder: HOME_SECTION_ORDER,
   loadMore: async () => {},
+  loadMoreHomeSections: async () => {},
+  ensureFullCatalog: async () => {},
   error: null,
 });
 
@@ -36,82 +64,113 @@ const mergeSections = (current = {}, next = {}) => {
   return merged;
 };
 
-const resolvePageLimit = () => {
-  if (typeof window === 'undefined') return 30;
-  return window.innerWidth < 768 ? 20 : 30;
-};
-
 const shouldLoadMoreByScroll = () => {
   if (typeof window === 'undefined') return false;
   const threshold = 700;
   const scrollBottom = window.innerHeight + window.scrollY;
   const docHeight = document.documentElement.scrollHeight;
-  // Pastga yaqinlashganda YOKI sahifa hali scroll bo'lmasa (kontent kalta)
   return scrollBottom >= docHeight - threshold || docHeight <= window.innerHeight + threshold;
 };
 
 export const MoviesCatalogProvider = ({ children }) => {
   const [catalog, setCatalog] = useState(EMPTY_CATALOG);
+  const [sectionHasMore, setSectionHasMore] = useState({});
+  const [sectionOrder, setSectionOrder] = useState(HOME_SECTION_ORDER);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
+  const [homeVisibleCount, setHomeVisibleCount] = useState(0);
+  const [nextBatch, setNextBatch] = useState(0);
+  const [hasNextBatch, setHasNextBatch] = useState(true);
   const [isBootstrapped, setIsBootstrapped] = useState(false);
-  const [pageLimit] = useState(resolvePageLimit);
+  const [fullCatalogLoaded, setFullCatalogLoaded] = useState(false);
+
   const loadingLockRef = useRef(false);
+  const nextBatchRef = useRef(0);
+  const hasNextBatchRef = useRef(true);
 
-  const loadPage = useCallback(async (targetPage, { append = false } = {}) => {
-    const data = await fetchMoviesCatalog({ page: targetPage, limit: pageLimit });
-    const nextCatalog = {
-      allMovies: data.allMovies || [],
-      recommendedMovies: data.recommendedMovies || [],
-      sections: data.sections || {},
-    };
-    const nextMeta = data.meta || {};
-    const nextHasMore = Boolean(nextMeta.hasNextPage);
+  const applyHomeBatch = useCallback((payload) => {
+    const meta = payload.meta || {};
+    setCatalog((prev) => ({
+      allMovies: mergeUniqueById(prev.allMovies, payload.allMovies || []),
+      recommendedMovies: mergeUniqueById(prev.recommendedMovies, payload.recommendedMovies || []),
+      sections: mergeSections(prev.sections, payload.sections || {}),
+    }));
+    setSectionHasMore((prev) => ({ ...prev, ...(payload.sectionHasMore || {}) }));
+    if (payload.sectionOrder?.length) {
+      setSectionOrder(payload.sectionOrder);
+    }
+    if (typeof meta.visibleCount === 'number') {
+      setHomeVisibleCount(meta.visibleCount);
+    }
+    const following = Boolean(meta.hasNextBatch);
+    const followingBatch = typeof meta.nextBatch === 'number' ? meta.nextBatch : null;
+    hasNextBatchRef.current = following;
+    nextBatchRef.current = followingBatch ?? nextBatchRef.current;
+    setHasNextBatch(following);
+    setNextBatch(followingBatch);
+  }, []);
 
-    setCatalog((prev) => {
-      if (!append) return nextCatalog;
-      return {
-        allMovies: mergeUniqueById(prev.allMovies, nextCatalog.allMovies),
-        recommendedMovies: mergeUniqueById(prev.recommendedMovies, nextCatalog.recommendedMovies),
-        sections: mergeSections(prev.sections, nextCatalog.sections),
-      };
+  const loadHomeBatch = useCallback(async (batch) => {
+    const payload = await fetchHomeCatalogBatch({
+      batch,
+      limit: HOME_SECTION_LIMIT,
+      batchSize: HOME_SECTIONS_PER_BATCH,
     });
-    setHasMore(nextHasMore);
-    setPage(targetPage);
-    setError(null);
-    return nextHasMore;
-  }, [pageLimit]);
+    applyHomeBatch(payload);
+    return payload;
+  }, [applyHomeBatch]);
 
-  const loadMore = useCallback(async () => {
-    if (loadingLockRef.current || isLoading || isLoadingMore || !hasMore) return;
+  const loadMoreHomeSections = useCallback(async () => {
+    if (loadingLockRef.current) return;
+    if (!hasNextBatchRef.current) return;
+    const batchToLoad = nextBatchRef.current;
+    if (batchToLoad == null) return;
+
     loadingLockRef.current = true;
     try {
       setIsLoadingMore(true);
-      await loadPage(page + 1, { append: true });
+      await loadHomeBatch(batchToLoad);
+      setError(null);
     } catch (err) {
-      console.error("[MoviesCatalog] keyingi sahifa xatoligi:", err?.message || err);
+      console.error("[MoviesCatalog] home batch xatoligi:", err?.message || err);
       setError(err);
     } finally {
       setIsLoadingMore(false);
       loadingLockRef.current = false;
     }
-  }, [hasMore, isLoading, isLoadingMore, loadPage, page]);
+  }, [loadHomeBatch]);
+
+  const ensureFullCatalog = useCallback(async () => {
+    if (fullCatalogLoaded) return;
+    try {
+      const data = await fetchMoviesCatalog({ page: 1, limit: 100 });
+      setCatalog((prev) => ({
+        allMovies: mergeUniqueById(prev.allMovies, data.allMovies || []),
+        recommendedMovies: mergeUniqueById(prev.recommendedMovies, data.recommendedMovies || []),
+        sections: mergeSections(prev.sections, data.sections || {}),
+      }));
+      setFullCatalogLoaded(true);
+    } catch (err) {
+      console.error("[MoviesCatalog] to'liq katalog yuklash xatoligi:", err?.message || err);
+    }
+  }, [fullCatalogLoaded]);
 
   useEffect(() => {
     let isMounted = true;
     const bootstrap = async () => {
       try {
         setIsLoading(true);
-        await loadPage(1, { append: false });
+        await loadHomeBatch(0);
+        if (!isMounted) return;
+        setError(null);
       } catch (err) {
-        console.error("[MoviesCatalog] API so‘rovi muvaffaqiyatsiz:", err?.message || err);
+        console.error("[MoviesCatalog] home boshlang'ich xatoligi:", err?.message || err);
         if (isMounted) {
           setCatalog(EMPTY_CATALOG);
           setError(err);
-          setHasMore(false);
+          hasNextBatchRef.current = false;
+          setHasNextBatch(false);
         }
       } finally {
         if (isMounted) {
@@ -127,38 +186,56 @@ export const MoviesCatalogProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Scroll bilan keyingi sahifani yuklash
   useEffect(() => {
     if (!isBootstrapped) return undefined;
     const onScroll = () => {
       if (shouldLoadMoreByScroll()) {
-        loadMore();
+        loadMoreHomeSections();
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [isBootstrapped, loadMore]);
+  }, [isBootstrapped, loadMoreHomeSections]);
 
-  // Kontent kalta bo'lsa yoki loader chiqsa — scroll kutmasdan keyingi sahifani yuklash
   useEffect(() => {
-    if (!isBootstrapped || !hasMore || isLoading || isLoadingMore) return undefined;
+    if (!isBootstrapped || isLoading || isLoadingMore) return undefined;
+    if (!hasNextBatch) return undefined;
     if (!shouldLoadMoreByScroll()) return undefined;
     const timer = window.setTimeout(() => {
-      loadMore();
+      loadMoreHomeSections();
     }, 80);
     return () => window.clearTimeout(timer);
-  }, [catalog, hasMore, isBootstrapped, isLoading, isLoadingMore, loadMore]);
+  }, [catalog, hasNextBatch, isBootstrapped, isLoading, isLoadingMore, loadMoreHomeSections]);
 
   const value = useMemo(
     () => ({
       ...catalog,
       isLoading,
       isLoadingMore,
-      hasMore,
-      loadMore,
+      hasMore: hasNextBatch,
+      homeVisibleCount,
+      homeHasMoreSections: hasNextBatch,
+      sectionHasMore,
+      sectionOrder,
+      loadMore: loadMoreHomeSections,
+      loadMoreHomeSections,
+      ensureFullCatalog,
       error,
+      nextBatch,
     }),
-    [catalog, error, hasMore, isLoading, isLoadingMore, loadMore]
+    [
+      catalog,
+      error,
+      ensureFullCatalog,
+      hasNextBatch,
+      homeVisibleCount,
+      isLoading,
+      isLoadingMore,
+      loadMoreHomeSections,
+      nextBatch,
+      sectionHasMore,
+      sectionOrder,
+    ]
   );
 
   return <MoviesCatalogContext.Provider value={value}>{children}</MoviesCatalogContext.Provider>;

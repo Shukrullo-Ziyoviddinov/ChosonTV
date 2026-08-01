@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
 import ShowMoreButton from '../ShowMoreButton/ShowMoreButton';
-import { useMoviesCatalog } from '../../context/MoviesCatalogContext';
+import { useMoviesCatalog, HOME_SECTION_LIMIT } from '../../context/MoviesCatalogContext';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
+import { fetchMoviesCatalog } from '../../api/moviesCatalogApi';
 import './SearchModalAnons.css';
 
 const SearchModalAnons = ({ onAnonsClick }) => {
@@ -12,6 +13,27 @@ const SearchModalAnons = ({ onAnonsClick }) => {
   const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
   const { sections, allMovies } = useMoviesCatalog();
+  const [anonsPreview, setAnonsPreview] = useState([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const load = async () => {
+      try {
+        const data = await fetchMoviesCatalog({
+          page: 1,
+          limit: HOME_SECTION_LIMIT,
+          section: 'anonslar',
+        });
+        if (!cancelled) setAnonsPreview(data.allMovies || []);
+      } catch (_error) {
+        if (!cancelled) setAnonsPreview([]);
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const anonslar = useMemo(() => {
     const map = new Map();
@@ -19,14 +41,15 @@ const SearchModalAnons = ({ onAnonsClick }) => {
       if (item?.id == null) return;
       map.set(item.id, item);
     };
+    anonsPreview.forEach(push);
     (sections?.anonslar || []).forEach(push);
     (allMovies || []).forEach((movie) => {
       if (movie?.category === 'anonslar' || movie?.categoryName === 'anons') {
         push(movie);
       }
     });
-    return Array.from(map.values());
-  }, [sections, allMovies]);
+    return Array.from(map.values()).slice(0, HOME_SECTION_LIMIT);
+  }, [anonsPreview, sections, allMovies]);
   const getTitle = (item) => {
     if (item.title && typeof item.title === 'object') {
       return item.title[contentLang] || item.title.uz || item.title.ru;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useWishlist } from '../context/WishlistContext';
@@ -10,7 +10,11 @@ const WishlistPage = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { wishlistIds } = useWishlist();
-  const { allMovies, isLoading: wishlistLoading } = useMoviesCatalog();
+  const { allMovies, isLoading: wishlistLoading, ensureFullCatalog } = useMoviesCatalog();
+
+  useEffect(() => {
+    ensureFullCatalog();
+  }, [ensureFullCatalog]);
 
   const wishlistMovies = allMovies.filter((m) => wishlistIds.includes(m.id));
   const isEmpty = wishlistMovies.length === 0;

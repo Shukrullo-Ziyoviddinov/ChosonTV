@@ -13,9 +13,13 @@ const ActorsPage = () => {
   const navigate = useNavigate();
   const { i18n } = useTranslation();
   const { contentLang } = useContentLanguage();
-  const { allMovies, isLoading: catalogLoading } = useMoviesCatalog();
+  const { allMovies, isLoading: catalogLoading, ensureFullCatalog } = useMoviesCatalog();
   const [actorsLoading, setActorsLoading] = useState(true);
   const [actor, setActor] = useState(null);
+
+  useEffect(() => {
+    ensureFullCatalog();
+  }, [ensureFullCatalog]);
 
   useEffect(() => {
     let isMounted = true;
