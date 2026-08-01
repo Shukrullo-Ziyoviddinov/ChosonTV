@@ -99,12 +99,10 @@
 }
 
 .profile-wishlist-block:hover {
-  background-color: #0312ea38;
   border-color: #0312eaa5;
 }
 
 .profile-wishlist-block:first-of-type:hover {
-  background-color: var(--bg-card);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
