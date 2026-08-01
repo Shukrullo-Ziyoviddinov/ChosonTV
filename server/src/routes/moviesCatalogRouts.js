@@ -89,7 +89,12 @@ const loadSectionPreview = async (sectionKey, limit, { user, popularMovieScores 
     return { items: [], hasMore: false };
   }
 
-  const filter = { categoryName: { $in: categoryNames } };
+  const filter = {
+    $or: [
+      { categoryName: { $in: categoryNames } },
+      { category: sectionKey },
+    ],
+  };
   const total = await Movie.countDocuments(filter);
   const rawMovies = await Movie.find(filter)
     .sort({ movieId: 1 })
@@ -98,8 +103,10 @@ const loadSectionPreview = async (sectionKey, limit, { user, popularMovieScores 
     .lean();
   const movies = rawMovies.map(normalizeMovie);
   const catalog = buildMoviesCatalog(movies, { user, popularMovieScores });
+  const sectionItems = catalog.sections?.[sectionKey] || [];
+  const items = sectionItems.length ? sectionItems : catalog.allMovies || [];
   return {
-    items: catalog.allMovies || [],
+    items,
     hasMore: total > limit,
   };
 };
@@ -222,7 +229,12 @@ router.get("/", async (req, res, next) => {
 
     if (section) {
       const categoryNames = SECTION_TO_CATEGORY_NAMES[section] || [];
-      const filter = { categoryName: { $in: categoryNames } };
+      const filter = {
+        $or: [
+          { categoryName: { $in: categoryNames } },
+          { category: section },
+        ],
+      };
       const total = await Movie.countDocuments(filter);
       const rawMovies = await applyPagination(
         Movie.find(filter).sort({ movieId: 1 }).select("-__v"),
@@ -230,12 +242,14 @@ router.get("/", async (req, res, next) => {
       ).lean();
       const movies = rawMovies.map(normalizeMovie);
       const catalog = buildMoviesCatalog(movies, { user, popularMovieScores });
+      const sectionItems = catalog.sections?.[section] || [];
+      const allMovies = sectionItems.length ? sectionItems : catalog.allMovies || [];
       return success(
         res,
         {
-          allMovies: catalog.allMovies,
+          allMovies,
           recommendedMovies: catalog.recommendedMovies,
-          sections: catalog.sections,
+          sections: { [section]: allMovies },
         },
         "Katalog ma'lumotlari",
         200,

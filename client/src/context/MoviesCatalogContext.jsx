@@ -33,6 +33,7 @@ const MoviesCatalogContext = createContext({
   ...EMPTY_CATALOG,
   isLoading: true,
   isLoadingMore: false,
+  anonsLoading: true,
   hasMore: false,
   homeVisibleCount: 0,
   homeHasMoreSections: false,
@@ -41,6 +42,7 @@ const MoviesCatalogContext = createContext({
   loadMore: async () => {},
   loadMoreHomeSections: async () => {},
   ensureFullCatalog: async () => {},
+  ensureAnonslar: async () => {},
   error: null,
 });
 
@@ -78,16 +80,19 @@ export const MoviesCatalogProvider = ({ children }) => {
   const [sectionOrder, setSectionOrder] = useState(HOME_SECTION_ORDER);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [anonsLoading, setAnonsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [homeVisibleCount, setHomeVisibleCount] = useState(0);
   const [nextBatch, setNextBatch] = useState(0);
   const [hasNextBatch, setHasNextBatch] = useState(true);
   const [isBootstrapped, setIsBootstrapped] = useState(false);
   const [fullCatalogLoaded, setFullCatalogLoaded] = useState(false);
+  const [anonsLoaded, setAnonsLoaded] = useState(false);
 
   const loadingLockRef = useRef(false);
   const nextBatchRef = useRef(0);
   const hasNextBatchRef = useRef(true);
+  const anonsLockRef = useRef(false);
 
   const applyHomeBatch = useCallback((payload) => {
     const meta = payload.meta || {};
@@ -120,6 +125,41 @@ export const MoviesCatalogProvider = ({ children }) => {
     applyHomeBatch(payload);
     return payload;
   }, [applyHomeBatch]);
+
+  /** Tez kunda — home batchdan mustaqil (search/home bir xil manba) */
+  const ensureAnonslar = useCallback(async ({ force = false } = {}) => {
+    if (!force && anonsLoaded && !anonsLockRef.current) {
+      return;
+    }
+    if (anonsLockRef.current) return;
+    anonsLockRef.current = true;
+    setAnonsLoading(true);
+    try {
+      const data = await fetchMoviesCatalog({
+        page: 1,
+        limit: HOME_SECTION_LIMIT,
+        section: 'anonslar',
+      });
+      const items = data.sections?.anonslar?.length
+        ? data.sections.anonslar
+        : data.allMovies || [];
+      setCatalog((prev) => ({
+        allMovies: mergeUniqueById(prev.allMovies, items),
+        recommendedMovies: prev.recommendedMovies,
+        sections: mergeSections(prev.sections, { anonslar: items }),
+      }));
+      setSectionHasMore((prev) => ({
+        ...prev,
+        anonslar: Boolean(data.meta?.hasNextPage ?? data.meta?.hasMore),
+      }));
+      setAnonsLoaded(true);
+    } catch (err) {
+      console.error("[MoviesCatalog] anonslar yuklash xatoligi:", err?.message || err);
+    } finally {
+      setAnonsLoading(false);
+      anonsLockRef.current = false;
+    }
+  }, [anonsLoaded]);
 
   const loadMoreHomeSections = useCallback(async () => {
     if (loadingLockRef.current) return;
@@ -165,13 +205,28 @@ export const MoviesCatalogProvider = ({ children }) => {
     const bootstrap = async () => {
       try {
         setIsLoading(true);
-        await loadHomeBatch(0);
+        setAnonsLoading(true);
+        // Home batch + Tez kunda parallel — anons home'da bo'sh qolmasin
+        const results = await Promise.allSettled([
+          loadHomeBatch(0),
+          ensureAnonslar({ force: true }),
+        ]);
         if (!isMounted) return;
-        setError(null);
+        const homeResult = results[0];
+        if (homeResult.status === 'rejected') {
+          console.error(
+            "[MoviesCatalog] home boshlang'ich xatoligi:",
+            homeResult.reason?.message || homeResult.reason
+          );
+          setError(homeResult.reason);
+          hasNextBatchRef.current = false;
+          setHasNextBatch(false);
+        } else {
+          setError(null);
+        }
       } catch (err) {
         console.error("[MoviesCatalog] home boshlang'ich xatoligi:", err?.message || err);
         if (isMounted) {
-          setCatalog(EMPTY_CATALOG);
           setError(err);
           hasNextBatchRef.current = false;
           setHasNextBatch(false);
@@ -179,6 +234,7 @@ export const MoviesCatalogProvider = ({ children }) => {
       } finally {
         if (isMounted) {
           setIsLoading(false);
+          setAnonsLoading(false);
           setIsBootstrapped(true);
         }
       }
@@ -216,6 +272,7 @@ export const MoviesCatalogProvider = ({ children }) => {
       ...catalog,
       isLoading,
       isLoadingMore,
+      anonsLoading,
       hasMore: hasNextBatch,
       homeVisibleCount,
       homeHasMoreSections: hasNextBatch,
@@ -224,11 +281,14 @@ export const MoviesCatalogProvider = ({ children }) => {
       loadMore: loadMoreHomeSections,
       loadMoreHomeSections,
       ensureFullCatalog,
+      ensureAnonslar,
       error,
       nextBatch,
     }),
     [
+      anonsLoading,
       catalog,
+      ensureAnonslar,
       error,
       ensureFullCatalog,
       hasNextBatch,

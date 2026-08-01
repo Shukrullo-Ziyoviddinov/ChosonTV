@@ -17,6 +17,7 @@ const Home = () => {
     sections,
     recommendedMovies,
     isLoading: catalogLoading,
+    anonsLoading,
     isLoadingMore,
     homeVisibleCount,
     homeHasMoreSections,
@@ -25,9 +26,9 @@ const Home = () => {
   } = useMoviesCatalog();
 
   useEffect(() => {
-    setLoading('movies', catalogLoading);
+    setLoading('movies', catalogLoading || anonsLoading);
     return () => setLoading('movies', false);
-  }, [catalogLoading, setLoading]);
+  }, [catalogLoading, anonsLoading, setLoading]);
 
   const sectionMeta = useMemo(() => ({
     koreaDrama: { title: t('movies.koreaDrama'), to: '/category/korea' },
@@ -85,18 +86,21 @@ const Home = () => {
     );
   });
 
+  const anonsMovies = sections?.anonslar || [];
+  const anonsSectionLoading = (catalogLoading || anonsLoading) && anonsMovies.length === 0;
+
   return (
     <div className="home">
       <Banner />
-      {(catalogLoading || (sections?.anonslar?.length || 0) > 0) && (
+      {(anonsSectionLoading || anonsMovies.length > 0) && (
         <Movies
           sectionType="anonslar"
-          filteredMovies={sections?.anonslar || []}
+          filteredMovies={anonsMovies}
           limit={HOME_SECTION_LIMIT}
           showHorizontalScroll={true}
           headerTitle={i18n.language === 'ru' ? 'Скоро' : 'Tez kunda'}
           moreTo="/category/anonslar"
-          isLoading={catalogLoading && (sections?.anonslar?.length || 0) === 0}
+          isLoading={anonsSectionLoading}
           sectionHasMore={Boolean(sectionHasMore?.anonslar)}
         />
       )}

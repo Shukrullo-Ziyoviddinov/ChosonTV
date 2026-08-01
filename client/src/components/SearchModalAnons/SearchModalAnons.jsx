@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
@@ -6,7 +6,6 @@ import ShowMoreButton from '../ShowMoreButton/ShowMoreButton';
 import LoaderSkeleton from '../LoaderSkeleton/LoaderSkeleton';
 import { useMoviesCatalog, HOME_SECTION_LIMIT } from '../../context/MoviesCatalogContext';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
-import { fetchMoviesCatalog } from '../../api/moviesCatalogApi';
 import './SearchModalAnons.css';
 
 const PLACEHOLDER_COUNT = 6;
@@ -15,32 +14,11 @@ const SearchModalAnons = ({ onAnonsClick }) => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
-  const { sections, allMovies } = useMoviesCatalog();
-  const [anonsPreview, setAnonsPreview] = useState([]);
-  const [anonsLoading, setAnonsLoading] = useState(true);
+  const { sections, allMovies, anonsLoading, ensureAnonslar } = useMoviesCatalog();
 
   useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      try {
-        setAnonsLoading(true);
-        const data = await fetchMoviesCatalog({
-          page: 1,
-          limit: HOME_SECTION_LIMIT,
-          section: 'anonslar',
-        });
-        if (!cancelled) setAnonsPreview(data.allMovies || []);
-      } catch (_error) {
-        if (!cancelled) setAnonsPreview([]);
-      } finally {
-        if (!cancelled) setAnonsLoading(false);
-      }
-    };
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    ensureAnonslar();
+  }, [ensureAnonslar]);
 
   const anonslar = useMemo(() => {
     const map = new Map();
@@ -48,7 +26,6 @@ const SearchModalAnons = ({ onAnonsClick }) => {
       if (item?.id == null) return;
       map.set(item.id, item);
     };
-    anonsPreview.forEach(push);
     (sections?.anonslar || []).forEach(push);
     (allMovies || []).forEach((movie) => {
       if (movie?.category === 'anonslar' || movie?.categoryName === 'anons') {
@@ -56,7 +33,7 @@ const SearchModalAnons = ({ onAnonsClick }) => {
       }
     });
     return Array.from(map.values()).slice(0, HOME_SECTION_LIMIT);
-  }, [anonsPreview, sections, allMovies]);
+  }, [sections, allMovies]);
 
   const getTitle = (item) => {
     if (item.title && typeof item.title === 'object') {
