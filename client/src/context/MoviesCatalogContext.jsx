@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { fetchMoviesCatalog } from '../api/moviesCatalogApi';
 
 const EMPTY_CATALOG = {
@@ -41,6 +41,15 @@ const resolvePageLimit = () => {
   return window.innerWidth < 768 ? 20 : 30;
 };
 
+const shouldLoadMoreByScroll = () => {
+  if (typeof window === 'undefined') return false;
+  const threshold = 700;
+  const scrollBottom = window.innerHeight + window.scrollY;
+  const docHeight = document.documentElement.scrollHeight;
+  // Pastga yaqinlashganda YOKI sahifa hali scroll bo'lmasa (kontent kalta)
+  return scrollBottom >= docHeight - threshold || docHeight <= window.innerHeight + threshold;
+};
+
 export const MoviesCatalogProvider = ({ children }) => {
   const [catalog, setCatalog] = useState(EMPTY_CATALOG);
   const [isLoading, setIsLoading] = useState(true);
@@ -50,6 +59,7 @@ export const MoviesCatalogProvider = ({ children }) => {
   const [hasMore, setHasMore] = useState(true);
   const [isBootstrapped, setIsBootstrapped] = useState(false);
   const [pageLimit] = useState(resolvePageLimit);
+  const loadingLockRef = useRef(false);
 
   const loadPage = useCallback(async (targetPage, { append = false } = {}) => {
     const data = await fetchMoviesCatalog({ page: targetPage, limit: pageLimit });
@@ -72,10 +82,12 @@ export const MoviesCatalogProvider = ({ children }) => {
     setHasMore(nextHasMore);
     setPage(targetPage);
     setError(null);
+    return nextHasMore;
   }, [pageLimit]);
 
   const loadMore = useCallback(async () => {
-    if (isLoading || isLoadingMore || !hasMore) return;
+    if (loadingLockRef.current || isLoading || isLoadingMore || !hasMore) return;
+    loadingLockRef.current = true;
     try {
       setIsLoadingMore(true);
       await loadPage(page + 1, { append: true });
@@ -84,6 +96,7 @@ export const MoviesCatalogProvider = ({ children }) => {
       setError(err);
     } finally {
       setIsLoadingMore(false);
+      loadingLockRef.current = false;
     }
   }, [hasMore, isLoading, isLoadingMore, loadPage, page]);
 
@@ -114,19 +127,27 @@ export const MoviesCatalogProvider = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Scroll bilan keyingi sahifani yuklash
   useEffect(() => {
     if (!isBootstrapped) return undefined;
     const onScroll = () => {
-      const threshold = 600;
-      const scrollBottom = window.innerHeight + window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
-      if (scrollBottom >= docHeight - threshold) {
+      if (shouldLoadMoreByScroll()) {
         loadMore();
       }
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, [isBootstrapped, loadMore]);
+
+  // Kontent kalta bo'lsa yoki loader chiqsa — scroll kutmasdan keyingi sahifani yuklash
+  useEffect(() => {
+    if (!isBootstrapped || !hasMore || isLoading || isLoadingMore) return undefined;
+    if (!shouldLoadMoreByScroll()) return undefined;
+    const timer = window.setTimeout(() => {
+      loadMore();
+    }, 80);
+    return () => window.clearTimeout(timer);
+  }, [catalog, hasMore, isBootstrapped, isLoading, isLoadingMore, loadMore]);
 
   const value = useMemo(
     () => ({

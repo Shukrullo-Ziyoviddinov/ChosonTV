@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
@@ -11,9 +11,22 @@ const SearchModalAnons = ({ onAnonsClick }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
-  const { sections } = useMoviesCatalog();
-  const anonslar = sections?.anonslar || [];
+  const { sections, allMovies } = useMoviesCatalog();
 
+  const anonslar = useMemo(() => {
+    const map = new Map();
+    const push = (item) => {
+      if (item?.id == null) return;
+      map.set(item.id, item);
+    };
+    (sections?.anonslar || []).forEach(push);
+    (allMovies || []).forEach((movie) => {
+      if (movie?.category === 'anonslar' || movie?.categoryName === 'anons') {
+        push(movie);
+      }
+    });
+    return Array.from(map.values());
+  }, [sections, allMovies]);
   const getTitle = (item) => {
     if (item.title && typeof item.title === 'object') {
       return item.title[contentLang] || item.title.uz || item.title.ru;

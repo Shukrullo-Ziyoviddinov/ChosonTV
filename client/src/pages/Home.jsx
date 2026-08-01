@@ -55,43 +55,43 @@ const Home = () => {
 
   let blockFollowingSections = false;
   const renderedSections = sectionConfigs.map((section) => {
-      if (section.isTopRated) {
-        if (blockFollowingSections) return null;
-        return (
-          <TopRatedContent
-            key="top-rated-content"
-            limit={DEFAULT_LIMIT}
-            showHorizontalScroll={true}
-            moreTo="/category/topRated"
-          />
-        );
-      }
-
+    if (section.isTopRated) {
       if (blockFollowingSections) return null;
-
-      const sectionIsEmpty = (section.data?.length || 0) === 0;
-      const shouldKeepLoading = sectionIsEmpty && (catalogLoading || isLoadingMore || hasMore);
-      const shouldRenderSection = !sectionIsEmpty || shouldKeepLoading;
-
-      if (shouldKeepLoading) {
-        blockFollowingSections = true;
-      }
-
-      if (!shouldRenderSection) return null;
-
       return (
-        <Movies
-          key={section.sectionType}
-          sectionType={section.sectionType}
-          filteredMovies={section.data}
+        <TopRatedContent
+          key="top-rated-content"
           limit={DEFAULT_LIMIT}
           showHorizontalScroll={true}
-          headerTitle={section.title}
-          moreTo={section.to}
-          isLoading={shouldKeepLoading}
+          moreTo="/category/topRated"
         />
       );
-    });
+    }
+
+    if (blockFollowingSections) return null;
+
+    const sectionIsEmpty = (section.data?.length || 0) === 0;
+    const shouldKeepLoading = sectionIsEmpty && (catalogLoading || isLoadingMore || hasMore);
+    const shouldRenderSection = !sectionIsEmpty || shouldKeepLoading;
+
+    if (shouldKeepLoading) {
+      blockFollowingSections = true;
+    }
+
+    if (!shouldRenderSection) return null;
+
+    return (
+      <Movies
+        key={section.sectionType}
+        sectionType={section.sectionType}
+        filteredMovies={section.data}
+        limit={DEFAULT_LIMIT}
+        showHorizontalScroll={true}
+        headerTitle={section.title}
+        moreTo={section.to}
+        isLoading={shouldKeepLoading}
+      />
+    );
+  });
 
   return (
     <div className="home">
