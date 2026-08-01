@@ -13,19 +13,14 @@ const TrillerVideoControls = ({
   isPlaying,
   onPlayPause,
   show,
+  onToggle,
   onInteraction,
 }) => {
-  const hideTimerRef = useRef(null);
   const previewTimeRef = useRef(0);
-  const [localShow, setLocalShow] = useState(Boolean(show));
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [previewTime, setPreviewTime] = useState(0);
-
-  useEffect(() => {
-    setLocalShow(Boolean(show));
-  }, [show]);
 
   useEffect(() => {
     const video = videoRef?.current;
@@ -49,37 +44,16 @@ const TrillerVideoControls = ({
     };
   }, [videoRef, isScrubbing]);
 
-  const bump = () => {
+  const keepShown = () => {
     onInteraction?.();
-    setLocalShow(true);
-    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    if (isPlaying && !isScrubbing) {
-      hideTimerRef.current = setTimeout(() => setLocalShow(false), 3500);
-    }
   };
-
-  useEffect(() => {
-    return () => {
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isPlaying) {
-      setLocalShow(true);
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-      return;
-    }
-    bump();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlaying]);
 
   const handleBack10 = (e) => {
     e.stopPropagation();
     const video = videoRef?.current;
     if (!video) return;
     video.currentTime = Math.max(0, video.currentTime - 10);
-    bump();
+    keepShown();
   };
 
   const handleForward10 = (e) => {
@@ -88,13 +62,13 @@ const TrillerVideoControls = ({
     if (!video) return;
     const dur = Number.isFinite(video.duration) ? video.duration : video.currentTime + 10;
     video.currentTime = Math.min(dur, video.currentTime + 10);
-    bump();
+    keepShown();
   };
 
   const handlePlay = (e) => {
     e.stopPropagation();
     onPlayPause?.();
-    bump();
+    keepShown();
   };
 
   const updateProgress = (clientX, container) => {
@@ -118,7 +92,7 @@ const TrillerVideoControls = ({
     setPreviewTime(0);
     previewTimeRef.current = 0;
     setIsScrubbing(false);
-    bump();
+    keepShown();
   };
 
   const progressPercent =
@@ -126,15 +100,22 @@ const TrillerVideoControls = ({
       ? Math.min(100, Math.max(0, ((isScrubbing ? previewTime : currentTime) / duration) * 100))
       : 0;
 
-  const visible = localShow || !isPlaying || isScrubbing;
+  const visible = show || isScrubbing;
+
+  const handleOverlayClick = (e) => {
+    e.stopPropagation();
+    const interactive = e.target.closest(
+      'button, .triller-progress-container, .triller-progress-time, .triller-video-controls-center'
+    );
+    if (!interactive) {
+      onToggle?.();
+    }
+  };
 
   return (
     <div
       className={`triller-video-controls ${visible ? 'show' : ''}`}
-      onClick={(e) => {
-        e.stopPropagation();
-        bump();
-      }}
+      onClick={handleOverlayClick}
     >
       <div className="triller-video-controls-center">
         <button
@@ -197,13 +178,13 @@ const TrillerVideoControls = ({
               setPreviewTime(0);
               previewTimeRef.current = 0;
             }
-            bump();
+            keepShown();
           }}
           onMouseDown={(e) => {
             e.stopPropagation();
             setIsScrubbing(true);
             updateProgress(e.clientX, e.currentTarget);
-            bump();
+            keepShown();
           }}
           onMouseMove={(e) => {
             if (!isScrubbing) return;
@@ -222,7 +203,7 @@ const TrillerVideoControls = ({
             e.stopPropagation();
             setIsScrubbing(true);
             updateProgress(e.touches[0].clientX, e.currentTarget);
-            bump();
+            keepShown();
           }}
           onTouchMove={(e) => {
             e.stopPropagation();

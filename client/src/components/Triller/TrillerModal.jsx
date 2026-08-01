@@ -202,6 +202,7 @@ const TrillerModal = ({ item, onClose }) => {
             isPlaying={isPlaying}
             onPlayPause={handlePlayPause}
             show={showControls}
+            onToggle={() => setShowControls((v) => !v)}
             onInteraction={() => setShowControls(true)}
           />
         </div>
