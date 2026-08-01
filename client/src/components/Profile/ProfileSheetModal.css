@@ -102,8 +102,8 @@
 }
 
 .profile-sheet-modal-link:hover {
-  background: #ca4edd3a ;
-  border-color: #ca4edd ;
+  background: rgba(229, 57, 53, 0.18);
+  border-color: #e53935;
 }
 
 .profile-sheet-modal-icon {
