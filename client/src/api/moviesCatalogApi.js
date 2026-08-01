@@ -3,14 +3,21 @@ import { BASE_URL } from '../config/api';
 import { getAuthToken } from '../utils/authStorage';
 import { createApiError, normalizeApiError } from '../utils/errorHandler';
 
-export const fetchMoviesCatalog = async ({ page = 1, limit = 30 } = {}) => {
-  const query = `?page=${page}&limit=${limit}`;
+export const fetchMoviesCatalog = async ({ page = 1, limit = 30, section = null } = {}) => {
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  });
+  if (section) params.set('section', section);
+  const query = `?${params.toString()}`;
+  const cacheSuffix = section ? `:${section}` : '';
   const token = getAuthToken();
+
   if (!token) {
     const data = await apiClient.get(`/api/movies-catalog${query}`, {
-      cacheKey: `movies-catalog:${page}:${limit}`,
+      cacheKey: `movies-catalog:${page}:${limit}${cacheSuffix}`,
       ttlMs: 60 * 1000,
-      dedupeKey: `movies-catalog:${page}:${limit}`,
+      dedupeKey: `movies-catalog:${page}:${limit}${cacheSuffix}`,
       includeMeta: true,
     });
     const payload = data?.data || {};

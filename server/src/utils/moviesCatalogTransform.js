@@ -17,6 +17,13 @@ const CATEGORY_NAME_TO_SECTION = {
   animationMovie: "animations",
   multFilm: "animations",
 };
+
+const SECTION_TO_CATEGORY_NAMES = Object.entries(CATEGORY_NAME_TO_SECTION).reduce((acc, [categoryName, section]) => {
+  if (!acc[section]) acc[section] = [];
+  acc[section].push(categoryName);
+  return acc;
+}, {});
+
 const { buildPersonalizedRecommendations } = require("../services/recommendationService");
 
 const resolveSectionKey = (movie) => {
@@ -89,5 +96,7 @@ const buildMoviesCatalog = (movies, { user = null, popularMovieScores = null } =
 
 module.exports = {
   CATEGORY_NAME_TO_SECTION,
+  SECTION_TO_CATEGORY_NAMES,
   buildMoviesCatalog,
+  transformMovies,
 };

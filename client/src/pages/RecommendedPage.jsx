@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useCallback, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useCallback, useLayoutEffect, useMemo, useRef } from 'react';
 import { useParams, useLocation, useSearchParams } from 'react-router-dom';
 import { useMoviesCatalog } from '../context/MoviesCatalogContext';
 import { fetchGenres } from '../api/genresApi';
 import { fetchTopRatedMovies } from '../api/moviesApi';
+import { fetchMoviesCatalog } from '../api/moviesCatalogApi';
 import Filters from '../components/Filters';
 import Movies from '../components/Movies/Movies';
 import './RecommendedPage.css';
@@ -19,15 +20,58 @@ const CATEGORY_GENRE_MAP = {
   fantastika: ['Fantastika'],
 };
 
+const CATALOG_SECTIONS = new Set([
+  'koreaDrama',
+  'kinolar',
+  'worldMovies',
+  'animations',
+  'turkishSeries',
+  'russianMovies',
+  'tvSeries',
+  'actionMovies',
+  'horrorMovies',
+  'anime',
+  'adventureMovies',
+  'romanceMovies',
+  'retroMovies',
+  'uzbekMovies',
+  'anonslar',
+]);
+
 const normalizeFilterValue = (value) =>
   String(value || '')
     .trim()
     .toLowerCase()
     .replace(/[’ʻʼ`]/g, "'");
 
-const resolveTopRatedPageLimit = () => {
+const resolvePageLimit = () => {
   if (typeof window === 'undefined') return 30;
   return window.innerWidth < 768 ? 20 : 30;
+};
+
+const shouldLoadMoreByScroll = () => {
+  if (typeof window === 'undefined') return false;
+  const threshold = 700;
+  const scrollBottom = window.innerHeight + window.scrollY;
+  const docHeight = document.documentElement.scrollHeight;
+  return scrollBottom >= docHeight - threshold || docHeight <= window.innerHeight + threshold;
+};
+
+const resolveSectionKey = (categoryId, pathname) => {
+  if (pathname === '/recommended') return 'recommended';
+  if (!categoryId || categoryId === 'topRated') return null;
+  if (categoryId === 'korea') return 'koreaDrama';
+  if (CATALOG_SECTIONS.has(categoryId)) return categoryId;
+  return null;
+};
+
+const mergeUniqueById = (current = [], next = []) => {
+  const map = new Map();
+  [...current, ...next].forEach((item) => {
+    if (item?.id == null) return;
+    map.set(item.id, item);
+  });
+  return Array.from(map.values());
 };
 
 const getRatingFilter = (movie, selectedRating) => {
@@ -72,7 +116,13 @@ const getSimilarMovies = (currentMovie, movies) => {
 const RecommendedPage = () => {
   const { categoryId, movieId } = useParams();
   const location = useLocation();
-  const { allMovies, recommendedMovies, isLoading: catalogLoading } = useMoviesCatalog();
+  const {
+    allMovies,
+    isLoading: catalogLoading,
+    isLoadingMore: catalogLoadingMore,
+    hasMore: catalogHasMore,
+    loadMore: loadMoreCatalog,
+  } = useMoviesCatalog();
   const [searchParams] = useSearchParams();
   const genreFromUrl = searchParams.get('genre');
   const [genresConfig, setGenresConfig] = useState([]);
@@ -92,7 +142,7 @@ const RecommendedPage = () => {
   const [topRatedLoadingMore, setTopRatedLoadingMore] = useState(false);
   const [topRatedPage, setTopRatedPage] = useState(1);
   const [topRatedHasMore, setTopRatedHasMore] = useState(true);
-  const [topRatedPageLimit] = useState(resolveTopRatedPageLimit);
+  const [pageLimit] = useState(resolvePageLimit);
   const [selectedRating, setSelectedRating] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGenres, setSelectedGenres] = useState(() =>
@@ -101,6 +151,19 @@ const RecommendedPage = () => {
       : (categoryId && CATEGORY_GENRE_MAP[categoryId]) || []
   );
   const [selectedAge, setSelectedAge] = useState(null);
+
+  // Bo'lim / recommended uchun alohida pagination (avval kerakli kinolar)
+  const [sectionMovies, setSectionMovies] = useState([]);
+  const [sectionPage, setSectionPage] = useState(1);
+  const [sectionHasMore, setSectionHasMore] = useState(false);
+  const [sectionLoading, setSectionLoading] = useState(false);
+  const [sectionLoadingMore, setSectionLoadingMore] = useState(false);
+  const sectionLoadingLockRef = useRef(false);
+
+  const sectionKey = useMemo(
+    () => resolveSectionKey(categoryId, location.pathname),
+    [categoryId, location.pathname]
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -133,15 +196,89 @@ const RecommendedPage = () => {
     }
   }, [genreFromUrl, categoryId, getGenresFromUrl]);
 
+  const loadSectionPage = useCallback(async (pageToLoad, { append = false } = {}) => {
+    if (!sectionKey) return;
+    const data = await fetchMoviesCatalog({
+      page: pageToLoad,
+      limit: pageLimit,
+      section: sectionKey,
+    });
+    const nextItems = sectionKey === 'recommended'
+      ? (data.recommendedMovies || data.allMovies || [])
+      : (data.allMovies || []);
+    const nextMeta = data.meta || {};
+
+    setSectionMovies((prev) => (append ? mergeUniqueById(prev, nextItems) : nextItems));
+    setSectionHasMore(Boolean(nextMeta.hasNextPage));
+    setSectionPage(pageToLoad);
+  }, [pageLimit, sectionKey]);
+
+  // Avval kerakli bo'lim/tavsiya kinolarini yuklash
+  useEffect(() => {
+    let isMounted = true;
+    if (!sectionKey) {
+      setSectionMovies([]);
+      setSectionHasMore(false);
+      setSectionPage(1);
+      return undefined;
+    }
+
+    const loadInitial = async () => {
+      try {
+        setSectionLoading(true);
+        await loadSectionPage(1, { append: false });
+      } catch (_error) {
+        console.error('[RecommendedPage] section yuklash xatoligi:', _error?.message || _error);
+        if (isMounted) {
+          setSectionMovies([]);
+          setSectionHasMore(false);
+        }
+      } finally {
+        if (isMounted) setSectionLoading(false);
+      }
+    };
+
+    loadInitial();
+    return () => {
+      isMounted = false;
+    };
+  }, [sectionKey, loadSectionPage]);
+
+  // Bo'lim/tavsiya: scroll da qolgan sahifalar
+  useEffect(() => {
+    if (!sectionKey) return undefined;
+    if (sectionLoading || sectionLoadingMore || !sectionHasMore) return undefined;
+
+    const onScroll = async () => {
+      if (!shouldLoadMoreByScroll()) return;
+      if (sectionLoadingLockRef.current) return;
+      sectionLoadingLockRef.current = true;
+      try {
+        setSectionLoadingMore(true);
+        await loadSectionPage(sectionPage + 1, { append: true });
+      } catch (_error) {
+        console.error('[RecommendedPage] section keyingi sahifa xatoligi:', _error?.message || _error);
+        setSectionHasMore(false);
+      } finally {
+        setSectionLoadingMore(false);
+        sectionLoadingLockRef.current = false;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [sectionKey, sectionLoading, sectionLoadingMore, sectionHasMore, sectionPage, loadSectionPage, sectionMovies.length]);
+
   const loadTopRatedPage = useCallback(async (pageToLoad, { append = false } = {}) => {
-    const data = await fetchTopRatedMovies({ page: pageToLoad, limit: topRatedPageLimit });
+    const data = await fetchTopRatedMovies({ page: pageToLoad, limit: pageLimit });
     const nextItems = data.items || [];
     const nextMeta = data.meta || {};
 
-    setTopRatedMovies((prev) => (append ? [...prev, ...nextItems] : nextItems));
+    setTopRatedMovies((prev) => (append ? mergeUniqueById(prev, nextItems) : nextItems));
     setTopRatedHasMore(Boolean(nextMeta.hasNextPage));
     setTopRatedPage(pageToLoad);
-  }, [topRatedPageLimit]);
+  }, [pageLimit]);
 
   useEffect(() => {
     let isMounted = true;
@@ -175,10 +312,7 @@ const RecommendedPage = () => {
     if (topRatedLoading || topRatedLoadingMore || !topRatedHasMore) return undefined;
 
     const onScroll = async () => {
-      const threshold = 600;
-      const scrollBottom = window.innerHeight + window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
-      if (scrollBottom < docHeight - threshold) return;
+      if (!shouldLoadMoreByScroll()) return;
 
       try {
         setTopRatedLoadingMore(true);
@@ -192,38 +326,55 @@ const RecommendedPage = () => {
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, [categoryId, loadTopRatedPage, topRatedHasMore, topRatedLoading, topRatedLoadingMore, topRatedPage]);
 
+  // Genre / similar sahifalar — umumiy katalog scroll
   const isSimilarMoviesPage = location.pathname.startsWith('/similar-movies/');
-
-  // Genre filter bo'lsa (URL ?genre=) - barcha kinolardan qidirish (allMovies)
   const isGenreCategoryPage = Boolean(categoryId && CATEGORY_GENRE_MAP[categoryId]);
+  const useCatalogScroll = !sectionKey && categoryId !== 'topRated' && (isSimilarMoviesPage || isGenreCategoryPage || Boolean(genreFromUrl));
+
+  useEffect(() => {
+    if (!useCatalogScroll) return undefined;
+    if (!catalogHasMore || catalogLoading || catalogLoadingMore) return undefined;
+
+    const onScroll = () => {
+      if (shouldLoadMoreByScroll()) {
+        loadMoreCatalog();
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [
+    useCatalogScroll,
+    catalogHasMore,
+    catalogLoading,
+    catalogLoadingMore,
+    loadMoreCatalog,
+    allMovies.length,
+  ]);
+
   const useAllMoviesForGenre = (genreFromUrl || isGenreCategoryPage) && selectedGenres.length > 0;
 
-  // /similar-movies/:movieId - o'xshash filmlar (detail sahifadagi bilan bir xil); /recommended - tavsiya; /category/topRated - yuqori reytingli; /category/:id - bo'lim kinolari
-  const categoryFiltered = isSimilarMoviesPage && movieId
+  const categoryFiltered = sectionKey
+    ? sectionMovies
+    : isSimilarMoviesPage && movieId
     ? (() => {
         const currentMovie = allMovies.find((m) => String(m.id) === String(movieId));
         return getSimilarMovies(currentMovie, allMovies);
       })()
     : useAllMoviesForGenre
     ? allMovies
-    : location.pathname === '/recommended'
-    ? recommendedMovies
     : categoryId === 'topRated'
       ? topRatedMovies
-      : categoryId
-        ? allMovies.filter(movie =>
-            movie.typeCategory?.includes(categoryId) || movie.category === categoryId
-          )
-        : allMovies;
+      : allMovies;
 
   let filteredMovies = categoryFiltered;
   if (selectedRating !== null) {
-    filteredMovies = filteredMovies.filter(movie =>
-      getRatingFilter(movie, selectedRating)
-    );
+    filteredMovies = filteredMovies.filter((movie) => getRatingFilter(movie, selectedRating));
   }
   if (selectedCountry !== null) {
     const normalizedSelectedCountry = normalizeFilterValue(selectedCountry);
@@ -240,13 +391,19 @@ const RecommendedPage = () => {
     );
   }
   if (selectedAge !== null) {
-    filteredMovies = filteredMovies.filter(movie => movie.ageRestriction === selectedAge);
+    filteredMovies = filteredMovies.filter((movie) => movie.ageRestriction === selectedAge);
   }
 
   const recommendedLoading =
-    catalogLoading ||
     genresLoading ||
-    (categoryId === 'topRated' && (topRatedLoading || topRatedLoadingMore));
+    (sectionKey && sectionLoading && sectionMovies.length === 0) ||
+    (categoryId === 'topRated' && topRatedLoading && topRatedMovies.length === 0) ||
+    (useCatalogScroll && catalogLoading && allMovies.length === 0);
+
+  const loadingMore =
+    (sectionKey && sectionLoadingMore) ||
+    (categoryId === 'topRated' && topRatedLoadingMore) ||
+    (useCatalogScroll && catalogLoadingMore);
 
   return (
     <div className="recommended-page">
@@ -269,6 +426,7 @@ const RecommendedPage = () => {
         hideHeader
         isLoading={recommendedLoading}
       />
+      {loadingMore && <div className="recommended-page-loading-more" aria-hidden="true" />}
     </div>
   );
 };
