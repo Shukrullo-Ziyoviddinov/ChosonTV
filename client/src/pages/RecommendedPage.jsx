@@ -30,11 +30,9 @@ const resolveTopRatedPageLimit = () => {
   return window.innerWidth < 768 ? 20 : 30;
 };
 
-const getRatingFilter = (movie, selectedRatingType, selectedRating) => {
+const getRatingFilter = (movie, selectedRating) => {
   if (selectedRating === null) return true;
-  // Anonslar VL (rating) filteriga aralashmaydi - VL tanlanganda anonslar chiqmaydi, boshqa reytinglarda qatnashadi
-  if (selectedRatingType === 'rating' && movie.category === 'anonslar') return false;
-  const val = movie[selectedRatingType];
+  const val = movie.ratingImdb;
   return val != null && val !== '' && val !== 'none' && (val === selectedRating || Number(val) === Number(selectedRating));
 };
 
@@ -95,7 +93,6 @@ const RecommendedPage = () => {
   const [topRatedPage, setTopRatedPage] = useState(1);
   const [topRatedHasMore, setTopRatedHasMore] = useState(true);
   const [topRatedPageLimit] = useState(resolveTopRatedPageLimit);
-  const [selectedRatingType, setSelectedRatingType] = useState('rating');
   const [selectedRating, setSelectedRating] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGenres, setSelectedGenres] = useState(() =>
@@ -222,20 +219,10 @@ const RecommendedPage = () => {
           )
         : allMovies;
 
-  // VL faqat anonslar sahifasida yashiriladi; aralash kontentda VL ko'rinadi, lekin anonslar VL filteriga kirmaydi
-  const hideVlFilter = categoryId === 'anonslar';
-
-  useEffect(() => {
-    if (hideVlFilter && selectedRatingType === 'rating') {
-      setSelectedRatingType('ratingImdb');
-      setSelectedRating(null);
-    }
-  }, [hideVlFilter, selectedRatingType]);
-
   let filteredMovies = categoryFiltered;
   if (selectedRating !== null) {
     filteredMovies = filteredMovies.filter(movie =>
-      getRatingFilter(movie, selectedRatingType, selectedRating)
+      getRatingFilter(movie, selectedRating)
     );
   }
   if (selectedCountry !== null) {
@@ -266,10 +253,7 @@ const RecommendedPage = () => {
       <Filters
         isLoading={recommendedLoading}
         movies={categoryFiltered}
-        hideVlFilter={hideVlFilter}
-        selectedRatingType={selectedRatingType}
         selectedRating={selectedRating}
-        onRatingTypeSelect={setSelectedRatingType}
         onRatingSelect={setSelectedRating}
         selectedCountry={selectedCountry}
         onCountrySelect={setSelectedCountry}

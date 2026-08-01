@@ -10,9 +10,9 @@ import './FilterCountry.css';
 import './FilterGenre.css';
 import './FilterAge.css';
 
-const getRatingFilter = (movie, selectedRatingType, selectedRating) => {
+const getRatingFilter = (movie, selectedRating) => {
   if (selectedRating === null) return true;
-  const val = movie[selectedRatingType];
+  const val = movie.ratingImdb;
   return val != null && val !== '' && val !== 'none' && (val === selectedRating || Number(val) === Number(selectedRating));
 };
 
@@ -31,9 +31,7 @@ const hasSelectedGenre = (movie, normalizedSelectedGenres) =>
 const Filters = ({
   isLoading = false,
   movies = [],
-  selectedRatingType = 'rating',
   selectedRating,
-  onRatingTypeSelect,
   onRatingSelect,
   selectedCountry,
   onCountrySelect,
@@ -41,14 +39,13 @@ const Filters = ({
   onGenreSelect,
   selectedAge = null,
   onAgeSelect,
-  hideVlFilter = false
 }) => {
   const normalizedSelectedCountry = selectedCountry ? normalizeFilterValue(selectedCountry) : null;
   const normalizedSelectedGenres = selectedGenres.map(normalizeFilterValue);
   const hasSelectedCountry = (movie) =>
     !normalizedSelectedCountry || normalizeFilterValue(movie.filterCountry) === normalizedSelectedCountry;
   const hasSelectedRating = (movie) =>
-    selectedRating === null || getRatingFilter(movie, selectedRatingType, selectedRating);
+    selectedRating === null || getRatingFilter(movie, selectedRating);
   const hasSelectedAge = (movie) =>
     selectedAge === null || movie.ageRestriction === selectedAge;
 
@@ -99,11 +96,8 @@ const Filters = ({
         <div className="filters-row">
         <FilterReyting
           movies={moviesForRating}
-          selectedRatingType={selectedRatingType}
           selectedRating={selectedRating}
-          onRatingTypeSelect={onRatingTypeSelect}
           onRatingSelect={onRatingSelect}
-          hideVlFilter={hideVlFilter}
         />
         <FilterCountry
           movies={moviesForCountry}

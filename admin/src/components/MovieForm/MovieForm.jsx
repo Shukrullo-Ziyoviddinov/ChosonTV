@@ -148,7 +148,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
       uz: { img: { type: "img", src: "" } },
       ru: { img: { type: "img", src: "" } },
     },
-    rating: "",
     ratingImdb: "",
     ratingKinopoisk: "",
     ratingNetflix: "",
@@ -319,7 +318,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
         titleImg: form.titleImg,
         homeImg: form.homeImg,
         movieMedia: form.movieMedia,
-        rating: form.rating === "" ? 0 : Number(form.rating),
         ratingImdb: form.ratingImdb === "" ? 0 : Number(form.ratingImdb),
         ratingKinopoisk: form.ratingKinopoisk === "" ? 0 : Number(form.ratingKinopoisk),
         ratingNetflix: form.ratingNetflix === "" ? 0 : Number(form.ratingNetflix),
@@ -659,8 +657,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
       <h4 className="movie-form__section">Rating / Specs</h4>
       <div className="movie-form__section-card">
       <div className="movie-form__grid">
-        <label className="movie-form__label">rating</label>
-        <input className="movie-form__input" type="number" step="0.1" value={form.rating} onChange={(e) => patch({ rating: e.target.value })} />
         <label className="movie-form__label">ratingImdb</label>
         <input className="movie-form__input" type="number" step="0.1" value={form.ratingImdb} onChange={(e) => patch({ ratingImdb: e.target.value })} />
         <label className="movie-form__label">ratingKinopoisk</label>

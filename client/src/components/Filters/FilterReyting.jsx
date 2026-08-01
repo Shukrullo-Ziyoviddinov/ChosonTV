@@ -3,27 +3,12 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import './FilterReyting.css';
 
-const RATING_TYPE_KEYS = {
-  rating: 'violet',
-  ratingImdb: 'imdb',
-  ratingKinopoisk: 'kinopoisk',
-  ratingNetflix: 'netflix'
-};
-
-const RATING_TYPE_LOGOS = {
-  rating: '/img/photo_2026-02-16_20-30-31_preview_rev_1.png',
-  ratingImdb: '/img/imdb.jpg',
-  ratingKinopoisk: '/img/kinopoisk.jpg',
-  ratingNetflix: '/img/netflix.jpg'
-};
+const RATING_FIELD = 'ratingImdb';
 
 const FilterReyting = ({
   movies = [],
-  selectedRatingType = 'rating',
   selectedRating,
-  onRatingTypeSelect,
   onRatingSelect,
-  hideVlFilter = false
 }) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,24 +18,16 @@ const FilterReyting = ({
   const [modalTranslateY, setModalTranslateY] = useState(0);
   const modalRef = useRef(null);
 
-  const effectiveRatingType = (hideVlFilter && selectedRatingType === 'rating') ? 'ratingImdb' : selectedRatingType;
-  const ratingTypeField = effectiveRatingType;
   const uniqueRatings = [...new Set(
     movies
-      .map(m => m[ratingTypeField])
-      .filter(v => v != null && v !== '' && v !== 'none')
+      .map((m) => m[RATING_FIELD])
+      .filter((v) => v != null && v !== '' && v !== 'none')
   )].sort((a, b) => Number(b) - Number(a));
 
-  const getRatingCount = (rating) => {
-    return movies.filter(m => m[ratingTypeField] === rating).length;
-  };
+  const getRatingCount = (rating) =>
+    movies.filter((m) => m[RATING_FIELD] === rating).length;
 
   const closeModal = () => setIsModalOpen(false);
-
-  const handleRatingTypeClick = (type) => {
-    onRatingTypeSelect(type);
-    onRatingSelect(null);
-  };
 
   const handleRatingSelect = (rating) => {
     onRatingSelect(rating);
@@ -62,121 +39,61 @@ const FilterReyting = ({
     closeModal();
   };
 
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientY);
+    setIsDraggingModal(true);
+    setModalTranslateY(0);
+  };
+
+  const onTouchMove = (e) => {
+    if (touchStart === null) return;
+    const currentY = e.targetTouches[0].clientY;
+    setTouchEnd(currentY);
+    const diff = currentY - touchStart;
+    if (diff > 0) setModalTranslateY(diff);
+  };
+
+  const onTouchEnd = () => {
+    setIsDraggingModal(false);
+    setModalTranslateY(0);
+    if (!touchStart || touchEnd === null) return;
+    const distance = touchEnd - touchStart;
+    if (distance > minSwipeDistance) closeModal();
+  };
+
   useEffect(() => {
-    if (isModalOpen) {
-      const scrollY = window.scrollY;
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.left = '0';
-      document.body.style.right = '0';
-      document.body.dataset.filtersModalScrollY = String(scrollY);
-    } else {
-      const scrollY = parseInt(document.body.dataset.filtersModalScrollY || '0', 10);
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      delete document.body.dataset.filtersModalScrollY;
-      window.scrollTo(0, scrollY);
-    }
+    if (!isModalOpen) return undefined;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
-      const scrollY = parseInt(document.body.dataset.filtersModalScrollY || '0', 10);
-      delete document.body.dataset.filtersModalScrollY;
-      window.scrollTo(0, scrollY);
+      document.body.style.overflow = originalOverflow;
     };
   }, [isModalOpen]);
 
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) closeModal();
-  };
-
-  const handleTouchStart = (e) => {
-    setTouchStart(e.touches[0].clientY);
-    setTouchEnd(e.touches[0].clientY);
-  };
-
-  const handleTouchMove = (e) => {
-    if (touchStart === null) return;
-    const currentTouch = e.touches[0].clientY;
-    const diff = currentTouch - touchStart;
-    if (diff > 0) {
-      setIsDraggingModal(true);
-      setModalTranslateY(diff);
-      setTouchEnd(currentTouch);
-    } else {
-      setIsDraggingModal(false);
-      setModalTranslateY(0);
-      setTouchStart(null);
-      setTouchEnd(null);
-    }
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStart === null) {
-      setIsDraggingModal(false);
-      setModalTranslateY(0);
-      return;
-    }
-    const distance = touchEnd !== null ? touchEnd - touchStart : 0;
-    if (distance <= 0) {
-      setIsDraggingModal(false);
-      setModalTranslateY(0);
-      setTouchStart(null);
-      setTouchEnd(null);
-      return;
-    }
-    const modalHeight = modalRef.current ? modalRef.current.offsetHeight : 300;
-    const closeThreshold = modalHeight * 0.35;
-    if (distance > closeThreshold) {
-      closeModal();
-    }
-    setIsDraggingModal(false);
-    setModalTranslateY(0);
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
-  const getBadgeText = () => {
-    if (selectedRating === null) return null;
-    const typeLabel = t(`filters.ratingTypes.${RATING_TYPE_KEYS[effectiveRatingType]}`);
-    return `${typeLabel}: ${selectedRating}`;
-  };
+  const typeLabel = t('filters.ratingTypes.imdb');
 
   return (
     <>
-      <button
-        className={`filters-btn ${selectedRating !== null ? 'filters-btn--active' : ''}`}
-        onClick={() => setIsModalOpen(true)}
-      >
-        {t('detail.rating')}
-        {selectedRating !== null && (
-          <span className="filters-btn-badge">{getBadgeText()}</span>
-        )}
+      <button type="button" className="filters-btn" onClick={() => setIsModalOpen(true)}>
+        {selectedRating != null ? `${typeLabel}: ${selectedRating}` : t('detail.rating')}
       </button>
 
       {isModalOpen && createPortal(
-        <div
-          className="filters-modal-overlay"
-          onClick={handleOverlayClick}
-        >
+        <div className="filters-modal-overlay" onClick={closeModal}>
           <div
             ref={modalRef}
             className={`filters-modal-reyting ${isDraggingModal ? 'filters-modal-reyting--dragging' : ''}`}
+            style={isDraggingModal ? { transform: `translateY(${modalTranslateY}px)` } : undefined}
             onClick={(e) => e.stopPropagation()}
-            style={{ transform: `translateY(${modalTranslateY}px)` }}
           >
             <div
               className="filters-modal-reyting-drag-area"
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
             >
               <div className="filters-modal-reyting-drag-handle" />
               <div className="filters-modal-reyting-header">
@@ -185,19 +102,6 @@ const FilterReyting = ({
               </div>
             </div>
             <div className="filters-modal-reyting-body">
-              <div className="filters-modal-reyting-type-row">
-                {Object.entries(RATING_TYPE_KEYS)
-                  .filter(([field]) => !(hideVlFilter && field === 'rating'))
-                  .map(([field, key]) => (
-                  <button
-                    key={field}
-                    className={`filters-modal-reyting-type-btn ${effectiveRatingType === field ? 'filters-modal-reyting-type-btn--active' : ''}`}
-                    onClick={() => handleRatingTypeClick(field)}
-                  >
-                    <img src={RATING_TYPE_LOGOS[field]} alt={t(`filters.ratingTypes.${key}`)} className="filters-modal-reyting-type-img" />
-                  </button>
-                ))}
-              </div>
               <button
                 className={`filters-modal-reyting-option ${selectedRating === null ? 'filters-modal-reyting-option--active' : ''}`}
                 onClick={handleClearRating}

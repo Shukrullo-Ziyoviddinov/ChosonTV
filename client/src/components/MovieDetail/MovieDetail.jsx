@@ -756,12 +756,6 @@ const MovieDetail = () => {
               </ScrollTouch>
 
               <div className="movie-detail-rating">
-                {movie.category !== 'anonslar' && movie.rating != null && movie.rating !== '' && movie.rating !== 'none' && (
-                  <div className="movie-detail-rating-item">
-                    <img src="/img/photo_2026-02-16_20-30-31_preview_rev_1.png" alt="Rating" className="movie-detail-rating-logo" />
-                    <span className="movie-detail-rating-value">{movie.rating}</span>
-                  </div>
-                )}
                 {movie.ratingImdb != null && movie.ratingImdb !== '' && movie.ratingImdb !== 'none' && (
                   <div className="movie-detail-rating-item">
                     <img src="/img/imdb.jpg" alt="IMDb" className="movie-detail-rating-logo" />
