@@ -91,6 +91,14 @@
   display: block;
 }
 
+.triller-form__video-preview--embed,
+.triller-form__video-preview--youtube {
+  min-height: 220px;
+  height: 220px;
+  max-height: none;
+  border: 0;
+}
+
 .triller-form__switch {
   margin-top: 4px;
   display: inline-flex;

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
+import { getVideoEmbed } from '../../utils/videoEmbed';
 import TrillerVideoControls from './TrillerVideoControls';
 import './TrillerModal.css';
 
@@ -34,6 +35,9 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
   const name = getLocalized(item?.name, contentLang);
   const description = getLocalized(item?.description, contentLang);
   const listItems = Array.isArray(items) && items.length ? items : item ? [item] : [];
+  const videoUrl = item?.trillerVideo ? String(item.trillerVideo).trim() : '';
+  const embed = getVideoEmbed(videoUrl, { autoplay: true });
+  const isEmbed = Boolean(embed?.embedUrl);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -44,6 +48,12 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
   }, []);
 
   useEffect(() => {
+    if (isEmbed) {
+      setIsPlaying(true);
+      setShowControls(false);
+      return undefined;
+    }
+
     const video = videoRef.current;
     if (!video) return undefined;
 
@@ -67,14 +77,14 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
       video.removeEventListener('ended', onEnded);
       video.pause();
     };
-  }, [item?.trillerVideo, activeKey]);
+  }, [item?.trillerVideo, activeKey, isEmbed]);
 
   const requestClose = useCallback((options = {}) => {
     if (closingRef.current) return;
     closingRef.current = true;
     const fromDrag = Boolean(options.fromDrag);
     setClosing(true);
-    videoRef.current?.pause();
+    videoRef.current?.pause?.();
 
     if (fromDrag) {
       setDragClose(true);
@@ -195,23 +205,37 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
         <div className="triller-modal-content">
           <div className="triller-modal-main">
             <div className="triller-modal-video-wrap">
-              <video
-                key={activeKey}
-                ref={videoRef}
-                className="triller-modal-video"
-                src={item?.trillerVideo ? encodeURI(item.trillerVideo) : ''}
-                playsInline
-                preload="auto"
-                onClick={() => setShowControls((v) => !v)}
-              />
-              <TrillerVideoControls
-                videoRef={videoRef}
-                isPlaying={isPlaying}
-                onPlayPause={handlePlayPause}
-                show={showControls}
-                onToggle={() => setShowControls((v) => !v)}
-                onInteraction={() => setShowControls(true)}
-              />
+              {isEmbed ? (
+                <iframe
+                  key={activeKey}
+                  className="triller-modal-video triller-modal-video--embed"
+                  src={embed.embedUrl}
+                  title={name || 'Triller video'}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+              ) : (
+                <>
+                  <video
+                    key={activeKey}
+                    ref={videoRef}
+                    className="triller-modal-video"
+                    src={videoUrl ? encodeURI(videoUrl) : ''}
+                    playsInline
+                    preload="auto"
+                    onClick={() => setShowControls((v) => !v)}
+                  />
+                  <TrillerVideoControls
+                    videoRef={videoRef}
+                    isPlaying={isPlaying}
+                    onPlayPause={handlePlayPause}
+                    show={showControls}
+                    onToggle={() => setShowControls((v) => !v)}
+                    onInteraction={() => setShowControls(true)}
+                  />
+                </>
+              )}
             </div>
 
             <div className="triller-modal-meta">

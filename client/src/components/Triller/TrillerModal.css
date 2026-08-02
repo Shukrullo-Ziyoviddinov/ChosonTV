@@ -105,6 +105,12 @@
   background: #000;
 }
 
+.triller-modal-video--embed,
+.triller-modal-video--youtube {
+  border: 0;
+  object-fit: unset;
+}
+
 .triller-modal-content {
   flex: 1;
   min-height: 0;

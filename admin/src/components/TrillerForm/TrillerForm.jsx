@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createTriller, fetchTrillers } from "../../services/trillerApi";
+import { getVideoEmbed } from "../../utils/videoEmbed";
 import "./TrillerForm.css";
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:5000";
@@ -112,7 +113,10 @@ export default function TrillerForm({
 
   const patch = (patchData) => setForm((prev) => ({ ...prev, ...patchData }));
 
-  const videoPreview = toMediaUrl(form.trillerVideo.trim());
+  const videoRaw = form.trillerVideo.trim();
+  const embed = getVideoEmbed(videoRaw);
+  const embedUrl = embed?.embedUrl || "";
+  const videoPreview = embedUrl || toMediaUrl(videoRaw);
   const imagePreviewSrc = form.imagePreview
     ? toMediaUrl(form.imagePreview)
     : "";
@@ -250,18 +254,28 @@ export default function TrillerForm({
       />
 
       <label className="triller-form__label" htmlFor="triller-video">
-        Video URL
+        Video URL (mp4, YouTube yoki Mover.uz)
       </label>
       <input
         id="triller-video"
         className="triller-form__input"
         type="text"
-        placeholder="/video/trailer.mp4 yoki https://..."
+        placeholder="https://youtu.be/... | https://mover.uz/watch/... | /video/trailer.mp4"
         value={form.trillerVideo}
         onChange={(e) => patch({ trillerVideo: e.target.value })}
       />
       <div className="triller-form__preview-box">
-        {videoPreview ? (
+        {embedUrl ? (
+          <iframe
+            key={embedUrl}
+            className="triller-form__video-preview triller-form__video-preview--embed"
+            src={embedUrl}
+            title="Video preview"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
+        ) : videoPreview ? (
           <video
             key={videoPreview}
             className="triller-form__video-preview"
