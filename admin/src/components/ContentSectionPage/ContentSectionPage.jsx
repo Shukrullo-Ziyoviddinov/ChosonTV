@@ -6,6 +6,7 @@ import './ContentSectionPage.css';
 const TITLE_MAP = {
   movies: 'Kinolar',
   actors: 'Aktyorlar',
+  trillers: 'Trillerlar',
   banners: 'Bannerlar',
   ads: 'Reklamalar',
   genres: 'Janrlar',

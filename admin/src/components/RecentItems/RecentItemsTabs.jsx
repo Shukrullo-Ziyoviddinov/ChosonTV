@@ -3,6 +3,7 @@ import ScrollTouch from '../ScrollTouch/ScrollTouch';
 const TABS = [
   { id: 'movies', label: 'Kinolar' },
   { id: 'actors', label: 'Aktyorlar' },
+  { id: 'trillers', label: 'Trillerlar' },
   { id: 'banners', label: 'Bannerlar' },
   { id: 'ads', label: 'Reklama' },
   { id: 'genres', label: 'Janrlar' },
