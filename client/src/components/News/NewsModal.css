@@ -64,6 +64,14 @@
   display: block;
 }
 
+.news-modal-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: #000;
+}
+
 .news-modal-img--empty {
   background: rgba(255, 255, 255, 0.08);
 }

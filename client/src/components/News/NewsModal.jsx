@@ -33,6 +33,8 @@ const NewsModal = ({ item, onClose }) => {
   const name = getLocalized(item.name, contentLang);
   const description = getLocalized(item.description, contentLang);
   const imgSrc = item.img ? encodeURI(item.img) : '';
+  const videoSrc = item.video ? encodeURI(item.video) : '';
+  const hasDate = item.day != null && item.month != null && item.year != null;
 
   return (
     <div className="news-modal" role="dialog" aria-modal="true" aria-label={name || 'Yangilik'}>
@@ -55,7 +57,16 @@ const NewsModal = ({ item, onClose }) => {
         </button>
 
         <div className="news-modal-media">
-          {imgSrc ? (
+          {videoSrc ? (
+            <video
+              className="news-modal-video"
+              src={videoSrc}
+              controls
+              playsInline
+              autoPlay
+              poster={imgSrc || undefined}
+            />
+          ) : imgSrc ? (
             <img className="news-modal-img" src={imgSrc} alt={name || ''} />
           ) : (
             <div className="news-modal-img news-modal-img--empty" />
@@ -65,13 +76,15 @@ const NewsModal = ({ item, onClose }) => {
         <div className="news-modal-body">
           {name ? <h3 className="news-modal-name">{name}</h3> : null}
 
-          <div className="news-modal-date">
-            <span>{pad2(item.day)}</span>
-            <span>/</span>
-            <span>{pad2(item.month)}</span>
-            <span>/</span>
-            <span>{item.year}</span>
-          </div>
+          {hasDate ? (
+            <div className="news-modal-date">
+              <span>{pad2(item.day)}</span>
+              <span>/</span>
+              <span>{pad2(item.month)}</span>
+              <span>/</span>
+              <span>{item.year}</span>
+            </div>
+          ) : null}
 
           {description ? (
             <p className="news-modal-description">{description}</p>
