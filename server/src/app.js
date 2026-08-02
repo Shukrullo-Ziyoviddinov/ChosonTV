@@ -64,6 +64,7 @@ app.use("/api/movies-catalog", moviesCatalogRoutes);
 app.use("/api/movies", moviesRoutes);
 app.use("/api/ads", adsRoutes);
 app.use("/api/trillers", require("./routes/trillerRoutes"));
+app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
