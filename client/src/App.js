@@ -7,6 +7,7 @@ import RecommendedPage from './pages/RecommendedPage';
 import WishlistPage from './pages/WishlistPage';
 import ProfilePage from './pages/ProfilePage';
 import ActorsPage from './pages/ActorsPage';
+import NewsPage from './pages/NewsPage';
 import MovieDetail from './components/MovieDetail/MovieDetail';
 import { WishlistProvider } from './context/WishlistContext';
 import { ViewedMoviesProvider } from './context/ViewedMoviesContext';
@@ -97,6 +98,7 @@ function App() {
                 <Route path="/wishlist" element={<WishlistPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/actor/:id" element={<ActorsPage />} />
+                <Route path="/news" element={<NewsPage />} />
               </Routes>
             </main>
             <NavbarMobile />
