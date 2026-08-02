@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { fetchRecentItems } from '../../services/recentItemsApi';
 import { deleteRecentItem, updateRecentItem } from '../../services/recentItemCrudApi';
 import RecentItemsList from '../RecentItems/RecentItemsList';
@@ -29,7 +29,7 @@ export default function ContentSectionPage({ section = 'movies' }) {
   const [deleteItem, setDeleteItem] = useState(null);
   const [busy, setBusy] = useState(false);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -40,11 +40,11 @@ export default function ContentSectionPage({ section = 'movies' }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [section]);
 
   useEffect(() => {
     loadData();
-  }, [section]);
+  }, [loadData]);
 
   const onDelete = async (item) => {
     setBusy(true);
