@@ -13,6 +13,7 @@ const ACTIONS = [
   { id: 'movie', label: "Kino qo'shish" },
   { id: 'actor', label: "Aktyor qo'shish" },
   { id: 'triller', label: "Triller qo'shish" },
+  { id: 'news', label: "Yangilik qo'shish" },
   { id: 'banner', label: "Banner qo'shish" },
   { id: 'ad', label: "Reklama qo'shish" },
   { id: 'genre', label: "Janr qo'shish" },
