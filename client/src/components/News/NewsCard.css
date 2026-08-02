@@ -115,14 +115,21 @@
 @media (max-width: 768px) {
   .news-card {
     width: 100%;
-    min-height: 100px;
-    max-height: 120px;
+    min-height: 120px;
+    max-height: 160px;
     border-radius: 12px;
   }
 
   .news-card-media {
     width: 50%;
     min-height: 120px;
+    padding: 6px 0 6px 6px;
+    box-sizing: border-box;
+    background: transparent;
+  }
+
+  .news-card-img {
+    border-radius: 8px;
   }
 
   .news-card-body {
