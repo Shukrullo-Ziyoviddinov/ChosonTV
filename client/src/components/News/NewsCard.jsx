@@ -29,7 +29,6 @@ const NewsCard = ({ item, onReadMore }) => {
         ) : (
           <div className="news-card-img news-card-img--empty" />
         )}
-        {item?.badge ? <span className="news-card-badge">{item.badge}</span> : null}
       </div>
 
       <div className="news-card-body">

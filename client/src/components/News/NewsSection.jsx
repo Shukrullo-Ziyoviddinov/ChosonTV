@@ -27,7 +27,7 @@ const NewsSection = () => {
           </p>
         </div>
 
-        <HorizontalScroll scrollAmount={420}>
+        <HorizontalScroll scrollAmount={800}>
           {items.map((item) => (
             <NewsCard
               key={item.id}

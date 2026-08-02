@@ -1,19 +1,24 @@
 .news-card {
   flex-shrink: 0;
-  width: min(420px, calc(100vw - 3rem));
+  width: calc(100vw - 4rem);
+  max-width: 1400px;
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: stretch;
   background: #141414;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
   overflow: hidden;
   color: inherit;
+  min-height: 200px;
 }
 
 .news-card-media {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 10;
+  width: 42%;
+  flex-shrink: 0;
+  min-height: 180px;
   background: rgba(255, 255, 255, 0.06);
   overflow: hidden;
 }
@@ -29,31 +34,18 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-.news-card-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: #e53935;
-  color: #fff;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 .news-card-body {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
-  padding: 14px 14px 16px;
+  padding: 14px 16px 16px;
   flex: 1;
+  min-width: 0;
 }
 
 .news-card-name {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 700;
   line-height: 1.35;
   color: #fff;
@@ -65,7 +57,7 @@
 
 .news-card-description {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.62);
   display: -webkit-box;
@@ -132,15 +124,39 @@
 
 @media (max-width: 768px) {
   .news-card {
-    width: min(340px, calc(100vw - 2rem));
+    width: calc(100vw - 2rem);
+    min-height: 150px;
+  }
+
+  .news-card-media {
+    width: 38%;
+    min-height: 140px;
+  }
+
+  .news-card-body {
+    padding: 10px 12px 12px;
+    gap: 0.4rem;
   }
 
   .news-card-name {
-    font-size: 0.98rem;
+    font-size: 0.92rem;
   }
 
   .news-card-description {
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     -webkit-line-clamp: 2;
+  }
+
+  .news-card-date-item {
+    min-width: 30px;
+    padding: 3px 4px;
+  }
+
+  .news-card-date-item strong {
+    font-size: 0.75rem;
+  }
+
+  .news-card-more {
+    font-size: 0.82rem;
   }
 }
