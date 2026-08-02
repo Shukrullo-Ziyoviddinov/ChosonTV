@@ -175,6 +175,10 @@
   background-color: rgba(229, 9, 20, 0.15);
 }
 
+.navbar-icon-btn--active {
+  color: #ffc107;
+}
+
 .navbar-language-wrapper {
   position: relative;
 }
