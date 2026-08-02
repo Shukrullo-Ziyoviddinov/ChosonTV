@@ -1,5 +1,6 @@
 import React from 'react';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
+import { formatNewsDate, formatNewsViews } from './newsDate';
 import './NewsCard.css';
 
 const getLocalized = (value, lang) => {
@@ -10,16 +11,13 @@ const getLocalized = (value, lang) => {
   return String(value);
 };
 
-const pad2 = (n) => String(n).padStart(2, '0');
-
 const NewsCard = ({ item, onReadMore }) => {
   const { contentLang } = useContentLanguage();
   const name = getLocalized(item?.name, contentLang);
   const description = getLocalized(item?.description, contentLang);
   const imgSrc = item?.img ? encodeURI(item.img) : '';
-  const day = item?.day;
-  const month = item?.month;
-  const year = item?.year;
+  const dateLabel = formatNewsDate(item);
+  const viewsLabel = formatNewsViews(item?.views);
 
   return (
     <article className="news-card">
@@ -35,20 +33,24 @@ const NewsCard = ({ item, onReadMore }) => {
         {name ? <h3 className="news-card-name">{name}</h3> : null}
         {description ? <p className="news-card-description">{description}</p> : null}
 
-        <div className="news-card-date" aria-label="Sana">
-          <span className="news-card-date-item">
-            <small>Kun</small>
-            <strong>{pad2(day)}</strong>
-          </span>
-          <span className="news-card-date-sep">/</span>
-          <span className="news-card-date-item">
-            <small>Oy</small>
-            <strong>{pad2(month)}</strong>
-          </span>
-          <span className="news-card-date-sep">/</span>
-          <span className="news-card-date-item">
-            <small>Yil</small>
-            <strong>{year}</strong>
+        <div className="news-card-date" aria-label="Sana va ko'rishlar">
+          {dateLabel ? (
+            <span className="news-card-date-meta" title="Yuklangan sana">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <rect x="3" y="4" width="18" height="18" rx="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              {dateLabel}
+            </span>
+          ) : null}
+          <span className="news-card-date-meta" title="Ko'rishlar">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+              <circle cx="12" cy="12" r="3" />
+            </svg>
+            {viewsLabel}
           </span>
         </div>
 

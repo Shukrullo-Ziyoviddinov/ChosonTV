@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
+import { formatNewsDate, formatNewsViews, getNewsDateParts } from './newsDate';
 import './NewsModal.css';
 
 const getLocalized = (value, lang) => {
@@ -9,8 +10,6 @@ const getLocalized = (value, lang) => {
   }
   return String(value);
 };
-
-const pad2 = (n) => String(n).padStart(2, '0');
 
 const NewsModal = ({ item, onClose }) => {
   const { contentLang } = useContentLanguage();
@@ -34,7 +33,9 @@ const NewsModal = ({ item, onClose }) => {
   const description = getLocalized(item.description, contentLang);
   const imgSrc = item.img ? encodeURI(item.img) : '';
   const videoSrc = item.video ? encodeURI(item.video) : '';
-  const hasDate = item.day != null && item.month != null && item.year != null;
+  const dateLabel = formatNewsDate(item);
+  const hasViews = item.views != null;
+  const hasDate = Boolean(getNewsDateParts(item));
 
   return (
     <div className="news-modal" role="dialog" aria-modal="true" aria-label={name || 'Yangilik'}>
@@ -76,13 +77,11 @@ const NewsModal = ({ item, onClose }) => {
         <div className="news-modal-body">
           {name ? <h3 className="news-modal-name">{name}</h3> : null}
 
-          {hasDate ? (
+          {hasDate || hasViews ? (
             <div className="news-modal-date">
-              <span>{pad2(item.day)}</span>
-              <span>/</span>
-              <span>{pad2(item.month)}</span>
-              <span>/</span>
-              <span>{item.year}</span>
+              {dateLabel ? <span>{dateLabel}</span> : null}
+              {hasDate && hasViews ? <span>·</span> : null}
+              {hasViews ? <span>{formatNewsViews(item.views)} ko'rish</span> : null}
             </div>
           ) : null}
 
