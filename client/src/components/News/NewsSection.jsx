@@ -4,6 +4,7 @@ import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
 import { getNewsSection } from './newsData';
 import NewsCard from './NewsCard';
 import NewsModal from './NewsModal';
+import NewsGrid from './NewsGrid';
 import TrendingNews from './TrendingNews';
 import './NewsSection.css';
 
@@ -39,6 +40,8 @@ const NewsSection = () => {
                 />
               ))}
             </HorizontalScroll>
+
+            <NewsGrid onReadMore={setSelected} />
           </div>
 
           <div className="news-section-sidebar">

@@ -136,6 +136,105 @@ export const newsCollection = {
       year: 2026,
     },
   ],
+
+  yangiliklarGrid: [
+    {
+      id: 201,
+      name: {
+        uz: "Avengers 5: Kang Dynasty suratga olish yakunlandi",
+        ru: "Съёмки Avengers 5: Kang Dynasty завершены",
+      },
+      description: {
+        uz: "Marvel Studios yangi Avengers filmining suratga olish ishlarini yakunladi. Jonathan Majors Kang rolida qaytadi. Premera sanasi hali e'lon qilinmagan.",
+        ru: "Marvel Studios завершила съёмки нового Avengers. Джонатан Мейджорс снова сыграет Канга. Дата премьеры пока не объявлена.",
+      },
+      img: "/img/movie-4.5-5.jpg",
+      views: 2800,
+      day: 30,
+      month: 7,
+      year: 2026,
+    },
+    {
+      id: 202,
+      name: {
+        uz: "The Batman 2: birinchi teaser chiqishi mumkin",
+        ru: "The Batman 2: возможен первый тизер",
+      },
+      description: {
+        uz: "DC Studios yaqin oylarda The Batman davomi uchun teaser chiqarishi mumkinligi haqida gapirilmoqda. Robert Pattinson yana Batman rolida.",
+        ru: "Ходят слухи, что DC Studios скоро может выпустить тизер продолжения The Batman. Роберт Паттинсон снова в роли Бэтмена.",
+      },
+      img: "/img/movie-4.5-3.jpg",
+      views: 5100,
+      day: 28,
+      month: 7,
+      year: 2026,
+    },
+    {
+      id: 203,
+      name: {
+        uz: "Stranger Things 5 yakuniy fasl sanasi e'lon qilindi",
+        ru: "Объявлена дата финального сезона Stranger Things 5",
+      },
+      description: {
+        uz: "Netflix Stranger Things oxirgi faslining chiqish sanasini tasdiqladi. Muxlislar uchun maxsus treyler ham chiqariladi.",
+        ru: "Netflix подтвердила дату выхода последнего сезона Stranger Things. Для фанатов также выйдет специальный трейлер.",
+      },
+      img: "/img/movie-4.5-4.webp",
+      views: 12400,
+      day: 25,
+      month: 7,
+      year: 2026,
+    },
+    {
+      id: 204,
+      name: {
+        uz: "Mission Impossible 8: Tom Cruise yana stunt qildi",
+        ru: "Mission Impossible 8: Том Круз снова сделал трюк",
+      },
+      description: {
+        uz: "Tom Cruise yangi filmdagi eng xavfli stuntni o'zi ijro etganini aytdi. Video kadrlar tez orada e'lon qilinadi.",
+        ru: "Том Круз подтвердил, что сам выполнил самый опасный трюк в новом фильме. Видеокадры скоро опубликуют.",
+      },
+      img: "/img/movie-4.5-6.avif",
+      views: 8700,
+      day: 22,
+      month: 7,
+      year: 2026,
+    },
+    {
+      id: 205,
+      name: {
+        uz: "Demon Slayer: Infinity Castle treyleri chiqdi",
+        ru: "Вышел трейлер Demon Slayer: Infinity Castle",
+      },
+      description: {
+        uz: "Anime filmining rasmiy treyleri e'lon qilindi. Jangari sahnalar va yangi qahramonlar ko'rsatilgan.",
+        ru: "Опубликован официальный трейлер аниме-фильма. Показаны боевые сцены и новые персонажи.",
+      },
+      img: "/img/movie-4.5-7.jpg",
+      views: 15200,
+      day: 20,
+      month: 7,
+      year: 2026,
+    },
+    {
+      id: 206,
+      name: {
+        uz: "Christopher Nolan yangi filmi uchun aktyorlar tanlandi",
+        ru: "Выбран актёрский состав нового фильма Кристофера Нолана",
+      },
+      description: {
+        uz: "Nolan navbatdagi loyihasi uchun yulduzli cast e'lon qildi. Suratga olish 2026 oxirida boshlanadi.",
+        ru: "Нолан объявил звёздный каст следующего проекта. Съёмки начнутся в конце 2026 года.",
+      },
+      img: "/img/movie-4.5-8.jpg",
+      views: 9300,
+      day: 18,
+      month: 7,
+      year: 2026,
+    },
+  ],
 };
 
 export const getNewsSection = (sectionName) => {
