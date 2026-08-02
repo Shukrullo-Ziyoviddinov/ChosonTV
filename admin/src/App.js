@@ -112,14 +112,14 @@ function App() {
           <Statistika />
         ) : activeView === 'actors' ? (
           <ContentSectionPage section="actors" />
+        ) : activeView === 'trillers' ? (
+          <ContentSectionPage section="trillers" />
         ) : activeView === 'banners' ? (
           <ContentSectionPage section="banners" />
         ) : activeView === 'ads' ? (
           <ContentSectionPage section="ads" />
         ) : activeView === 'genres' ? (
           <ContentSectionPage section="genres" />
-        ) : activeView === 'ads' ? (
-          <ContentSectionPage section="ads" />
         ) : (
           <ContentSectionPage section="movies" />
         )}

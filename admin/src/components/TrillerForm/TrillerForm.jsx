@@ -1,8 +1,28 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createTriller, fetchTrillers } from "../../services/trillerApi";
 import "./TrillerForm.css";
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:5000";
+
+function UploadIcon() {
+  return (
+    <svg className="triller-form__upload-icon" viewBox="0 0 24 24" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M19 20H5v-2h14v2zM11 16h2v-6h3l-4-4-4 4h3v6z"
+      />
+    </svg>
+  );
+}
+
+function toDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 
 function toMediaUrl(path) {
   if (!path) return "";
@@ -25,6 +45,7 @@ export default function TrillerForm({
   initialData = null,
   onSubmitData,
 }) {
+  const fileRef = useRef(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
@@ -34,6 +55,7 @@ export default function TrillerForm({
     descriptionUz: "",
     descriptionRu: "",
     img: "",
+    imagePreview: "",
     trillerVideo: "",
     isActive: true,
     sortOrder: "1",
@@ -41,13 +63,15 @@ export default function TrillerForm({
 
   useEffect(() => {
     if (mode === "edit" && initialData) {
+      const img = initialData?.img || "";
       setForm({
         trillerId: String(initialData.trillerId ?? initialData.id ?? ""),
         nameUz: initialData?.name?.uz || "",
         nameRu: initialData?.name?.ru || "",
         descriptionUz: initialData?.description?.uz || "",
         descriptionRu: initialData?.description?.ru || "",
-        img: initialData?.img || "",
+        img,
+        imagePreview: img,
         trillerVideo: initialData?.trillerVideo || "",
         isActive: initialData?.isActive !== false,
         sortOrder: String(initialData?.sortOrder ?? 1),
@@ -81,18 +105,29 @@ export default function TrillerForm({
     return (
       form.nameUz.trim() &&
       form.nameRu.trim() &&
+      form.img &&
       form.trillerVideo.trim()
     );
-  }, [form.nameUz, form.nameRu, form.trillerVideo]);
+  }, [form.nameUz, form.nameRu, form.img, form.trillerVideo]);
 
   const patch = (patchData) => setForm((prev) => ({ ...prev, ...patchData }));
 
-  const imgPreview = toMediaUrl(form.img.trim());
   const videoPreview = toMediaUrl(form.trillerVideo.trim());
+  const imagePreviewSrc = form.imagePreview
+    ? toMediaUrl(form.imagePreview)
+    : "";
+
+  const onPickImage = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const imageData = await toDataUrl(file);
+    patch({ img: imageData, imagePreview: imageData });
+    if (event.target) event.target.value = "";
+  };
 
   const onSubmit = async () => {
     if (!canSave) {
-      setError("Nomi (UZ/RU) va video URL majburiy.");
+      setError("Nomi (UZ/RU), rasm va video URL majburiy.");
       return;
     }
     setError("");
@@ -108,7 +143,7 @@ export default function TrillerForm({
           uz: form.descriptionUz.trim(),
           ru: form.descriptionRu.trim(),
         },
-        img: form.img.trim(),
+        img: form.img,
         trillerVideo: form.trillerVideo.trim(),
         isActive: form.isActive,
         sortOrder: Number(form.sortOrder) || 1,
@@ -186,30 +221,33 @@ export default function TrillerForm({
         onChange={(e) => patch({ descriptionRu: e.target.value })}
       />
 
-      <label className="triller-form__label" htmlFor="triller-img">
-        Rasm URL
-      </label>
-      <input
-        id="triller-img"
-        className="triller-form__input"
-        type="text"
-        placeholder="/img/movie-4.5-1.avif yoki https://..."
-        value={form.img}
-        onChange={(e) => patch({ img: e.target.value })}
-      />
-      <div className="triller-form__preview-box">
-        {imgPreview ? (
+      <label className="triller-form__label">Rasm</label>
+      <button
+        type="button"
+        className="triller-form__upload"
+        onClick={() => fileRef.current?.click()}
+      >
+        {imagePreviewSrc ? (
           <img
             className="triller-form__img-preview"
-            src={imgPreview}
+            src={imagePreviewSrc}
             alt="Triller rasm"
           />
         ) : (
-          <span className="triller-form__preview-empty">
-            Rasm URL kiriting — preview shu yerda chiqadi
-          </span>
+          <div className="triller-form__upload-inner">
+            <UploadIcon />
+            <span>Rasm yuklash</span>
+            <small>JPG, PNG, WEBP, AVIF</small>
+          </div>
         )}
-      </div>
+      </button>
+      <input
+        ref={fileRef}
+        className="triller-form__file-input"
+        type="file"
+        accept="image/*"
+        onChange={onPickImage}
+      />
 
       <label className="triller-form__label" htmlFor="triller-video">
         Video URL

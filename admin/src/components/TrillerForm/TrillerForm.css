@@ -40,6 +40,35 @@
   justify-content: center;
 }
 
+.triller-form__upload {
+  border: 1px dashed #cfd5e3;
+  background: #fafbff;
+  border-radius: 12px;
+  min-height: 140px;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.triller-form__upload-inner {
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  color: #666d86;
+}
+
+.triller-form__upload-icon {
+  width: 28px;
+  height: 28px;
+  color: #5b3fe7;
+}
+
+.triller-form__file-input {
+  display: none;
+}
+
 .triller-form__preview-empty {
   color: #666d86;
   font-size: 13px;
