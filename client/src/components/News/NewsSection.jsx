@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import HorizontalScroll from '../HorizontalScroll/HorizontalScroll';
-import { getNewsSection } from './newsData';
+import { fetchNewsLayout } from '../../api/newsApi';
 import NewsCard from './NewsCard';
 import NewsModal from './NewsModal';
 import NewsGrid from './NewsGrid';
@@ -11,9 +11,46 @@ import './NewsSection.css';
 const NewsSection = () => {
   const { i18n } = useTranslation();
   const [selected, setSelected] = useState(null);
-  const items = getNewsSection('yangiliklar');
+  const [layout, setLayout] = useState({
+    yangiliklar: [],
+    trenddagiYangiliklar: [],
+    yangiliklarGrid: [],
+  });
+  const [loading, setLoading] = useState(true);
 
-  if (!items.length) return null;
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchNewsLayout({ active: true });
+        if (!cancelled) setLayout(data);
+      } catch (_error) {
+        if (!cancelled) {
+          setLayout({
+            yangiliklar: [],
+            trenddagiYangiliklar: [],
+            yangiliklarGrid: [],
+          });
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const featured = layout.yangiliklar;
+  const trending = layout.trenddagiYangiliklar;
+  const grid = layout.yangiliklarGrid;
+  const hasContent = featured.length > 0 || trending.length > 0 || grid.length > 0;
+
+  if (!loading && !hasContent) return null;
 
   return (
     <section className="news-section">
@@ -31,21 +68,23 @@ const NewsSection = () => {
 
         <div className="news-section-layout">
           <div className="news-section-main">
-            <HorizontalScroll scrollAmount={800}>
-              {items.map((item) => (
-                <NewsCard
-                  key={item.id}
-                  item={item}
-                  onReadMore={setSelected}
-                />
-              ))}
-            </HorizontalScroll>
+            {featured.length > 0 ? (
+              <HorizontalScroll scrollAmount={800}>
+                {featured.map((item) => (
+                  <NewsCard
+                    key={item.id || item.newsId}
+                    item={item}
+                    onReadMore={setSelected}
+                  />
+                ))}
+              </HorizontalScroll>
+            ) : null}
 
-            <NewsGrid onReadMore={setSelected} />
+            <NewsGrid items={grid} onReadMore={setSelected} />
           </div>
 
           <div className="news-section-sidebar">
-            <TrendingNews onSelect={setSelected} />
+            <TrendingNews items={trending} onSelect={setSelected} />
           </div>
         </div>
       </div>

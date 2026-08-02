@@ -1,12 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { getNewsSection } from './newsData';
 import TrendingNewsCard from './TrendingNewsCard';
 import './TrendingNews.css';
 
-const TrendingNews = ({ onSelect }) => {
+const TrendingNews = ({ items = [], onSelect }) => {
   const { i18n } = useTranslation();
-  const items = getNewsSection('trenddagiYangiliklar');
 
   if (!items.length) return null;
 
@@ -25,7 +23,11 @@ const TrendingNews = ({ onSelect }) => {
 
       <div className="trending-news-list">
         {items.map((item) => (
-          <TrendingNewsCard key={item.id} item={item} onClick={onSelect} />
+          <TrendingNewsCard
+            key={item.id || item.newsId}
+            item={item}
+            onClick={onSelect}
+          />
         ))}
       </div>
     </aside>

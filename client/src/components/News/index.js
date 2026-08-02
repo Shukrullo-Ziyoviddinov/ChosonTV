@@ -5,4 +5,3 @@ export { default as NewsGrid } from './NewsGrid';
 export { default as NewsGridCard } from './NewsGridCard';
 export { default as TrendingNews } from './TrendingNews';
 export { default as TrendingNewsCard } from './TrendingNewsCard';
-export { newsCollection, getNewsSection } from './newsData';
