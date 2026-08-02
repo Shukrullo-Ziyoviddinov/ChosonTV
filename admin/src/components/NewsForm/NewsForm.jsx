@@ -65,7 +65,6 @@ export default function NewsForm({
     img: "",
     imagePreview: "",
     video: "",
-    views: "0",
     isActive: true,
     sortOrder: "1",
   });
@@ -83,7 +82,6 @@ export default function NewsForm({
         img,
         imagePreview: img,
         video: initialData?.video || "",
-        views: String(initialData?.views ?? 0),
         isActive: initialData?.isActive !== false,
         sortOrder: String(initialData?.sortOrder ?? 1),
       });
@@ -168,7 +166,6 @@ export default function NewsForm({
         },
         img: form.img,
         video: form.video.trim(),
-        views: Number(form.views) || 0,
         isActive: form.isActive,
         sortOrder: Number(form.sortOrder) || 1,
       };
@@ -326,18 +323,6 @@ export default function NewsForm({
           </span>
         )}
       </div>
-
-      <label className="news-form__label" htmlFor="news-views">
-        Ko&apos;rishlar (views)
-      </label>
-      <input
-        id="news-views"
-        className="news-form__input"
-        type="number"
-        min="0"
-        value={form.views}
-        onChange={(e) => patch({ views: e.target.value })}
-      />
 
       <label className="news-form__switch">
         <input

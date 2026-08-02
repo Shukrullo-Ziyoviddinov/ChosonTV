@@ -45,6 +45,15 @@ const userSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    viewedNews: {
+      type: [
+        {
+          newsId: { type: Number, required: true },
+          viewedAt: { type: Date, default: Date.now },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: true }
 );

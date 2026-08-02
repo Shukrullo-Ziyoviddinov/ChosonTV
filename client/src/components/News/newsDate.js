@@ -1,8 +1,9 @@
 const pad2 = (n) => String(Number(n) || 0).padStart(2, '0');
 
 /**
- * Yuklangan sana: createdAt (ISO) — keyin server timestamps bilan bir xil ishlaydi.
- * Eski day/month/year bo'lsa fallback.
+ * Sana: createdAt (server timestamps) — admin yaratganda avtomatik.
+ * day/month/year API dan kelsa fallback.
+ * Ko'rishlar formati: formatNewsViews.
  */
 export function getNewsDateParts(item) {
   const raw = item?.createdAt || item?.uploadedAt;

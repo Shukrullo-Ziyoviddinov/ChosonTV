@@ -1,15 +1,16 @@
 const News = require("../models/news");
 const { NEWS_SECTIONS } = require("../models/news");
+const { attachNewsDateFields } = require("../utils/newsDate");
 
 const toPublicNews = (row) => {
   if (!row) return null;
   const { _id, createdAt, updatedAt, ...rest } = row;
-  return {
+  return attachNewsDateFields({
     ...rest,
     id: rest.newsId,
     createdAt,
     updatedAt,
-  };
+  });
 };
 
 const normalizeLocalized = (value, fallback = "") => {
@@ -136,7 +137,7 @@ const createNews = async (payload = {}) => {
     description: data.description || { uz: "", ru: "" },
     img: data.img || "",
     video: data.video || "",
-    views: data.views || 0,
+    views: 0,
     isActive: data.isActive !== false,
     sortOrder: Number.isFinite(data.sortOrder) ? data.sortOrder : nextId,
   });
@@ -146,6 +147,9 @@ const createNews = async (payload = {}) => {
 
 const updateNews = async (newsId, payload = {}) => {
   const data = buildNewsPayload(payload);
+  // Ko'rishlar faqat registerNewsView orqali oshadi — update da qo'lda o'zgartirilmasin
+  delete data.views;
+
   if (data.section !== undefined && !NEWS_SECTIONS.includes(data.section)) {
     const error = new Error("Noto'g'ri section.");
     error.statusCode = 400;

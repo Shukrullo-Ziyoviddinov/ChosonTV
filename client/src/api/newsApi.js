@@ -1,10 +1,16 @@
 import { apiClient } from '../services/apiClient';
+import { BASE_URL } from '../config/api';
+import { createApiError, normalizeApiError } from '../utils/errorHandler';
+import { clearAuthSession, getAuthToken } from '../utils/authStorage';
 
 const EMPTY_LAYOUT = {
   yangiliklar: [],
   trenddagiYangiliklar: [],
   yangiliklarGrid: [],
 };
+
+const getBase = () => BASE_URL.replace(/\/$/, '');
+const toUrl = (path) => `${getBase()}${path.startsWith('/') ? path : `/${path}`}`;
 
 export const fetchNewsLayout = async ({ active = true } = {}) => {
   const params = new URLSearchParams();
@@ -49,4 +55,38 @@ export const fetchNews = async ({
   });
 
   return Array.isArray(data) ? data : [];
+};
+
+/**
+ * Auth bo'lgan user uchun: bitta news = bir marta +1.
+ */
+export const registerNewsView = async (newsId) => {
+  try {
+    const token = getAuthToken();
+    if (!token) {
+      throw createApiError('Unauthorized', 401);
+    }
+
+    const response = await fetch(toUrl(`/api/news/${newsId}/view`), {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const json = await response.json().catch(() => null);
+    if (!response.ok || !(json?.success ?? json?.ok)) {
+      if (response.status === 401) clearAuthSession();
+      throw createApiError(
+        json?.message || `HTTP ${response.status}`,
+        response.status,
+        json
+      );
+    }
+
+    return json?.data || null;
+  } catch (error) {
+    throw normalizeApiError(error);
+  }
 };

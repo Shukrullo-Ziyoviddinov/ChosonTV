@@ -1,5 +1,6 @@
 const newsService = require("../services/newsService");
 const { NEWS_SECTIONS } = require("../models/news");
+const { registerNewsView } = require("../utils/newsViews");
 const { success, fail } = require("../utils/apiResponse");
 const { parsePagination, buildPaginationMeta } = require("../utils/pagination");
 
@@ -132,6 +133,31 @@ const remove = async (req, res, next) => {
   }
 };
 
+const registerView = async (req, res, next) => {
+  try {
+    const newsId = Number(req.params.newsId || req.params.id);
+    if (!Number.isFinite(newsId)) {
+      return fail(res, "Noto'g'ri newsId.", 400);
+    }
+
+    const result = await registerNewsView({
+      user: req.user,
+      newsId,
+    });
+
+    return success(
+      res,
+      result,
+      result.counted ? "Ko'rish qo'shildi." : "Bu yangilik allaqachon ko'rilgan."
+    );
+  } catch (error) {
+    if (error?.statusCode) {
+      return fail(res, error.message, error.statusCode);
+    }
+    return next(error);
+  }
+};
+
 module.exports = {
   list,
   layout,
@@ -139,4 +165,5 @@ module.exports = {
   create,
   update,
   remove,
+  registerView,
 };
