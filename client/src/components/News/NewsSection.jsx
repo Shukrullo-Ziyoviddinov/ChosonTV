@@ -17,19 +17,19 @@ const NewsSection = () => {
   return (
     <section className="news-section">
       <div className="news-section-container">
+        <div className="news-section-header">
+          <h2 className="news-section-title">
+            {i18n.language === 'ru' ? 'Новости' : 'Yangiliklar'}
+          </h2>
+          <p className="news-section-subtitle">
+            {i18n.language === 'ru'
+              ? 'Последние новости мира кино, трейлеры, интервью и обзоры.'
+              : "Kinolar olamidagi eng so'nggi yangiliklar, treylerlar, intervyular va tahlillar."}
+          </p>
+        </div>
+
         <div className="news-section-layout">
           <div className="news-section-main">
-            <div className="news-section-header">
-              <h2 className="news-section-title">
-                {i18n.language === 'ru' ? 'Новости' : 'Yangiliklar'}
-              </h2>
-              <p className="news-section-subtitle">
-                {i18n.language === 'ru'
-                  ? 'Последние новости мира кино, трейлеры, интервью и обзоры.'
-                  : "Kinolar olamidagi eng so'nggi yangiliklar, treylerlar, intervyular va tahlillar."}
-              </p>
-            </div>
-
             <HorizontalScroll scrollAmount={800}>
               {items.map((item) => (
                 <NewsCard
