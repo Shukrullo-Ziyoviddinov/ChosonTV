@@ -12,8 +12,10 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  background: rgba(255, 255, 255, 0.06);
+  background: transparent;
   overflow: hidden;
+  padding: 12px 12px 0;
+  box-sizing: border-box;
 }
 
 .news-grid-card-img {
@@ -21,6 +23,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 8px;
 }
 
 .news-grid-card-img--empty {
@@ -101,10 +104,12 @@
 @media (max-width: 768px) {
   .news-grid-card-media {
     aspect-ratio: 16 / 7;
-    background: #ffffff0f;
+    background: transparent;
     overflow: hidden;
     position: relative;
     width: 100%;
+    padding: 12px 12px 0;
+    box-sizing: border-box;
   }
 }
 
@@ -115,15 +120,17 @@
   }
 
   .news-grid-card-media {
-    width: 42%;
+    width: 48%;
     flex-shrink: 0;
     aspect-ratio: auto;
-    min-height: 110px;
+    min-height: 120px;
     align-self: stretch;
+    padding: 8px 0 8px 10px;
+    box-sizing: border-box;
   }
 
   .news-grid-card-body {
-    width: 58%;
+    width: 52%;
     min-width: 0;
     padding: 8px 10px 10px;
     gap: 0.3rem;
