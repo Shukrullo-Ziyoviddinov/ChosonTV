@@ -9,7 +9,9 @@ const User = require("../models/User");
 const countNewsViews = async (newsId) => {
   const id = Number(newsId);
   if (!Number.isFinite(id)) return 0;
-  return User.countDocuments({ "viewedNews.newsId": id });
+  return User.countDocuments({
+    viewedNews: { $elemMatch: { newsId: id } },
+  });
 };
 
 const getNewsViewCountsMap = async (newsIds = []) => {
@@ -17,9 +19,15 @@ const getNewsViewCountsMap = async (newsIds = []) => {
   if (!ids.length) return new Map();
 
   const rows = await User.aggregate([
+    { $match: { "viewedNews.0": { $exists: true } } },
     { $unwind: "$viewedNews" },
     { $match: { "viewedNews.newsId": { $in: ids } } },
-    { $group: { _id: "$viewedNews.newsId", views: { $sum: 1 } } },
+    {
+      $group: {
+        _id: "$viewedNews.newsId",
+        views: { $sum: 1 },
+      },
+    },
   ]);
 
   return new Map(rows.map((row) => [Number(row._id), Number(row.views) || 0]));
@@ -40,31 +48,40 @@ const registerNewsView = async ({ user, newsId }) => {
     throw error;
   }
 
-  const viewedNews = Array.isArray(user.viewedNews) ? user.viewedNews : [];
-  const alreadyViewed = viewedNews.some((item) => Number(item.newsId) === id);
+  const userId = user._id;
 
-  if (alreadyViewed) {
-    return {
-      newsId: id,
-      views: await countNewsViews(id),
-      alreadyViewed: true,
-      counted: false,
-    };
+  // Atomik: faqat oldin ko'rmagan bo'lsa qo'shadi
+  const updateResult = await User.updateOne(
+    {
+      _id: userId,
+      viewedNews: { $not: { $elemMatch: { newsId: id } } },
+    },
+    {
+      $push: {
+        viewedNews: {
+          $each: [{ newsId: id, viewedAt: new Date() }],
+          $position: 0,
+          $slice: 500,
+        },
+      },
+    }
+  );
+
+  const counted = Number(updateResult.modifiedCount || updateResult.nModified || 0) > 0;
+  const views = await countNewsViews(id);
+
+  // req.user memoryni ham yangilash (keyingi so'rovlar uchun)
+  if (counted) {
+    const viewedNews = Array.isArray(user.viewedNews) ? user.viewedNews : [];
+    viewedNews.unshift({ newsId: id, viewedAt: new Date() });
+    user.viewedNews = viewedNews.slice(0, 500);
   }
-
-  viewedNews.unshift({
-    newsId: id,
-    viewedAt: new Date(),
-  });
-
-  user.viewedNews = viewedNews.slice(0, 500);
-  await user.save();
 
   return {
     newsId: id,
-    views: await countNewsViews(id),
-    alreadyViewed: false,
-    counted: true,
+    views,
+    alreadyViewed: !counted,
+    counted,
   };
 };
 

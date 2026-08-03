@@ -2,12 +2,16 @@ import { apiClient } from '../services/apiClient';
 import { BASE_URL } from '../config/api';
 import { createApiError, normalizeApiError } from '../utils/errorHandler';
 import { clearAuthSession, getAuthToken } from '../utils/authStorage';
+import { clearCache } from '../utils/cache';
 
 const EMPTY_LAYOUT = {
   yangiliklar: [],
   trenddagiYangiliklar: [],
   yangiliklarGrid: [],
 };
+
+const NEWS_LAYOUT_CACHE_KEY = 'news:layout:1';
+const NEWS_LAYOUT_CACHE_KEY_ALL = 'news:layout:0';
 
 const getBase = () => BASE_URL.replace(/\/$/, '');
 const toUrl = (path) => `${getBase()}${path.startsWith('/') ? path : `/${path}`}`;
@@ -18,7 +22,7 @@ export const fetchNewsLayout = async ({ active = true } = {}) => {
 
   const data = await apiClient.get(`/api/news/layout?${params.toString()}`, {
     cacheKey: `news:layout:${active ? '1' : '0'}`,
-    ttlMs: 60 * 1000,
+    ttlMs: 15 * 1000,
     dedupeKey: `news:layout:${active ? '1' : '0'}`,
   });
 
@@ -50,7 +54,7 @@ export const fetchNews = async ({
 
   const data = await apiClient.get(`/api/news?${params.toString()}`, {
     cacheKey: `news:${page}:${limit}:${active ? '1' : '0'}:${section || 'all'}`,
-    ttlMs: 60 * 1000,
+    ttlMs: 15 * 1000,
     dedupeKey: `news:${page}:${limit}:${active ? '1' : '0'}:${section || 'all'}`,
   });
 
@@ -84,6 +88,9 @@ export const registerNewsView = async (newsId) => {
         json
       );
     }
+
+    clearCache(NEWS_LAYOUT_CACHE_KEY);
+    clearCache(NEWS_LAYOUT_CACHE_KEY_ALL);
 
     return json?.data || null;
   } catch (error) {

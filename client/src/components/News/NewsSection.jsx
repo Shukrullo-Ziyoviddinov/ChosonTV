@@ -72,15 +72,16 @@ const NewsSection = () => {
       return;
     }
 
-    setSelected(item);
-
     const newsId = Number(item.newsId ?? item.id);
     if (!Number.isFinite(newsId)) return;
 
+    setSelected(item);
+
     try {
       const result = await registerNewsView(newsId);
-      if (result?.views == null) return;
+      if (!result || result.views == null) return;
 
+      // counted=false bo'lsa ham serverdagi aktual views ni UI ga yozamiz
       setLayout((prev) => bumpViewsInLayout(prev, newsId, result.views));
       setSelected((prev) =>
         prev && Number(prev.newsId ?? prev.id) === newsId
