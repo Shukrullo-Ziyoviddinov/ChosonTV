@@ -1,10 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import TrendingNewsCard from './TrendingNewsCard';
+import TrendingNewsSkeleton from './TrendingNewsSkeleton';
 import './TrendingNews.css';
 
-const TrendingNews = ({ items = [], onSelect }) => {
+const TrendingNews = ({ items = [], onSelect, loading = false }) => {
   const { i18n } = useTranslation();
+
+  if (loading) {
+    return <TrendingNewsSkeleton count={4} />;
+  }
 
   if (!items.length) return null;
 
