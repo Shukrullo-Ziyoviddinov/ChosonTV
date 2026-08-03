@@ -8,7 +8,9 @@ const TrendingNewsCardSkeleton = () => {
   return (
     <div className="trending-news-card trending-news-card--skeleton" aria-hidden>
       <div className="trending-news-card-media">
-        <LoaderSkeleton variant="image" className="trending-news-skel-media" />
+        <div className="trending-news-skel-media">
+          <LoaderSkeleton variant="block" />
+        </div>
       </div>
 
       <div className="trending-news-card-info">
