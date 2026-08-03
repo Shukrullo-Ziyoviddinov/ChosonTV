@@ -82,6 +82,11 @@
   background: #000;
 }
 
+.news-modal-video--embed {
+  border: 0;
+  object-fit: unset;
+}
+
 .news-modal-img--empty {
   background: rgba(255, 255, 255, 0.08);
 }

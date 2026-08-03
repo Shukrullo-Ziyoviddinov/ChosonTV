@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
+import { getVideoEmbed } from '../../utils/videoEmbed';
 import { formatNewsDate, formatNewsViews, getNewsDateParts } from './newsDate';
 import './NewsModal.css';
 
@@ -32,7 +33,10 @@ const NewsModal = ({ item, onClose }) => {
   const name = getLocalized(item.name, contentLang);
   const description = getLocalized(item.description, contentLang);
   const imgSrc = item.img ? encodeURI(item.img) : '';
-  const videoSrc = item.video ? encodeURI(item.video) : '';
+  const videoRaw = String(item.video || '').trim();
+  const embed = getVideoEmbed(videoRaw, { autoplay: true });
+  const embedUrl = embed?.embedUrl || '';
+  const directVideoSrc = !embedUrl && videoRaw ? encodeURI(videoRaw) : '';
   const dateLabel = formatNewsDate(item);
   const hasViews = item.views != null;
   const hasDate = Boolean(getNewsDateParts(item));
@@ -58,10 +62,20 @@ const NewsModal = ({ item, onClose }) => {
         </button>
 
         <div className="news-modal-media">
-          {videoSrc ? (
+          {embedUrl ? (
+            <iframe
+              key={embedUrl}
+              className="news-modal-video news-modal-video--embed"
+              src={embedUrl}
+              title={name || 'News video'}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          ) : directVideoSrc ? (
             <video
               className="news-modal-video"
-              src={videoSrc}
+              src={directVideoSrc}
               controls
               playsInline
               autoPlay
