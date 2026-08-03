@@ -71,7 +71,7 @@
 
 @media (max-width: 768px) {
   .news-section {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
   }
 
   .news-section-title {
@@ -80,9 +80,5 @@
 
   .news-section-subtitle {
     font-size: 0.85rem;
-  }
-
-  .news-section-main .news-card {
-    width: calc(100vw - 2rem);
   }
 }
