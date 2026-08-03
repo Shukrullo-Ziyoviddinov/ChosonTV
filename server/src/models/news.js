@@ -39,11 +39,6 @@ const newsSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
-    views: {
-      type: Number,
-      default: 0,
-      min: 0,
-    },
     isActive: {
       type: Boolean,
       default: true,

@@ -1,16 +1,23 @@
 const News = require("../models/news");
 const { NEWS_SECTIONS } = require("../models/news");
 const { attachNewsDateFields } = require("../utils/newsDate");
+const { getNewsViewCountsMap } = require("../utils/newsViews");
 
-const toPublicNews = (row) => {
+const toPublicNews = (row, views = 0) => {
   if (!row) return null;
-  const { _id, createdAt, updatedAt, ...rest } = row;
+  const { _id, createdAt, updatedAt, views: _legacyViews, ...rest } = row;
   return attachNewsDateFields({
     ...rest,
     id: rest.newsId,
+    views: Number(views) || 0,
     createdAt,
     updatedAt,
   });
+};
+
+const attachViewsToRows = async (rows = []) => {
+  const map = await getNewsViewCountsMap(rows.map((row) => row?.newsId));
+  return rows.map((row) => toPublicNews(row, map.get(Number(row.newsId)) || 0));
 };
 
 const normalizeLocalized = (value, fallback = "") => {
@@ -43,10 +50,6 @@ const buildNewsPayload = (payload = {}, { requireSection = false } = {}) => {
   }
   if (payload.video !== undefined) {
     next.video = String(payload.video || "").trim();
-  }
-  if (payload.views !== undefined) {
-    const views = Number(payload.views);
-    next.views = Number.isFinite(views) && views >= 0 ? views : 0;
   }
   if (payload.isActive !== undefined) {
     next.isActive = payload.isActive !== false && payload.isActive !== "false" && payload.isActive !== 0;
@@ -81,7 +84,7 @@ const listNews = async ({
   ]);
 
   return {
-    items: rows.map(toPublicNews),
+    items: await attachViewsToRows(rows),
     total,
   };
 };
@@ -89,7 +92,7 @@ const listNews = async ({
 const getNewsLayout = async ({ activeOnly = true } = {}) => {
   const filter = activeOnly ? { isActive: true } : {};
   const rows = await News.find(filter).sort({ sortOrder: 1, newsId: 1 }).lean();
-  const items = rows.map(toPublicNews);
+  const items = await attachViewsToRows(rows);
 
   const layout = {
     yangiliklar: [],
@@ -108,7 +111,9 @@ const getNewsLayout = async ({ activeOnly = true } = {}) => {
 
 const getNewsById = async (newsId) => {
   const row = await News.findOne({ newsId }).lean();
-  return toPublicNews(row);
+  if (!row) return null;
+  const [item] = await attachViewsToRows([row]);
+  return item;
 };
 
 const createNews = async (payload = {}) => {
@@ -137,18 +142,15 @@ const createNews = async (payload = {}) => {
     description: data.description || { uz: "", ru: "" },
     img: data.img || "",
     video: data.video || "",
-    views: 0,
     isActive: data.isActive !== false,
     sortOrder: Number.isFinite(data.sortOrder) ? data.sortOrder : nextId,
   });
 
-  return toPublicNews(created.toObject());
+  return toPublicNews(created.toObject(), 0);
 };
 
 const updateNews = async (newsId, payload = {}) => {
   const data = buildNewsPayload(payload);
-  // Ko'rishlar faqat registerNewsView orqali oshadi — update da qo'lda o'zgartirilmasin
-  delete data.views;
 
   if (data.section !== undefined && !NEWS_SECTIONS.includes(data.section)) {
     const error = new Error("Noto'g'ri section.");
@@ -162,12 +164,15 @@ const updateNews = async (newsId, payload = {}) => {
     { new: true, runValidators: true }
   ).lean();
 
-  return toPublicNews(updated);
+  if (!updated) return null;
+  const [item] = await attachViewsToRows([updated]);
+  return item;
 };
 
 const deleteNews = async (newsId) => {
   const deleted = await News.findOneAndDelete({ newsId }).lean();
-  return toPublicNews(deleted);
+  if (!deleted) return null;
+  return toPublicNews(deleted, 0);
 };
 
 module.exports = {

@@ -160,3 +160,33 @@
     font-size: 0.75rem;
   }
 }
+
+@media (max-width: 560px) {
+  .news-card {
+    flex-direction: column;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .news-card-media {
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    padding: 8px 8px 0;
+  }
+
+  .news-card-body {
+    width: 100%;
+    padding: 8px 10px 10px;
+  }
+
+  .news-card-name {
+    -webkit-line-clamp: 2;
+    font-size: 0.9rem;
+  }
+
+  .news-card-description {
+    -webkit-line-clamp: 3;
+    font-size: 0.74rem;
+  }
+}

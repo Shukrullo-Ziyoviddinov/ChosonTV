@@ -102,3 +102,27 @@
   flex-shrink: 0;
   opacity: 0.85;
 }
+
+@media (max-width: 768px) {
+  .trending-news-card-media {
+    background: #ffffff14;
+    border-radius: 8px;
+    flex-shrink: 0;
+    height: 90px;
+    overflow: hidden;
+    position: relative;
+    width: 160px;
+  }
+}
+
+@media (max-width: 460px) {
+  .trending-news-card-media {
+    background: #ffffff14;
+    border-radius: 8px;
+    flex-shrink: 0;
+    height: 70px;
+    overflow: hidden;
+    position: relative;
+    width: 140px;
+  }
+}

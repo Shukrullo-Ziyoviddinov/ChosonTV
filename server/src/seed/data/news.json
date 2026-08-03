@@ -13,8 +13,6 @@
       },
       "img": "/img/movie-4.5-1.avif",
       "video": "",
-      "views": 12400,
-      "createdAt": "2026-08-02T10:20:00.000Z",
       "isActive": true,
       "sortOrder": 1
     },
@@ -31,8 +29,6 @@
       },
       "img": "/img/movie-4.5-2.jpeg",
       "video": "",
-      "views": 8700,
-      "createdAt": "2026-07-28T14:05:00.000Z",
       "isActive": true,
       "sortOrder": 2
     },
@@ -49,8 +45,6 @@
       },
       "img": "/img/movie-4.5-3.jpg",
       "video": "",
-      "views": 5100,
-      "createdAt": "2026-07-15T09:40:00.000Z",
       "isActive": true,
       "sortOrder": 3
     },
@@ -67,12 +61,9 @@
       },
       "img": "/img/movie-4.5-4.webp",
       "video": "",
-      "views": 15200,
-      "createdAt": "2026-06-10T18:15:00.000Z",
       "isActive": true,
       "sortOrder": 4
     },
-
     {
       "newsId": 101,
       "section": "trenddagiYangiliklar",
@@ -86,8 +77,6 @@
       },
       "img": "/img/movie-4.5-2.jpeg",
       "video": "/video/The Amateur _ Official Trailer.mp4",
-      "views": 8700,
-      "createdAt": "2026-08-02T11:00:00.000Z",
       "isActive": true,
       "sortOrder": 1
     },
@@ -104,8 +93,6 @@
       },
       "img": "/img/movie-4.5-5.jpg",
       "video": "/video/Zivert - Life   Премьера клипа.mp4",
-      "views": 6400,
-      "createdAt": "2026-08-01T16:30:00.000Z",
       "isActive": true,
       "sortOrder": 2
     },
@@ -122,8 +109,6 @@
       },
       "img": "/img/movie-4.5-6.avif",
       "video": "/video/The Amateur _ Official Trailer.mp4",
-      "views": 4200,
-      "createdAt": "2026-07-30T12:10:00.000Z",
       "isActive": true,
       "sortOrder": 3
     },
@@ -140,12 +125,9 @@
       },
       "img": "/img/movie-4.5-3.jpg",
       "video": "/video/Zivert - Life   Премьера клипа.mp4",
-      "views": 9100,
-      "createdAt": "2026-07-28T08:45:00.000Z",
       "isActive": true,
       "sortOrder": 4
     },
-
     {
       "newsId": 201,
       "section": "yangiliklarGrid",
@@ -159,8 +141,6 @@
       },
       "img": "/img/movie-4.5-5.jpg",
       "video": "",
-      "views": 2800,
-      "createdAt": "2026-07-30T10:00:00.000Z",
       "isActive": true,
       "sortOrder": 1
     },
@@ -177,8 +157,6 @@
       },
       "img": "/img/movie-4.5-3.jpg",
       "video": "",
-      "views": 5100,
-      "createdAt": "2026-07-28T12:00:00.000Z",
       "isActive": true,
       "sortOrder": 2
     },
@@ -195,8 +173,6 @@
       },
       "img": "/img/movie-4.5-4.webp",
       "video": "",
-      "views": 12400,
-      "createdAt": "2026-07-25T09:00:00.000Z",
       "isActive": true,
       "sortOrder": 3
     },
@@ -213,8 +189,6 @@
       },
       "img": "/img/movie-4.5-6.avif",
       "video": "",
-      "views": 8700,
-      "createdAt": "2026-07-22T15:20:00.000Z",
       "isActive": true,
       "sortOrder": 4
     },
@@ -231,8 +205,6 @@
       },
       "img": "/img/movie-4.5-7.jpg",
       "video": "",
-      "views": 15200,
-      "createdAt": "2026-07-20T11:40:00.000Z",
       "isActive": true,
       "sortOrder": 5
     },
@@ -249,8 +221,6 @@
       },
       "img": "/img/movie-4.5-8.jpg",
       "video": "",
-      "views": 9300,
-      "createdAt": "2026-07-18T13:10:00.000Z",
       "isActive": true,
       "sortOrder": 6
     }
