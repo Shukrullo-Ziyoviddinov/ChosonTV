@@ -125,7 +125,15 @@ export default function NewsForm({
 
   const patch = (patchData) => setForm((prev) => ({ ...prev, ...patchData }));
 
-  const videoRaw = form.video.trim();
+  const onSectionChange = (section) => {
+    if (section === "trenddagiYangiliklar") {
+      patch({ section });
+      return;
+    }
+    patch({ section, video: "" });
+  };
+
+  const videoRaw = needsVideo ? form.video.trim() : "";
   const embed = getVideoEmbed(videoRaw);
   const embedUrl = embed?.embedUrl || "";
   const videoPreview = embedUrl || toMediaUrl(videoRaw);
@@ -165,7 +173,7 @@ export default function NewsForm({
           ru: form.descriptionRu.trim(),
         },
         img: form.img,
-        video: form.video.trim(),
+        video: needsVideo ? form.video.trim() : "",
         isActive: form.isActive,
         sortOrder: Number(form.sortOrder) || 1,
       };
@@ -203,7 +211,7 @@ export default function NewsForm({
         id="news-section"
         className="news-form__input"
         value={form.section}
-        onChange={(e) => patch({ section: e.target.value })}
+        onChange={(e) => onSectionChange(e.target.value)}
       >
         {NEWS_SECTIONS.map((item) => (
           <option key={item.value} value={item.value}>
@@ -286,43 +294,47 @@ export default function NewsForm({
         onChange={onPickImage}
       />
 
-      <label className="news-form__label" htmlFor="news-video">
-        Video URL {needsVideo ? "(majburiy)" : "(ixtiyoriy)"} — mp4, YouTube yoki Mover.uz
-      </label>
-      <input
-        id="news-video"
-        className="news-form__input"
-        type="text"
-        placeholder="https://youtu.be/... | https://mover.uz/watch/... | /video/trailer.mp4"
-        value={form.video}
-        onChange={(e) => patch({ video: e.target.value })}
-      />
-      <div className="news-form__preview-box">
-        {embedUrl ? (
-          <iframe
-            key={embedUrl}
-            className="news-form__video-preview news-form__video-preview--embed"
-            src={embedUrl}
-            title="Video preview"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
+      {needsVideo ? (
+        <>
+          <label className="news-form__label" htmlFor="news-video">
+            Video URL (majburiy) — mp4, YouTube yoki Mover.uz
+          </label>
+          <input
+            id="news-video"
+            className="news-form__input"
+            type="text"
+            placeholder="https://youtu.be/... | https://mover.uz/watch/... | /video/trailer.mp4"
+            value={form.video}
+            onChange={(e) => patch({ video: e.target.value })}
           />
-        ) : videoPreview ? (
-          <video
-            key={videoPreview}
-            className="news-form__video-preview"
-            src={videoPreview}
-            controls
-            playsInline
-            preload="metadata"
-          />
-        ) : (
-          <span className="news-form__preview-empty">
-            Video URL kiriting — preview shu yerda chiqadi
-          </span>
-        )}
-      </div>
+          <div className="news-form__preview-box">
+            {embedUrl ? (
+              <iframe
+                key={embedUrl}
+                className="news-form__video-preview news-form__video-preview--embed"
+                src={embedUrl}
+                title="Video preview"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            ) : videoPreview ? (
+              <video
+                key={videoPreview}
+                className="news-form__video-preview"
+                src={videoPreview}
+                controls
+                playsInline
+                preload="metadata"
+              />
+            ) : (
+              <span className="news-form__preview-empty">
+                Video URL kiriting — preview shu yerda chiqadi
+              </span>
+            )}
+          </div>
+        </>
+      ) : null}
 
       <label className="news-form__switch">
         <input

@@ -135,13 +135,21 @@ const createNews = async (payload = {}) => {
     throw error;
   }
 
+  const isTrend = data.section === "trenddagiYangiliklar";
+  const video = isTrend ? String(data.video || "").trim() : "";
+  if (isTrend && !video) {
+    const error = new Error("Trend yangiliklar uchun video majburiy.");
+    error.statusCode = 400;
+    throw error;
+  }
+
   const created = await News.create({
     newsId: nextId,
     section: data.section,
     name: data.name,
     description: data.description || { uz: "", ru: "" },
     img: data.img || "",
-    video: data.video || "",
+    video,
     isActive: data.isActive !== false,
     sortOrder: Number.isFinite(data.sortOrder) ? data.sortOrder : nextId,
   });
@@ -154,6 +162,22 @@ const updateNews = async (newsId, payload = {}) => {
 
   if (data.section !== undefined && !NEWS_SECTIONS.includes(data.section)) {
     const error = new Error("Noto'g'ri section.");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  const existing = await News.findOne({ newsId }).lean();
+  if (!existing) return null;
+
+  const nextSection = data.section || existing.section;
+  const isTrend = nextSection === "trenddagiYangiliklar";
+  if (data.video !== undefined || data.section !== undefined) {
+    data.video = isTrend
+      ? String(data.video !== undefined ? data.video : existing.video || "").trim()
+      : "";
+  }
+  if (isTrend && data.video !== undefined && !data.video) {
+    const error = new Error("Trend yangiliklar uchun video majburiy.");
     error.statusCode = 400;
     throw error;
   }
