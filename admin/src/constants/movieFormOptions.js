@@ -32,7 +32,8 @@ export const CATEGORY_NAME_TO_SECTION = {
   russianMovie: "russianMovies",
   retroMovie: "retroMovies",
   romanceMovie: "romanceMovies",
-  turkishMovie: "turkishSeries",
+  Komediya: "turkishSeries",
+  turkishMovie: "turkishSeries", // eski qiymat (fallback)
   Detektiv: "worldMovies",
   worldMovie: "worldMovies", // eski qiymat (fallback)
   uzbekMovie: "uzbekMovies",
@@ -54,8 +55,8 @@ export const CATEGORY_NAME_OPTIONS = Object.keys(CATEGORY_NAME_TO_SECTION).filte
   (name, index, arr) => {
     // animations uchun asosiy: animation (dublikatlarni olib tashlash)
     if (name === "animationMovie" || name === "multFilm") return false;
-    // Dorama / Detektiv — asosiy; eski kalitlar faqat fallback
-    if (name === "koreaDrama" || name === "worldMovie") return false;
+    // Yangi nomlar asosiy; eski kalitlar faqat fallback
+    if (name === "koreaDrama" || name === "worldMovie" || name === "turkishMovie") return false;
     return arr.indexOf(name) === index;
   }
 );

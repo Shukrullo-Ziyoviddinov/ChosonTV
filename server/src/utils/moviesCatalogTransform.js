@@ -7,6 +7,7 @@ const CATEGORY_NAME_TO_SECTION = {
   romanceMovies: "romanceMovies",
   turkishMovie: "turkishSeries",
   turkishSeries: "turkishSeries",
+  Komediya: "turkishSeries",
   worldMovie: "worldMovies",
   worldMovies: "worldMovies",
   Detektiv: "worldMovies",
