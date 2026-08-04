@@ -46,17 +46,25 @@ export const CATEGORY_NAME_TO_SECTION = {
   adventureMovie: "adventureMovies",
   anons: "anonslar",
   actionMovie: "actionMovies",
-  animation: "animations",
+  tarixiyDoramalar: "animations",
+  animation: "animations", // eski fallback
   animationMovie: "animations",
   multFilm: "animations",
 };
 
 export const CATEGORY_NAME_OPTIONS = Object.keys(CATEGORY_NAME_TO_SECTION).filter(
   (name, index, arr) => {
-    // animations uchun asosiy: animation (dublikatlarni olib tashlash)
-    if (name === "animationMovie" || name === "multFilm") return false;
-    // Yangi nomlar asosiy; eski kalitlar faqat fallback
-    if (name === "koreaDrama" || name === "worldMovie" || name === "turkishMovie") return false;
+    // Yangi nomlar asosiy; eski kalitlar / dublikatlar yashiriladi
+    if (
+      name === "animationMovie" ||
+      name === "multFilm" ||
+      name === "animation" ||
+      name === "koreaDrama" ||
+      name === "worldMovie" ||
+      name === "turkishMovie"
+    ) {
+      return false;
+    }
     return arr.indexOf(name) === index;
   }
 );

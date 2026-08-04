@@ -26,6 +26,7 @@ const CATEGORY_NAME_TO_SECTION = {
   anonslar: "anonslar",
   actionMovie: "actionMovies",
   actionMovies: "actionMovies",
+  tarixiyDoramalar: "animations",
   animation: "animations",
   animationMovie: "animations",
   multFilm: "animations",
