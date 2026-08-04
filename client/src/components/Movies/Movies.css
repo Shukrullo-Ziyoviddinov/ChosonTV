@@ -230,6 +230,8 @@
 .movies-item-rating svg {
   width: 16px;
   height: 16px;
+  color: #f5c518;
+  fill: #f5c518;
 }
 
 .movies-content-wrapper {

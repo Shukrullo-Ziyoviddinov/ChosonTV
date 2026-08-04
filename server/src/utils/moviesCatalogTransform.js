@@ -15,6 +15,7 @@ const CATEGORY_NAME_TO_SECTION = {
   horrorMovie: "horrorMovies",
   horrorMovies: "horrorMovies",
   koreaDrama: "koreaDrama",
+  Dorama: "koreaDrama",
   kinolar: "kinolar",
   anime: "anime",
   adventureMovie: "adventureMovies",

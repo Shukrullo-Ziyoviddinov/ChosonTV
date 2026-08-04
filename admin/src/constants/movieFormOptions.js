@@ -37,7 +37,8 @@ export const CATEGORY_NAME_TO_SECTION = {
   uzbekMovie: "uzbekMovies",
   tvSeries: "tvSeries",
   horrorMovie: "horrorMovies",
-  koreaDrama: "koreaDrama",
+  Dorama: "koreaDrama",
+  koreaDrama: "koreaDrama", // eski qiymat (fallback)
   kinolar: "kinolar",
   anime: "anime",
   adventureMovie: "adventureMovies",
@@ -52,6 +53,8 @@ export const CATEGORY_NAME_OPTIONS = Object.keys(CATEGORY_NAME_TO_SECTION).filte
   (name, index, arr) => {
     // animations uchun asosiy: animation (dublikatlarni olib tashlash)
     if (name === "animationMovie" || name === "multFilm") return false;
+    // Dorama — asosiy; koreaDrama faqat eski fallback
+    if (name === "koreaDrama") return false;
     return arr.indexOf(name) === index;
   }
 );
