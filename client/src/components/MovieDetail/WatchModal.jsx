@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
+import { useViewedMovies } from '../../context/ViewedMoviesContext';
 import { fetchActiveAd } from '../../api/adsApi';
 import VideoLoader from '../VideoLoader/VideoLoader';
 import './WatchModal.css';
@@ -10,6 +11,8 @@ const AD_INTERVAL_SECONDS = 900; // 15 daqiqa
 const WatchModal = ({ movie, videoUrl, onClose }) => {
   const { t } = useTranslation();
   const { contentLang } = useContentLanguage();
+  const { addMovie } = useViewedMovies();
+  const pendingMarkViewedRef = useRef(false);
 
   const dualWatchAvailable =
     !videoUrl &&
@@ -168,6 +171,31 @@ const WatchModal = ({ movie, videoUrl, onClose }) => {
     }
     showControlsWithDelay();
   };
+
+  // Faqat .watch-modal-control-btn-play → play boshlansa «ko'rildi»
+  const handleControlPlayClick = (e) => {
+    e?.stopPropagation?.();
+    const willStartPlayback = !isPlayingRef.current && !showAdOverlay;
+    if (willStartPlayback) {
+      pendingMarkViewedRef.current = true;
+    }
+    handlePlayPause();
+  };
+
+  // Asosiy video play bo'lganda (reklama video emas) belgilash
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const onPlay = () => {
+      if (!pendingMarkViewedRef.current || !movie) return;
+      pendingMarkViewedRef.current = false;
+      addMovie(movie);
+    };
+
+    video.addEventListener('play', onPlay);
+    return () => video.removeEventListener('play', onPlay);
+  }, [movie, addMovie]);
 
   // Ref larni state bilan sinxronlashtirish
   useEffect(() => {
@@ -618,7 +646,7 @@ const WatchModal = ({ movie, videoUrl, onClose }) => {
                     </svg>
                   </button>
                   
-                  <button className="watch-modal-control-btn watch-modal-control-btn-play" onClick={handlePlayPause} aria-label={isPlaying ? t('player.pause') : t('player.play')}>
+                  <button className="watch-modal-control-btn watch-modal-control-btn-play" onClick={handleControlPlayClick} aria-label={isPlaying ? t('player.pause') : t('player.play')}>
                     <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
                       {isPlaying ? (<><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></>) : (<polygon points="5 3 19 12 5 21 5 3"/>)}
                     </svg>

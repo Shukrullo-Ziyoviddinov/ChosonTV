@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { fetchMovieById } from '../../api/moviesApi';
 import { fetchActorsByIds } from '../../api/actorsApi';
 import { useWishlist } from '../../context/WishlistContext';
-import { useViewedMovies } from '../../context/ViewedMoviesContext';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
 import { useLoading } from '../../context/LoadingContext';
 import LoaderSkeleton from '../LoaderSkeleton/LoaderSkeleton';
@@ -82,7 +81,6 @@ const MovieDetail = () => {
   const { t, i18n } = useTranslation();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { openAuthModal } = useAuthModal();
-  const { addMovie } = useViewedMovies();
   const { detailLoading, setLoading } = useLoading();
   const [movie, setMovie] = useState(null);
   const [showWatchModal, setShowWatchModal] = useState(false);
@@ -122,10 +120,6 @@ const MovieDetail = () => {
       return { ...prev, [key]: next };
     });
   };
-
-  useEffect(() => {
-    if (movie) addMovie(movie);
-  }, [movie, addMovie]);
 
   useEffect(() => {
     let cancelled = false;
