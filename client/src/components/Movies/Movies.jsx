@@ -37,6 +37,13 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
     return movie.title || '';
   };
 
+  const getImdbRating = (movie) => {
+    const value = movie?.ratingImdb;
+    if (value == null || value === '' || value === 'none') return null;
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+  };
+
   const handleMovieClick = (movieId) => {
     navigate(`/movie/${movieId}`);
   };
@@ -45,8 +52,11 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
   const isHorizontal = (sectionType === 'recommended' || sectionType === 'topRated' || sectionType === 'anonslar' || sectionType === 'koreaDrama' || sectionType === 'kinolar' || sectionType === 'actionMovies' || sectionType === 'horrorMovies' || sectionType === 'anime' || sectionType === 'adventureMovies' || sectionType === 'romanceMovies' || sectionType === 'retroMovies' || sectionType === 'uzbekMovies' || sectionType === 'worldMovies' || sectionType === 'animations' || sectionType === 'turkishSeries' || sectionType === 'russianMovies' || sectionType === 'tvSeries') && showHorizontalScroll;
   const isWideLayout = false;
 
-  const renderMovieItem = (movie, index) => (
+  const renderMovieItem = (movie, index) => {
+    const imdbRating = getImdbRating(movie);
+
     // Dataset can contain duplicate numeric ids, so include index to keep keys unique.
+    return (
     <div
       key={`${movie.id}-${index}`}
       className={`movies-item ${isHorizontal ? 'movies-item-horizontal' : ''} ${isWideLayout ? 'movies-item-wide' : ''}`}
@@ -82,6 +92,14 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
             {movie.ageRestriction != null && (
               <div className="movies-item-badge movies-item-badge-age">{movie.ageRestriction}+</div>
             )}
+            {imdbRating != null && (
+              <div className="movies-item-rating">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                {imdbRating}
+              </div>
+            )}
           </>
         )}
       </div>
@@ -93,7 +111,8 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
         )
       )}
     </div>
-  );
+    );
+  };
 
   return (
     <div className="movies">

@@ -47,6 +47,13 @@ const WeeklyTopMovies = () => {
     return movie.title || '';
   };
 
+  const getImdbRating = (movie) => {
+    const value = movie?.ratingImdb;
+    if (value == null || value === '' || value === 'none') return null;
+    const num = Number(value);
+    return Number.isFinite(num) ? num : null;
+  };
+
   // Bo'sh bo'lim (hech kim 5+ unique view yig'magan) — ko'rsatilmaydi
   if (!isLoading && movies.length === 0) {
     return null;
@@ -82,6 +89,7 @@ const WeeklyTopMovies = () => {
               : movies.map((movie, index) => {
                   const rank = movie.weeklyRank || index + 1;
                   const isWideRank = rank >= 10;
+                  const imdbRating = getImdbRating(movie);
                   return (
                     <div
                       key={`${movie.id}-${rank}`}
@@ -129,6 +137,14 @@ const WeeklyTopMovies = () => {
                           {movie.ageRestriction != null && (
                             <div className="movies-item-badge movies-item-badge-age">
                               {movie.ageRestriction}+
+                            </div>
+                          )}
+                          {imdbRating != null && (
+                            <div className="movies-item-rating">
+                              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                              </svg>
+                              {imdbRating}
                             </div>
                           )}
                         </div>
