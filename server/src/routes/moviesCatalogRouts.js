@@ -19,6 +19,8 @@ const router = express.Router();
 const normalizeMovie = ({ _id, movieId, createdAt, updatedAt, ...movie }) => ({
   ...movie,
   id: movie.id || movieId,
+  // Cold-start tavsiyalar uchun (eng oxirgi joylangan)
+  createdAt,
 });
 
 const resolveOptionalUser = async (req) => {

@@ -1,4 +1,7 @@
-const RECOMMENDED_LIMIT = 12;
+/** Cold start: 4 eng yangi + 3 eng yuqori reyting = 7 (Home preview bilan mos). */
+const COLD_START_TOTAL = 7;
+const COLD_START_NEWEST = 4;
+const COLD_START_TOP_RATED = 3;
 
 const normalizeText = (value) => String(value || "").trim().toLowerCase();
 
@@ -46,11 +49,15 @@ const getQualityScore = (movie) => {
   const kinopoisk = parseRating(movie?.ratingKinopoisk, 10);
   const netflix = parseRating(movie?.ratingNetflix, 5);
   const values = [rating, imdb, kinopoisk, netflix].filter((v) => v !== null);
-  if (!values.length) return 0.45;
+  if (!values.length) return 0;
   return values.reduce((sum, v) => sum + v, 0) / values.length;
 };
 
-const getMovieGenres = (movie) => {
+/** Prefer filterGenre; fallback to localized genre labels. */
+const getMovieFilterGenres = (movie) => {
+  if (movie?.filterGenre != null && movie.filterGenre !== "") {
+    return normalizeToArray(movie.filterGenre);
+  }
   const source = movie?.genre;
   if (!source) return [];
   if (Array.isArray(source)) return normalizeToArray(source);
@@ -60,144 +67,139 @@ const getMovieGenres = (movie) => {
   return normalizeToArray(source);
 };
 
-const toMapEntries = (value) => {
-  if (!value) return [];
-  if (typeof value.entries === "function") return Array.from(value.entries());
-  return Object.entries(value);
+const getMovieFilterCountry = (movie) => normalizeText(movie?.filterCountry);
+
+const getMovieCreatedAtMs = (movie) => {
+  if (movie?.createdAt) {
+    const ms = new Date(movie.createdAt).getTime();
+    if (Number.isFinite(ms)) return ms;
+  }
+  const id = Number(movie?.id);
+  return Number.isFinite(id) ? id : 0;
 };
 
-const buildSignalProfile = (movies = [], user = null) => {
+const addWeight = (map, key, inc) => {
+  if (!key) return;
+  map.set(key, (map.get(key) || 0) + inc);
+};
+
+/**
+ * Foydalanuvchi ko'rgan kinolardan janr / davlat og'irliklari.
+ * Qancha ko'p (viewCount) ko'rilgan bo'lsa — shuncha yuqori weight.
+ */
+const buildViewProfile = (movies = [], user = null) => {
   const movieById = new Map(movies.map((movie) => [Number(movie?.id), movie]));
   const viewedEntries = Array.isArray(user?.viewedMovies) ? user.viewedMovies : [];
-  const reactionEntries = toMapEntries(user?.movieReactions);
-  const wishlistIds = new Set(Array.isArray(user?.wishlist) ? user.wishlist.map((id) => Number(id)) : []);
 
   const viewedIds = new Set();
   const genreWeights = new Map();
-  const categoryWeights = new Map();
-  const likedMovieIds = new Set();
-
-  const addWeight = (map, key, inc) => {
-    if (!key) return;
-    map.set(key, (map.get(key) || 0) + inc);
-  };
+  const countryWeights = new Map();
 
   viewedEntries.forEach((entry) => {
     const movieId = Number(entry?.movieId);
     if (!Number.isFinite(movieId)) return;
     const movie = movieById.get(movieId);
     if (!movie) return;
+
     viewedIds.add(movieId);
-    const viewCount = Math.max(1, Number(entry?.viewCount) || 1);
-    const viewedAt = entry?.viewedAt ? new Date(entry.viewedAt) : null;
-    const daysAgo = viewedAt ? Math.max(0, (Date.now() - viewedAt.getTime()) / (1000 * 60 * 60 * 24)) : 30;
-    const recencyBoost = 1 / (1 + daysAgo / 10);
-    const weight = viewCount * recencyBoost;
+    const weight = Math.max(1, Number(entry?.viewCount) || 1);
 
-    getMovieGenres(movie).forEach((genre) => addWeight(genreWeights, genre, weight));
-    normalizeToArray(movie?.category).forEach((category) => addWeight(categoryWeights, category, weight));
-  });
-
-  reactionEntries.forEach(([movieIdRaw, reaction]) => {
-    if (reaction !== "like") return;
-    const movieId = Number(movieIdRaw);
-    const movie = movieById.get(movieId);
-    if (!movie) return;
-    likedMovieIds.add(movieId);
-    getMovieGenres(movie).forEach((genre) => addWeight(genreWeights, genre, 2.5));
-    normalizeToArray(movie?.category).forEach((category) => addWeight(categoryWeights, category, 2));
+    getMovieFilterGenres(movie).forEach((genre) => addWeight(genreWeights, genre, weight));
+    const country = getMovieFilterCountry(movie);
+    if (country) addWeight(countryWeights, country, weight);
   });
 
   return {
     viewedIds,
-    likedMovieIds,
-    wishlistIds,
     genreWeights,
-    categoryWeights,
-    hasSignals: viewedIds.size > 0 || likedMovieIds.size > 0 || wishlistIds.size > 0,
+    countryWeights,
+    hasViewed: viewedIds.size > 0,
   };
 };
 
-const getPopularityBoost = (movie, popularMovieScores = null) => {
-  if (!popularMovieScores) return 0;
-  const movieId = Number(movie?.id);
-  if (!Number.isFinite(movieId)) return 0;
-  return Number(popularMovieScores.get(movieId) || 0);
+/**
+ * Mos keladi: kamida 1 janr OR bir xil filterCountry.
+ * Ball: mos janr weight'lari + davlat weight; ikkalasi ham mos bo'lsa qo'shimcha bonus.
+ */
+const scoreByGenreAndCountry = (movie, profile) => {
+  const movieGenres = getMovieFilterGenres(movie);
+  const movieCountry = getMovieFilterCountry(movie);
+
+  let genreScore = 0;
+  let matchedGenreCount = 0;
+  movieGenres.forEach((genre) => {
+    const w = profile.genreWeights.get(genre) || 0;
+    if (w > 0) {
+      genreScore += w;
+      matchedGenreCount += 1;
+    }
+  });
+
+  const countryWeight = movieCountry ? profile.countryWeights.get(movieCountry) || 0 : 0;
+  const countryMatch = countryWeight > 0;
+  const genreMatch = matchedGenreCount > 0;
+
+  if (!genreMatch && !countryMatch) return null;
+
+  // Ikkala signal birga — yuqoriroq (masalan: drama+jangari + turkiya ko'p ko'rilgan)
+  const bothBonus = genreMatch && countryMatch ? Math.min(genreScore, countryWeight || genreScore) * 0.5 : 0;
+
+  return genreScore + countryWeight + bothBonus + matchedGenreCount * 0.01;
 };
 
-const scoreMovie = (movie, profile, popularMovieScores) => {
-  const movieGenres = getMovieGenres(movie);
-  const movieCategories = normalizeToArray(movie?.category);
+/**
+ * Yangi user / ko'rmagan: 4 eng oxirgi joylangan + 3 eng yuqori reyting.
+ */
+const buildColdStartRecommendations = (movies = []) => {
+  const unique = uniqueRecommendations(movies);
+  if (!unique.length) return [];
 
-  const genreScore = movieGenres.reduce((sum, genre) => sum + (profile.genreWeights.get(genre) || 0), 0);
-  const categoryScore = movieCategories.reduce((sum, category) => sum + (profile.categoryWeights.get(category) || 0), 0);
-  const likeBoost = profile.likedMovieIds.has(Number(movie?.id)) ? -4 : 0;
-  const wishlistBoost = profile.wishlistIds.has(Number(movie?.id)) ? 0.5 : 0;
-  const qualityScore = getQualityScore(movie) * 3;
-  const popularityBoost = getPopularityBoost(movie, popularMovieScores) * 0.25;
-  const freshnessDays = movie?.createdAt ? (Date.now() - new Date(movie.createdAt).getTime()) / (1000 * 60 * 60 * 24) : 365;
-  const freshnessBoost = freshnessDays < 45 ? 0.35 : 0;
+  const byNewest = [...unique].sort((a, b) => getMovieCreatedAtMs(b) - getMovieCreatedAtMs(a));
+  const newest = byNewest.slice(0, COLD_START_NEWEST);
+  const newestIds = new Set(newest.map((m) => Number(m.id)));
 
-  return genreScore * 0.45 + categoryScore * 0.2 + qualityScore * 0.25 + popularityBoost + wishlistBoost + freshnessBoost + likeBoost;
-};
+  const byRating = [...unique]
+    .filter((m) => !newestIds.has(Number(m.id)))
+    .sort((a, b) => getQualityScore(b) - getQualityScore(a));
+  const topRated = byRating.slice(0, COLD_START_TOP_RATED);
 
-const diversify = (items = [], limit = RECOMMENDED_LIMIT) => {
-  const result = [];
-  const queue = [...items];
-  while (queue.length && result.length < limit) {
-    const last = result[result.length - 1];
-    const lastCategory = normalizeToArray(last?.category)[0] || null;
-    const idx = queue.findIndex((item) => {
-      const currentCategory = normalizeToArray(item?.category)[0] || null;
-      return !lastCategory || !currentCategory || currentCategory !== lastCategory;
-    });
-    result.push(idx === -1 ? queue.shift() : queue.splice(idx, 1)[0]);
-  }
-  return result;
-};
-
-const buildColdStartRecommendations = (movies = [], popularMovieScores = null, limit = RECOMMENDED_LIMIT) => {
-  const scored = [...movies]
-    .map((movie) => {
-      const quality = getQualityScore(movie) * 0.75;
-      const popularity = getPopularityBoost(movie, popularMovieScores) * 0.25;
-      return { movie, score: quality + popularity };
-    })
-    .sort((a, b) => b.score - a.score)
-    .map((item) => item.movie);
-
-  return diversify(uniqueRecommendations(scored), limit);
+  return uniqueRecommendations([...newest, ...topRated]).slice(0, COLD_START_TOTAL);
 };
 
 const buildPersonalizedRecommendations = ({
   movies = [],
   user = null,
-  limit = RECOMMENDED_LIMIT,
-  popularMovieScores = null,
 } = {}) => {
   const visibleMovies = movies.filter((movie) => normalizeText(movie?.category) !== "anonslar");
+
   if (!user) {
-    return buildColdStartRecommendations(visibleMovies, popularMovieScores, limit);
+    return buildColdStartRecommendations(visibleMovies);
   }
 
-  const profile = buildSignalProfile(visibleMovies, user);
-  const baseCandidates = visibleMovies.filter((movie) => !profile.viewedIds.has(Number(movie?.id)));
-  const candidates = baseCandidates.length ? baseCandidates : visibleMovies;
-
-  if (!profile.hasSignals) {
-    return buildColdStartRecommendations(candidates, popularMovieScores, limit);
+  const profile = buildViewProfile(visibleMovies, user);
+  if (!profile.hasViewed) {
+    return buildColdStartRecommendations(visibleMovies);
   }
+
+  const candidates = visibleMovies.filter((movie) => !profile.viewedIds.has(Number(movie?.id)));
 
   const scored = candidates
-    .map((movie) => ({ movie, score: scoreMovie(movie, profile, null) }))
+    .map((movie) => {
+      const score = scoreByGenreAndCountry(movie, profile);
+      return score == null ? null : { movie, score };
+    })
+    .filter(Boolean)
     .sort((a, b) => b.score - a.score)
     .map((item) => item.movie);
 
-  return diversify(uniqueRecommendations(scored), limit);
+  // Limit yo'q — barcha mos janr / davlat kinolari
+  return uniqueRecommendations(scored);
 };
 
 module.exports = {
   buildPersonalizedRecommendations,
   uniqueRecommendations,
-  RECOMMENDED_LIMIT,
+  COLD_START_TOTAL,
+  /** @deprecated Aliases for older imports — cold-start size, not a hard catalog cap. */
+  RECOMMENDED_LIMIT: COLD_START_TOTAL,
 };

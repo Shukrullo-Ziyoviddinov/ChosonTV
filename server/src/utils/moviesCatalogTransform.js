@@ -75,12 +75,11 @@ const transformMovies = (movies) =>
     })
     .filter(Boolean);
 
-const buildMoviesCatalog = (movies, { user = null, popularMovieScores = null } = {}) => {
+const buildMoviesCatalog = (movies, { user = null } = {}) => {
   const allMovies = transformMovies(movies);
   const recommendedMovies = buildPersonalizedRecommendations({
     movies: allMovies,
     user,
-    popularMovieScores,
   });
 
   const bySection = (sectionKey) =>
