@@ -152,3 +152,37 @@
     margin-left: 64px;
   }
 }
+
+/* Kichik mobil: raqam kartochka ichiga ko'proq kiradi */
+@media (max-width: 450px) {
+  .weekly-top-item {
+    width: 200px;
+  }
+
+  .weekly-top-item--wide {
+    width: 210px;
+  }
+
+  .weekly-top-rank {
+    left: 18px;
+    bottom: 1.35rem;
+  }
+
+  .weekly-top-rank-text {
+    font-size: 6.4rem;
+    -webkit-text-stroke: 3.5px #4a0505;
+  }
+
+  .weekly-top-item--wide .weekly-top-rank-text {
+    font-size: 5.4rem;
+  }
+
+  .weekly-top-card {
+    margin-left: 48px;
+    width: 150px;
+  }
+
+  .weekly-top-item--wide .weekly-top-card {
+    margin-left: 56px;
+  }
+}
