@@ -18,8 +18,8 @@ const ShareButton = ({ movie }) => {
   const [touchEnd, setTouchEnd] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [modalTranslateY, setModalTranslateY] = useState(0);
-  const dropdownRef = useRef(null);
   const modalRef = useRef(null);
+  const touchStartRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => setIsMobileView(window.innerWidth <= MOBILE_BREAKPOINT);
@@ -80,27 +80,17 @@ const ShareButton = ({ movie }) => {
   const closeModal = () => setIsOpen(false);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!isMobileView && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
+    if (!isOpen) return;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') closeModal();
     };
-    if (isOpen && !isMobileView) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isOpen, isMobileView]);
-
-  useEffect(() => {
-    if (isOpen && isMobileView) {
-      document.body.style.overflow = 'hidden';
-    } else {
+    window.addEventListener('keydown', onKey);
+    return () => {
       document.body.style.overflow = '';
-    }
-    return () => { document.body.style.overflow = ''; };
-  }, [isOpen, isMobileView]);
-
-  const touchStartRef = useRef(null);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen]);
 
   const handleTouchStart = (e) => {
     if (!isMobileView) return;
@@ -146,7 +136,6 @@ const ShareButton = ({ movie }) => {
     touchStartRef.current = null;
   };
 
-  // Touch handlers with passive: false to allow preventDefault (fixes console warning)
   useEffect(() => {
     const el = modalRef.current;
     if (!el || !isOpen || !isMobileView) return;
@@ -163,20 +152,42 @@ const ShareButton = ({ movie }) => {
     if (e.target === e.currentTarget) closeModal();
   };
 
+  const handleToggle = (e) => {
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
+  };
+
   if (!movie) return null;
 
   const renderContent = () => (
     <>
-      <div className="share-modal-drag-zone">
-        <div className="share-modal-drag-handle" />
-        <div className="share-modal-header">
-          <h3 className="share-modal-title">{t('share.share')}</h3>
+      {isMobileView ? (
+        <div className="share-modal-drag-zone">
+          <div className="share-modal-drag-handle" />
+          <div className="share-modal-header">
+            <h3 className="share-modal-title">{t('share.share')}</h3>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="share-modal-header share-modal-header--desktop">
+          <h3 className="share-modal-title">{t('share.share')}</h3>
+          <button
+            type="button"
+            className="share-modal-close"
+            onClick={closeModal}
+            aria-label="Yopish"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
       <div className="share-modal-body">
         {shareLinks.map((link) => (
           <button
             key={link.name}
+            type="button"
             className="share-modal-item"
             onClick={() => handleShare(link.url)}
           >
@@ -189,11 +200,13 @@ const ShareButton = ({ movie }) => {
   );
 
   return (
-    <div className="share-button-wrapper" ref={dropdownRef}>
+    <div className="share-button-wrapper">
       <button
+        type="button"
         className="share-button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggle}
         aria-label={t('share.share')}
+        aria-expanded={isOpen}
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="18" cy="5" r="3" />
@@ -204,18 +217,21 @@ const ShareButton = ({ movie }) => {
         </svg>
       </button>
 
-      {isOpen && (
-        <>
-          {isMobileView ? createPortal(
+      {isOpen
+        ? createPortal(
             <div
-              className="share-modal-overlay"
+              className={`share-modal-overlay${isMobileView ? '' : ' share-modal-overlay--desktop'}`}
               onClick={handleOverlayClick}
             >
               <div
                 ref={modalRef}
-                className={`share-modal-content share-modal-content--mobile ${isDragging ? 'share-modal-content--dragging' : ''}`}
+                className={[
+                  'share-modal-content',
+                  isMobileView ? 'share-modal-content--mobile' : 'share-modal-content--desktop',
+                  isDragging ? 'share-modal-content--dragging' : '',
+                ].filter(Boolean).join(' ')}
                 onClick={(e) => e.stopPropagation()}
-                style={{ transform: `translateY(${modalTranslateY}px)` }}
+                style={isMobileView ? { transform: `translateY(${modalTranslateY}px)` } : undefined}
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
               >
@@ -223,22 +239,8 @@ const ShareButton = ({ movie }) => {
               </div>
             </div>,
             document.body
-          ) : (
-            <div className="share-button-dropdown">
-              {shareLinks.map((link) => (
-                <button
-                  key={link.name}
-                  className="share-button-dropdown-item"
-                  onClick={() => handleShare(link.url)}
-                >
-                  <span className="share-button-icon">{link.icon}</span>
-                  <span>{link.name}</span>
-                </button>
-              ))}
-            </div>
-          )}
-        </>
-      )}
+          )
+        : null}
     </div>
   );
 };
