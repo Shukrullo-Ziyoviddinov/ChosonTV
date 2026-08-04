@@ -27,57 +27,46 @@ export const TYPE_CATEGORY_OPTIONS = [
   "usa xitoy",
 ];
 
-/** DB / catalog `categoryName` qiymatlari (moviesCatalogTransform bilan mos) */
+/**
+ * categoryName → catalog section (home/API).
+ * category maydoni endi categoryName bilan bir xil saqlanadi.
+ */
 export const CATEGORY_NAME_TO_SECTION = {
   romanceMovie: "romanceMovies",
   Komediya: "turkishSeries",
-  turkishMovie: "turkishSeries", // eski fallback
+  turkishMovie: "turkishSeries",
   Detektiv: "worldMovies",
-  worldMovie: "worldMovies", // eski fallback
+  worldMovie: "worldMovies",
   tvSeries: "tvSeries",
   horrorMovie: "horrorMovies",
   Dorama: "koreaDrama",
-  koreaDrama: "koreaDrama", // eski fallback
+  koreaDrama: "koreaDrama",
   kinolar: "kinolar",
   anons: "anonslar",
   actionMovie: "actionMovies",
   tarixiyDoramalar: "animations",
-  animation: "animations", // eski fallback
+  animation: "animations",
   animationMovie: "animations",
   multFilm: "animations",
 };
 
-export const CATEGORY_NAME_OPTIONS = Object.keys(CATEGORY_NAME_TO_SECTION).filter(
-  (name, index, arr) => {
-    // Yangi nomlar asosiy; eski kalitlar / dublikatlar yashiriladi
-    if (
-      name === "animationMovie" ||
-      name === "multFilm" ||
-      name === "animation" ||
-      name === "koreaDrama" ||
-      name === "worldMovie" ||
-      name === "turkishMovie"
-    ) {
-      return false;
-    }
-    return arr.indexOf(name) === index;
-  }
-);
-
-export const CATEGORY_OPTIONS = [
-  "romanceMovies",
-  "turkishSeries",
-  "worldMovies",
-  "tvSeries",
-  "horrorMovies",
-  "koreaDrama",
+/** Admin dropdown — category va categoryName bir xil ro'yxat */
+export const CATEGORY_NAME_OPTIONS = [
+  "Dorama",
   "kinolar",
-  "anonslar",
-  "actionMovies",
-  "animations",
+  "Detektiv",
+  "tarixiyDoramalar",
+  "Komediya",
+  "tvSeries",
+  "actionMovie",
+  "horrorMovie",
+  "romanceMovie",
+  "anons",
 ];
 
-/** Section → asosiy categoryName */
+export const CATEGORY_OPTIONS = CATEGORY_NAME_OPTIONS;
+
+/** Section → asosiy categoryName (saqlash / sync) */
 export const SECTION_TO_CATEGORY_NAME = Object.entries(CATEGORY_NAME_TO_SECTION).reduce(
   (acc, [categoryName, section]) => {
     if (!acc[section]) acc[section] = categoryName;
@@ -87,4 +76,6 @@ export const SECTION_TO_CATEGORY_NAME = Object.entries(CATEGORY_NAME_TO_SECTION)
 );
 
 export const isAnonsCategory = (categoryName, category) =>
-  categoryName === "anons" || category === "anonslar";
+  categoryName === "anons" ||
+  category === "anons" ||
+  category === "anonslar";

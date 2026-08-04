@@ -209,7 +209,7 @@
       5,
       6
     ],
-    "category": "hollywood",
+    "category": "Komediya",
     "typeCategory": [
       "action",
       "drama",
@@ -440,7 +440,7 @@
       3,
       2
     ],
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "action",
       "drama",
@@ -667,7 +667,7 @@
         ]
       }
     ],
-    "category": "hindi",
+    "category": "romanceMovie",
     "typeCategory": [
       "romance",
       "action",
@@ -771,7 +771,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hindi",
+    "category": "Komediya",
     "typeCategory": [
       "comedy",
       "drama",
@@ -972,7 +972,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -1072,7 +1072,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "drama"
     ],
@@ -1171,7 +1171,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "kinolar",
     "typeCategory": [
       "drama"
     ],
@@ -1270,7 +1270,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "tvSeries",
     "typeCategory": [
       "Romantika"
     ],
@@ -1369,7 +1369,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "Romantika"
     ],
@@ -1468,7 +1468,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "horrorMovie",
     "typeCategory": [
       "drama",
       "Jangare"
@@ -1568,7 +1568,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Dorama",
     "typeCategory": [
       "drama",
       "Komediya"
@@ -1668,7 +1668,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "kinolar",
     "typeCategory": [
       "Komediya",
       "Sarguzasht"
@@ -1741,7 +1741,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "tarixiyDoramalar",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -1841,7 +1841,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "Sarguzasht",
       "Qo'rqinchli"
@@ -1936,7 +1936,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2036,7 +2036,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "Romantika",
       "Komediya"
@@ -2114,7 +2114,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "tarixiyDoramalar",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2214,7 +2214,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "kinolar",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2314,7 +2314,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "kinolar",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2392,7 +2392,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Dorama",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2492,7 +2492,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Komediya",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2570,7 +2570,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Komediya",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2747,7 +2747,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -2924,7 +2924,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "Detektiv",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -3002,7 +3002,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "romanceMovie",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -3102,7 +3102,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "romanceMovie",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -3180,7 +3180,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "kinolar",
     "typeCategory": [
       "drama",
       "hollywood"
@@ -3280,7 +3280,7 @@
       "uz": "/video/video1.mp4",
       "ru": "/video/video1.mp4"
     },
-    "category": "hollywood",
+    "category": "kinolar",
     "typeCategory": [
       "drama",
       "horror"
@@ -3385,7 +3385,7 @@
       3,
       2
     ],
-    "category": "anonslar",
+    "category": "anons",
     "typeCategory": [
       "animation",
       "anonslar"
@@ -3488,7 +3488,7 @@
       3,
       2
     ],
-    "category": "anonslar",
+    "category": "anons",
     "typeCategory": [
       "drama",
       "anonslar"
@@ -3589,7 +3589,7 @@
       3,
       2
     ],
-    "category": "anonslar",
+    "category": "anons",
     "typeCategory": [
       "romance",
       "anonslar"
@@ -3690,7 +3690,7 @@
       3,
       2
     ],
-    "category": "anonslar",
+    "category": "anons",
     "typeCategory": [
       "animation",
       "anonslar"
@@ -3791,7 +3791,7 @@
       3,
       2
     ],
-    "category": "anonslar",
+    "category": "anons",
     "typeCategory": [
       "action",
       "anonslar"
@@ -3892,7 +3892,7 @@
       3,
       2
     ],
-    "category": "anonslar",
+    "category": "anons",
     "typeCategory": [
       "anime",
       "anonslar"
@@ -3993,7 +3993,7 @@
       3,
       2
     ],
-    "category": "anonslar",
+    "category": "anons",
     "typeCategory": [
       "adventure",
       "anonslar"
@@ -4093,7 +4093,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "Detektiv",
     "typeCategory": [
       "action",
       "thriller",
@@ -4194,7 +4194,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "Detektiv",
     "typeCategory": [
       "action",
       "thriller",
@@ -4295,7 +4295,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "actionMovie",
     "typeCategory": [
       "action",
       "actionMovies"
@@ -4395,7 +4395,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "actionMovie",
     "typeCategory": [
       "action",
       "thriller",
@@ -4492,7 +4492,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "actionMovie",
     "typeCategory": [
       "action",
       "thriller",
@@ -4593,7 +4593,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "actionMovie",
     "typeCategory": [
       "action",
       "thriller",
@@ -4695,7 +4695,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "horrorMovie",
     "typeCategory": [
       "action",
       "thriller",
@@ -4797,7 +4797,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "actionMovie",
     "typeCategory": [
       "action",
       "thriller",
@@ -4899,7 +4899,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "tarixiyDoramalar",
     "typeCategory": [
       "action",
       "thriller",
@@ -5001,7 +5001,7 @@
       3,
       2
     ],
-    "category": "actionMovies",
+    "category": "tarixiyDoramalar",
     "typeCategory": [
       "action",
       "thriller",

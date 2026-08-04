@@ -6,7 +6,6 @@ import {
   CATEGORY_OPTIONS,
   FILTER_GENRE_OPTIONS,
   isAnonsCategory,
-  SECTION_TO_CATEGORY_NAME,
   TYPE_CATEGORY_OPTIONS,
 } from "../../constants/movieFormOptions";
 import UploadProgress from "../UploadProgress/UploadProgress";
@@ -221,15 +220,13 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
     );
   }, [form]);
 
-  const selectCategoryName = (categoryName) => {
-    const section = CATEGORY_NAME_TO_SECTION[categoryName] || form.category;
-    patch({ categoryName, category: section || form.category });
+  const selectCategoryName = (value) => {
+    patch({ categoryName: value, category: value });
     setCategoryNameOpen(false);
   };
 
-  const selectCategory = (category) => {
-    const categoryName = SECTION_TO_CATEGORY_NAME[category] || form.categoryName;
-    patch({ category, categoryName: categoryName || form.categoryName });
+  const selectCategory = (value) => {
+    patch({ category: value, categoryName: value });
     setCategoryOpen(false);
   };
 
@@ -335,10 +332,8 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
     setError("");
     setSaving(true);
     try {
-      const section =
-        CATEGORY_NAME_TO_SECTION[form.categoryName] || form.category || "";
-      const categoryName =
-        form.categoryName || SECTION_TO_CATEGORY_NAME[section] || "";
+      const categoryName = form.categoryName || form.category || "";
+      const section = CATEGORY_NAME_TO_SECTION[categoryName] || "";
       // Anons uchun watchVideo bo'sh bo'lishi mumkin; boshqa bo'limga o'tkazganda
       // video qo'shilgan bo'lsa saqlanadi, eski ma'lumotlar o'chirilmaydi.
       const watchVideo = {
@@ -359,7 +354,7 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
         ratingNetflix: form.ratingNetflix === "" ? 0 : Number(form.ratingNetflix),
         ageRestriction: toNumberOrDefault(form.ageRestriction, 0),
         categoryName,
-        category: section,
+        category: categoryName,
         genre: form.genre,
         description: form.description,
         watchVideo,
@@ -609,7 +604,6 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
                   onClick={() => selectCategoryName(item)}
                 >
                   {item}
-                  {item === "anons" ? " → anonslar" : ""}
                 </button>
               ))}
             </div>
