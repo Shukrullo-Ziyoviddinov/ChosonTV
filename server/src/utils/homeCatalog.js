@@ -1,9 +1,10 @@
 const HOME_SECTION_LIMIT = 7;
 const HOME_SECTIONS_PER_BATCH = 2;
 
-/** Home bo'limlari tartibi (topRated — UI slot, DB section emas) */
+/** Home bo'limlari tartibi (topRated / weeklyTop — UI slot, DB section emas) */
 const HOME_SECTION_ORDER = [
   "koreaDrama",
+  "weeklyTop",
   "kinolar",
   "worldMovies",
   "animations",
@@ -19,6 +20,8 @@ const HOME_SECTION_ORDER = [
   "retroMovies",
   "uzbekMovies",
 ];
+
+const HOME_UI_ONLY_SECTIONS = new Set(["topRated", "weeklyTop"]);
 
 const parseHomeBatchQuery = (query = {}) => {
   const batchRaw = Number(query.batch);
@@ -42,5 +45,6 @@ module.exports = {
   HOME_SECTION_LIMIT,
   HOME_SECTIONS_PER_BATCH,
   HOME_SECTION_ORDER,
+  HOME_UI_ONLY_SECTIONS,
   parseHomeBatchQuery,
 };

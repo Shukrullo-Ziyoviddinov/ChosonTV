@@ -9,6 +9,7 @@ import {
   HOME_SECTION_LIMIT,
 } from '../context/MoviesCatalogContext';
 import TopRatedContent from '../components/TopRatedContent/TopRatedContent';
+import WeeklyTopMovies from '../components/WeeklyTopMovies/WeeklyTopMovies';
 import './Home.css';
 
 const Home = () => {
@@ -61,6 +62,10 @@ const Home = () => {
           moreTo="/category/topRated"
         />
       );
+    }
+
+    if (sectionType === 'weeklyTop') {
+      return <WeeklyTopMovies key="weekly-top-content" />;
     }
 
     const meta = sectionMeta[sectionType];

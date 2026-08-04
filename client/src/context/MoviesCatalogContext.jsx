@@ -7,6 +7,7 @@ export const HOME_SECTIONS_PER_BATCH = 2;
 
 export const HOME_SECTION_ORDER = [
   'koreaDrama',
+  'weeklyTop',
   'kinolar',
   'worldMovies',
   'animations',

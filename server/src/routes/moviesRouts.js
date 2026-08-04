@@ -5,6 +5,7 @@ const { parsePagination, buildPaginationMeta } = require("../utils/pagination");
 const { applyPagination } = require("../utils/queryOptimizer");
 const { validateIdParam } = require("../middlewares/validateRequest");
 const { buildTopRatedMovies } = require("../services/topRatedService");
+const { buildWeeklyTopMovies, MAX_WEEKLY_TOP } = require("../services/weeklyTopService");
 const { toPublicMovie, buildSimilarMovies } = require("../services/similarMoviesService");
 const authMiddleware = require("../middlewares/auth.middleware");
 const MovieComment = require("../models/movieComment");
@@ -93,6 +94,29 @@ router.get("/top-rated", async (req, res, next) => {
       200,
       buildPaginationMeta(topRatedMovies.length, pagination)
     );
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/weekly-top", async (req, res, next) => {
+  try {
+    const limitRaw = Number(req.query.limit);
+    const limit =
+      Number.isFinite(limitRaw) && limitRaw > 0
+        ? Math.min(Math.floor(limitRaw), MAX_WEEKLY_TOP)
+        : MAX_WEEKLY_TOP;
+
+    const { items, meta } = await buildWeeklyTopMovies({ limit });
+
+    return success(res, items, "Haftaning top 10 filimi", 200, {
+      ...meta,
+      page: 1,
+      limit,
+      totalPages: 1,
+      hasNextPage: false,
+      hasPrevPage: false,
+    });
   } catch (error) {
     return next(error);
   }

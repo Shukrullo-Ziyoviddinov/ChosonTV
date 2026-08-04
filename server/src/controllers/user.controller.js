@@ -1,9 +1,6 @@
 const { success } = require("../utils/apiResponse");
 const MovieComment = require("../models/movieComment");
-const toMovieId = (value) => {
-  const parsed = Number.parseInt(value, 10);
-  return Number.isNaN(parsed) ? null : parsed;
-};
+const { registerMovieView, toMovieId } = require("../utils/movieViews");
 const toReaction = (value) => (value === "like" || value === "dislike" ? value : null);
 
 const getProfile = async (req, res, next) => {
@@ -162,28 +159,11 @@ const getViewedMovies = async (req, res, next) => {
 
 const addViewedMovie = async (req, res, next) => {
   try {
-    const movieId = toMovieId(req.body?.movieId);
-    if (movieId === null) {
-      const error = new Error("movieId noto'g'ri.");
-      error.statusCode = 400;
-      throw error;
-    }
-
-    const viewedMovies = Array.isArray(req.user.viewedMovies) ? req.user.viewedMovies : [];
-    const existing = viewedMovies.find((item) => Number(item.movieId) === movieId);
-    if (existing) {
-      existing.viewCount = Math.max(1, Number(existing.viewCount) || 1) + 1;
-      existing.viewedAt = new Date();
-    } else {
-      viewedMovies.unshift({ movieId, viewedAt: new Date(), viewCount: 1 });
-    }
-
-    req.user.viewedMovies = viewedMovies
-      .sort((a, b) => new Date(b.viewedAt).getTime() - new Date(a.viewedAt).getTime())
-      .slice(0, 150);
-
-    await req.user.save();
-    return success(res, { viewedMovies: req.user.viewedMovies }, "Ko'rilgan kino saqlandi.");
+    const { viewedMovies } = await registerMovieView({
+      user: req.user,
+      movieId: req.body?.movieId,
+    });
+    return success(res, { viewedMovies }, "Ko'rilgan kino saqlandi.");
   } catch (error) {
     return next(error);
   }

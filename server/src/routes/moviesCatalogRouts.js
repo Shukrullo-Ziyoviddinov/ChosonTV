@@ -7,6 +7,7 @@ const {
 } = require("../utils/moviesCatalogTransform");
 const {
   HOME_SECTION_ORDER,
+  HOME_UI_ONLY_SECTIONS,
   parseHomeBatchQuery,
 } = require("../utils/homeCatalog");
 const { success } = require("../utils/apiResponse");
@@ -154,7 +155,7 @@ router.get("/home", async (req, res, next) => {
       anonslar.items.forEach((movie) => allMovies.push(movie));
     }
 
-    const apiSectionKeys = sectionKeys.filter((key) => key && key !== "topRated");
+    const apiSectionKeys = sectionKeys.filter((key) => key && !HOME_UI_ONLY_SECTIONS.has(key));
     const previews = await Promise.all(
       apiSectionKeys.map(async (sectionKey) => {
         const preview = await loadSectionPreview(sectionKey, limitPerSection, {
