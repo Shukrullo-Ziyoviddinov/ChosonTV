@@ -26,15 +26,10 @@ const CATALOG_SECTIONS = new Set([
   'worldMovies',
   'animations',
   'turkishSeries',
-  'russianMovies',
   'tvSeries',
   'actionMovies',
   'horrorMovies',
-  'anime',
-  'adventureMovies',
   'romanceMovies',
-  'retroMovies',
-  'uzbekMovies',
   'anonslar',
 ]);
 

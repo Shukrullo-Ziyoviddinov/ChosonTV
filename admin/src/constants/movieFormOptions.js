@@ -29,21 +29,16 @@ export const TYPE_CATEGORY_OPTIONS = [
 
 /** DB / catalog `categoryName` qiymatlari (moviesCatalogTransform bilan mos) */
 export const CATEGORY_NAME_TO_SECTION = {
-  russianMovie: "russianMovies",
-  retroMovie: "retroMovies",
   romanceMovie: "romanceMovies",
   Komediya: "turkishSeries",
-  turkishMovie: "turkishSeries", // eski qiymat (fallback)
+  turkishMovie: "turkishSeries", // eski fallback
   Detektiv: "worldMovies",
-  worldMovie: "worldMovies", // eski qiymat (fallback)
-  uzbekMovie: "uzbekMovies",
+  worldMovie: "worldMovies", // eski fallback
   tvSeries: "tvSeries",
   horrorMovie: "horrorMovies",
   Dorama: "koreaDrama",
-  koreaDrama: "koreaDrama", // eski qiymat (fallback)
+  koreaDrama: "koreaDrama", // eski fallback
   kinolar: "kinolar",
-  anime: "anime",
-  adventureMovie: "adventureMovies",
   anons: "anonslar",
   actionMovie: "actionMovies",
   tarixiyDoramalar: "animations",
@@ -70,18 +65,13 @@ export const CATEGORY_NAME_OPTIONS = Object.keys(CATEGORY_NAME_TO_SECTION).filte
 );
 
 export const CATEGORY_OPTIONS = [
-  "russianMovies",
-  "retroMovies",
   "romanceMovies",
   "turkishSeries",
   "worldMovies",
-  "uzbekMovies",
   "tvSeries",
   "horrorMovies",
   "koreaDrama",
   "kinolar",
-  "anime",
-  "adventureMovies",
   "anonslar",
   "actionMovies",
   "animations",

@@ -12,16 +12,11 @@ export const HOME_SECTION_ORDER = [
   'worldMovies',
   'animations',
   'turkishSeries',
-  'russianMovies',
   'tvSeries',
   'topRated',
   'actionMovies',
   'horrorMovies',
-  'anime',
-  'adventureMovies',
   'romanceMovies',
-  'retroMovies',
-  'uzbekMovies',
 ];
 
 const EMPTY_CATALOG = {

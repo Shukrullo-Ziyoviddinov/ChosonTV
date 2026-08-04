@@ -38,15 +38,10 @@ const Home = () => {
     worldMovies: { title: t('movies.worldMovies'), to: '/category/worldMovies' },
     animations: { title: t('movies.animations'), to: '/category/animations' },
     turkishSeries: { title: t('movies.turkishSeries'), to: '/category/turkishSeries' },
-    russianMovies: { title: t('movies.russianMovies'), to: '/category/russianMovies' },
     tvSeries: { title: t('movies.tvSeries'), to: '/category/tvSeries' },
     actionMovies: { title: t('movies.actionMovies'), to: '/category/actionMovies' },
     horrorMovies: { title: t('movies.horrorMovies'), to: '/category/horrorMovies' },
-    anime: { title: t('movies.anime'), to: '/category/anime' },
-    adventureMovies: { title: t('movies.adventureMovies'), to: '/category/adventureMovies' },
     romanceMovies: { title: t('movies.romanceMovies'), to: '/category/romanceMovies' },
-    retroMovies: { title: t('movies.retroMovies'), to: '/category/retroMovies' },
-    uzbekMovies: { title: t('movies.uzbekMovies'), to: '/category/uzbekMovies' },
   }), [t]);
 
   const order = sectionOrder?.length ? sectionOrder : [];

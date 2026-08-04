@@ -32,7 +32,7 @@
     "ratingKinopoisk": 8.2,
     "ratingNetflix": 8.7,
     "ageRestriction": 16,
-    "categoryName": "russianMovie",
+    "categoryName": "Komediya",
     "genre": {
       "uz": [
         "Jangari",
@@ -270,7 +270,7 @@
     "ratingKinopoisk": 8.9,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "retroMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Jangari",
@@ -926,7 +926,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "retroMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Drama",
@@ -1125,7 +1125,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "uzbekMovie",
+    "categoryName": "kinolar",
     "genre": {
       "uz": [
         "Drama",
@@ -1722,7 +1722,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "anime",
+    "categoryName": "tarixiyDoramalar",
     "genre": {
       "uz": [
         "Drama",
@@ -1795,7 +1795,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "adventureMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Drama",
@@ -1895,7 +1895,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "adventureMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Drama",
@@ -1990,7 +1990,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "adventureMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Drama",
@@ -2090,7 +2090,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "anime",
+    "categoryName": "tarixiyDoramalar",
     "genre": {
       "uz": [
         "Drama",
@@ -2446,7 +2446,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "russianMovie",
+    "categoryName": "Komediya",
     "genre": {
       "uz": [
         "Drama",
@@ -2546,7 +2546,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "russianMovie",
+    "categoryName": "Komediya",
     "genre": {
       "uz": [
         "Drama",
@@ -2723,7 +2723,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "retroMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Drama",
@@ -2878,7 +2878,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "retroMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Drama",
@@ -3156,7 +3156,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "uzbekMovie",
+    "categoryName": "kinolar",
     "genre": {
       "uz": [
         "Drama",
@@ -3234,7 +3234,7 @@
     "ratingKinopoisk": 8.3,
     "ratingNetflix": 4.8,
     "ageRestriction": 18,
-    "categoryName": "uzbekMovie",
+    "categoryName": "kinolar",
     "genre": {
       "uz": [
         "Drama",
@@ -4044,7 +4044,7 @@
     "ratingImdb": 7.7,
     "ratingKinopoisk": 7.5,
     "ageRestriction": 18,
-    "categoryName": "adventureMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Jangari",
@@ -4145,7 +4145,7 @@
     "ratingImdb": 7.8,
     "ratingKinopoisk": 7.6,
     "ageRestriction": 12,
-    "categoryName": "adventureMovie",
+    "categoryName": "Detektiv",
     "genre": {
       "uz": [
         "Jangari",

@@ -9,16 +9,11 @@ const HOME_SECTION_ORDER = [
   "worldMovies",
   "animations",
   "turkishSeries",
-  "russianMovies",
   "tvSeries",
   "topRated",
   "actionMovies",
   "horrorMovies",
-  "anime",
-  "adventureMovies",
   "romanceMovies",
-  "retroMovies",
-  "uzbekMovies",
 ];
 
 const HOME_UI_ONLY_SECTIONS = new Set(["topRated", "weeklyTop"]);

@@ -49,7 +49,7 @@ const Movies = ({ sectionType = 'recommended', limit = DEFAULT_LIMIT, filteredMo
   };
 
 
-  const isHorizontal = (sectionType === 'recommended' || sectionType === 'topRated' || sectionType === 'anonslar' || sectionType === 'koreaDrama' || sectionType === 'kinolar' || sectionType === 'actionMovies' || sectionType === 'horrorMovies' || sectionType === 'anime' || sectionType === 'adventureMovies' || sectionType === 'romanceMovies' || sectionType === 'retroMovies' || sectionType === 'uzbekMovies' || sectionType === 'worldMovies' || sectionType === 'animations' || sectionType === 'turkishSeries' || sectionType === 'russianMovies' || sectionType === 'tvSeries') && showHorizontalScroll;
+  const isHorizontal = showHorizontalScroll;
   const isWideLayout = false;
 
   const renderMovieItem = (movie, index) => {
