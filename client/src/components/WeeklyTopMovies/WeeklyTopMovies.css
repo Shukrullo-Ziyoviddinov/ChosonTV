@@ -10,13 +10,13 @@
   flex-shrink: 0;
   display: flex;
   align-items: flex-end;
-  width: 280px;
+  width: 300px;
   box-sizing: border-box;
   overflow: visible;
 }
 
 .weekly-top-item--wide {
-  width: 300px;
+  width: 320px;
 }
 
 .weekly-top-item--wide .weekly-top-rank-text {
@@ -25,7 +25,7 @@
 }
 
 .weekly-top-item--wide .weekly-top-card {
-  margin-left: 92px;
+  margin-left: 110px;
 }
 
 /* Raqam — poster orqasida, lekin chap tomoni ochiq */
@@ -79,11 +79,11 @@
   content: none;
 }
 
-/* Poster — raqamning o'ng yarmini yopadigan qatlam */
+/* Poster — raqamning faqat o'ng qismini yopadigan qatlam */
 .weekly-top-card {
   position: relative;
   z-index: 2;
-  margin-left: 72px;
+  margin-left: 92px;
   width: 200px;
   flex-shrink: 0;
   box-shadow:
@@ -109,11 +109,11 @@
 
 @media (max-width: 768px) {
   .weekly-top-item {
-    width: 220px;
+    width: 235px;
   }
 
   .weekly-top-item--wide {
-    width: 235px;
+    width: 250px;
   }
 
   .weekly-top-rank {
@@ -130,18 +130,18 @@
   }
 
   .weekly-top-card {
-    margin-left: 58px;
+    margin-left: 72px;
     width: 150px;
   }
 
   .weekly-top-item--wide .weekly-top-card {
-    margin-left: 72px;
+    margin-left: 88px;
   }
 }
 
 @media (max-width: 500px) {
   .weekly-top-item {
-    width: 208px;
+    width: 220px;
   }
 
   .weekly-top-rank-text {
@@ -149,6 +149,6 @@
   }
 
   .weekly-top-card {
-    margin-left: 52px;
+    margin-left: 64px;
   }
 }
