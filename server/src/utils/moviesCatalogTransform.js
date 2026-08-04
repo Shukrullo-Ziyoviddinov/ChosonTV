@@ -9,6 +9,7 @@ const CATEGORY_NAME_TO_SECTION = {
   turkishSeries: "turkishSeries",
   worldMovie: "worldMovies",
   worldMovies: "worldMovies",
+  Detektiv: "worldMovies",
   uzbekMovie: "uzbekMovies",
   uzbekMovies: "uzbekMovies",
   tvSeries: "tvSeries",
