@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { fetchSocialLinks, saveSocialLinks } from "../../services/socialLinksApi";
+import { uploadToR2, UPLOAD_FOLDERS } from "../../services/uploadApi";
 import "./SettingsLinksForm.css";
 
 const TYPE_MAP = {
@@ -32,18 +33,10 @@ function emptyRow() {
   };
 }
 
-function toDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 export default function SettingsLinksForm({ section, onCancel, onSaved }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [rows, setRows] = useState([]);
 
@@ -74,13 +67,20 @@ export default function SettingsLinksForm({ section, onCancel, onSaved }) {
     setRows((prev) => prev.map((row, i) => (i === index ? { ...row, ...patch } : row)));
   };
 
-  const onPickIcon = async (index, file) => {
+  const onPickIcon = async (index, event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
+
+    setError("");
+    setUploading(true);
     try {
-      const iconData = await toDataUrl(file);
-      patchRow(index, { icon: iconData });
-    } catch (_error) {
-      setError("Icon yuklashda xatolik.");
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.socialLink);
+      patchRow(index, { icon: url });
+    } catch (e) {
+      setError(e.message || "Iconni R2 ga yuklashda xatolik.");
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -126,14 +126,15 @@ export default function SettingsLinksForm({ section, onCancel, onSaved }) {
                 <input className="settings-links-form__input" value={row.link} onChange={(e) => patchRow(index, { link: e.target.value })} />
                 <label className="settings-links-form__label">Icon</label>
                 <div className="settings-links-form__icon-field">
-                  <label className="settings-links-form__icon-upload">
+                  <label className={`settings-links-form__icon-upload${uploading ? " is-disabled" : ""}`}>
                     <input
                       className="settings-links-form__file-input"
                       type="file"
                       accept="image/*"
-                      onChange={(e) => onPickIcon(index, e.target.files?.[0])}
+                      disabled={uploading || saving}
+                      onChange={(e) => onPickIcon(index, e)}
                     />
-                    <span>Rasm yuklash</span>
+                    <span>{uploading ? "Yuklanmoqda..." : "Rasm yuklash"}</span>
                   </label>
                   {row.icon ? (
                     <div className="settings-links-form__icon-preview-wrap">
@@ -142,6 +143,7 @@ export default function SettingsLinksForm({ section, onCancel, onSaved }) {
                         type="button"
                         className="settings-links-form__icon-remove"
                         onClick={() => patchRow(index, { icon: "" })}
+                        disabled={uploading || saving}
                       >
                         O'chirish
                       </button>
@@ -161,7 +163,7 @@ export default function SettingsLinksForm({ section, onCancel, onSaved }) {
         </div>
       )}
 
-      <button type="button" className="settings-links-form__add-btn" onClick={addRow}>
+      <button type="button" className="settings-links-form__add-btn" onClick={addRow} disabled={uploading || saving}>
         + Yana qo'shish
       </button>
 
@@ -171,8 +173,13 @@ export default function SettingsLinksForm({ section, onCancel, onSaved }) {
         <button type="button" className="settings-links-form__cancel-btn" onClick={onCancel}>
           Bekor qilish
         </button>
-        <button type="button" className="settings-links-form__save-btn" onClick={onSubmit} disabled={saving || loading}>
-          {saving ? "Saqlanmoqda..." : "Saqlash"}
+        <button
+          type="button"
+          className="settings-links-form__save-btn"
+          onClick={onSubmit}
+          disabled={saving || loading || uploading}
+        >
+          {saving ? "Saqlanmoqda..." : uploading ? "Yuklanmoqda..." : "Saqlash"}
         </button>
       </div>
     </div>

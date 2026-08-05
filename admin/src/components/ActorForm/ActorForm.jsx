@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createActor, fetchActors } from "../../services/actorApi";
+import { uploadToR2, UPLOAD_FOLDERS } from "../../services/uploadApi";
 import "./ActorForm.css";
 
 function UploadIcon() {
@@ -13,18 +14,10 @@ function UploadIcon() {
   );
 }
 
-function toDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 export default function ActorForm({ onCancel, onSaved, mode = "create", initialData = null, onSubmitData }) {
   const fileRef = useRef(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     actorId: "",
@@ -73,10 +66,19 @@ export default function ActorForm({ onCancel, onSaved, mode = "create", initialD
 
   const onPickImage = async (event) => {
     const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
-    const imageData = await toDataUrl(file);
-    patch({ image: imageData, imagePreview: imageData });
-    if (event.target) event.target.value = "";
+
+    setError("");
+    setUploading(true);
+    try {
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.actors);
+      patch({ image: url, imagePreview: url });
+    } catch (e) {
+      setError(e.message || "Actor rasmni R2 ga yuklashda xatolik.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onSubmit = async () => {
@@ -152,13 +154,18 @@ export default function ActorForm({ onCancel, onSaved, mode = "create", initialD
       />
 
       <label className="actor-form__label">Rasm</label>
-      <button type="button" className="actor-form__upload" onClick={() => fileRef.current?.click()}>
+      <button
+        type="button"
+        className="actor-form__upload"
+        onClick={() => fileRef.current?.click()}
+        disabled={uploading || saving}
+      >
         {form.imagePreview ? (
           <img className="actor-form__preview" src={form.imagePreview} alt="Actor preview" />
         ) : (
           <div className="actor-form__upload-inner">
             <UploadIcon />
-            <span>Rasm yuklash</span>
+            <span>{uploading ? "Yuklanmoqda..." : "Rasm yuklash"}</span>
             <small>JPG, PNG, WEBP</small>
           </div>
         )}
@@ -212,9 +219,9 @@ export default function ActorForm({ onCancel, onSaved, mode = "create", initialD
           type="button"
           className="actor-form__save-btn"
           onClick={onSubmit}
-          disabled={saving}
+          disabled={saving || uploading}
         >
-          {saving ? "Saqlanmoqda..." : "Saqlash"}
+          {saving ? "Saqlanmoqda..." : uploading ? "Yuklanmoqda..." : "Saqlash"}
         </button>
       </div>
     </div>

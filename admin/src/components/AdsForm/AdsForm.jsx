@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createAd, fetchAds } from "../../services/adsApi";
+import { uploadToR2, UPLOAD_FOLDERS } from "../../services/uploadApi";
 import UploadProgress from "../UploadProgress/UploadProgress";
 import "./AdsForm.css";
 
@@ -12,20 +13,6 @@ function UploadIcon() {
       />
     </svg>
   );
-}
-
-function toDataUrl(file, onProgress) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onprogress = (event) => {
-      if (!event.lengthComputable) return;
-      const percent = Math.round((event.loaded / event.total) * 100);
-      onProgress?.(percent);
-    };
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 }
 
 export default function AdsForm({ onCancel, onSaved, mode = "create", initialData = null, onSubmitData }) {
@@ -70,25 +57,25 @@ export default function AdsForm({ onCancel, onSaved, mode = "create", initialDat
 
   const onPickVideo = async (event) => {
     const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
+
     setSelectedFileName(file.name || "");
     setError("");
     setUploading(true);
     setUploadProgress(1);
     try {
-      const videoData = await toDataUrl(file, setUploadProgress);
-      patch({ videoUrl: videoData });
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.ads, {
+        onProgress: setUploadProgress,
+      });
+      patch({ videoUrl: url });
       setUploadProgress(100);
     } catch (e) {
-      setError("Video yuklashda xatolik.");
+      setError(e.message || "Video ni R2 ga yuklashda xatolik.");
       patch({ videoUrl: "" });
       setUploadProgress(0);
     } finally {
       setUploading(false);
-      // Bir xil fayl qayta tanlanganda ham onChange ishlashi uchun
-      if (event.target) {
-        event.target.value = "";
-      }
     }
   };
 
@@ -121,7 +108,12 @@ export default function AdsForm({ onCancel, onSaved, mode = "create", initialDat
   return (
     <div className="ads-form">
       <label className="ads-form__label">Reklama video</label>
-      <button type="button" className="ads-form__upload" onClick={() => fileRef.current?.click()}>
+      <button
+        type="button"
+        className="ads-form__upload"
+        onClick={() => fileRef.current?.click()}
+        disabled={uploading || saving}
+      >
         <div className="ads-form__upload-inner">
           <UploadIcon />
           <span>
@@ -171,8 +163,13 @@ export default function AdsForm({ onCancel, onSaved, mode = "create", initialDat
         <button type="button" className="ads-form__cancel-btn" onClick={onCancel}>
           Bekor qilish
         </button>
-        <button type="button" className="ads-form__save-btn" onClick={onSubmit} disabled={saving}>
-          {saving ? "Saqlanmoqda..." : "Saqlash"}
+        <button
+          type="button"
+          className="ads-form__save-btn"
+          onClick={onSubmit}
+          disabled={saving || uploading}
+        >
+          {saving ? "Saqlanmoqda..." : uploading ? "Yuklanmoqda..." : "Saqlash"}
         </button>
       </div>
     </div>

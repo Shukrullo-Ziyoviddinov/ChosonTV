@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createTriller, fetchTrillers } from "../../services/trillerApi";
+import { uploadToR2, UPLOAD_FOLDERS } from "../../services/uploadApi";
 import { getVideoEmbed } from "../../utils/videoEmbed";
 import "./TrillerForm.css";
 
@@ -14,15 +15,6 @@ function UploadIcon() {
       />
     </svg>
   );
-}
-
-function toDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 }
 
 function toMediaUrl(path) {
@@ -48,6 +40,7 @@ export default function TrillerForm({
 }) {
   const fileRef = useRef(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     trillerId: "",
@@ -123,10 +116,19 @@ export default function TrillerForm({
 
   const onPickImage = async (event) => {
     const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
-    const imageData = await toDataUrl(file);
-    patch({ img: imageData, imagePreview: imageData });
-    if (event.target) event.target.value = "";
+
+    setError("");
+    setUploading(true);
+    try {
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.trillers);
+      patch({ img: url, imagePreview: url });
+    } catch (e) {
+      setError(e.message || "Triller rasmni R2 ga yuklashda xatolik.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onSubmit = async () => {
@@ -230,6 +232,7 @@ export default function TrillerForm({
         type="button"
         className="triller-form__upload"
         onClick={() => fileRef.current?.click()}
+        disabled={uploading || saving}
       >
         {imagePreviewSrc ? (
           <img
@@ -240,7 +243,7 @@ export default function TrillerForm({
         ) : (
           <div className="triller-form__upload-inner">
             <UploadIcon />
-            <span>Rasm yuklash</span>
+            <span>{uploading ? "Yuklanmoqda..." : "Rasm yuklash"}</span>
             <small>JPG, PNG, WEBP, AVIF</small>
           </div>
         )}
@@ -322,9 +325,9 @@ export default function TrillerForm({
           type="button"
           className="triller-form__save-btn"
           onClick={onSubmit}
-          disabled={saving}
+          disabled={saving || uploading}
         >
-          {saving ? "Saqlanmoqda..." : "Saqlash"}
+          {saving ? "Saqlanmoqda..." : uploading ? "Yuklanmoqda..." : "Saqlash"}
         </button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createBanner, fetchMoviesForBanner } from '../../services/bannerApi';
+import { uploadToR2, UPLOAD_FOLDERS } from '../../services/uploadApi';
 import './BannerForm.css';
 
 const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000';
@@ -88,15 +89,6 @@ function resolveMoviePoster(movie, lang = 'uz') {
   return `${API_BASE}/${raw}`;
 }
 
-function toDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ''));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 const EMPTY_LANG = {
   movieId: '',
   movieTitle: '',
@@ -115,6 +107,7 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
   const [loadingMovies, setLoadingMovies] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [formByLang, setFormByLang] = useState({
     uz: { ...EMPTY_LANG },
@@ -195,22 +188,42 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
 
   const onPickFile = async (event) => {
     const file = event.target.files?.[0];
+    event.target.value = '';
     if (!file) return;
-    const imageData = await toDataUrl(file);
-    patchLang(langTab, {
-      image: imageData,
-      imagePreview: imageData,
-    });
+
+    setError('');
+    setUploading(true);
+    try {
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.banners);
+      patchLang(langTab, {
+        image: url,
+        imagePreview: url,
+      });
+    } catch (e) {
+      setError(e.message || 'Banner rasmni R2 ga yuklashda xatolik.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onPickTitleFile = async (event) => {
     const file = event.target.files?.[0];
+    event.target.value = '';
     if (!file) return;
-    const imageData = await toDataUrl(file);
-    patchLang(langTab, {
-      titleImg: imageData,
-      titleImgPreview: imageData,
-    });
+
+    setError('');
+    setUploading(true);
+    try {
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.banners);
+      patchLang(langTab, {
+        titleImg: url,
+        titleImgPreview: url,
+      });
+    } catch (e) {
+      setError(e.message || 'Title rasmni R2 ga yuklashda xatolik.');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onSave = async () => {
@@ -320,13 +333,14 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
         type="button"
         className="banner-form__upload"
         onClick={() => fileRef.current?.click()}
+        disabled={uploading || saving}
       >
         {activeForm.imagePreview ? (
           <img className="banner-form__preview" src={activeForm.imagePreview} alt="Banner preview" />
         ) : (
           <div className="banner-form__upload-inner">
             <UploadIcon />
-            <span>Rasm yuklash</span>
+            <span>{uploading ? 'Yuklanmoqda...' : 'Rasm yuklash'}</span>
             <small>JPG, PNG, WEBP</small>
           </div>
         )}
@@ -344,6 +358,7 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
         type="button"
         className="banner-form__upload banner-form__upload--title"
         onClick={() => titleFileRef.current?.click()}
+        disabled={uploading || saving}
       >
         {activeForm.titleImgPreview ? (
           <img
@@ -354,7 +369,7 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
         ) : (
           <div className="banner-form__upload-inner">
             <UploadIcon />
-            <span>Title rasm yuklash</span>
+            <span>{uploading ? 'Yuklanmoqda...' : 'Title rasm yuklash'}</span>
             <small>PNG, WEBP yoki SVG — shaffof fon</small>
           </div>
         )}
@@ -401,9 +416,9 @@ export default function BannerForm({ onCancel, onSaved, mode = 'create', initial
           type="button"
           className="banner-form__save-btn"
           onClick={onSave}
-          disabled={saving}
+          disabled={saving || uploading}
         >
-          {saving ? 'Saqlanmoqda...' : 'Saqlash'}
+          {saving ? 'Saqlanmoqda...' : uploading ? 'Yuklanmoqda...' : 'Saqlash'}
         </button>
       </div>
     </div>

@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const path = require("path");
 const fs = require("fs");
 const express = require("express");
@@ -15,9 +17,9 @@ const adsRoutes = require("./routes/adsRouts");
 const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 const adminRoutes = require("./routes/adminRouts");
+const uploadRoutes = require("./routes/upload.routes");
 const { success, fail } = require("./utils/apiResponse");
 const { notFoundHandler, errorHandler } = require("./middlewares/errorHandler");
-require("dotenv").config();
 
 const app = express();
 connectDB();
@@ -68,6 +70,7 @@ app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/upload", uploadRoutes);
 
 app.get("/health", (req, res) => {
   const dbConnected = mongoose.connection.readyState === 1;

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createGenre, fetchGenres } from "../../services/genreApi";
+import { uploadToR2, UPLOAD_FOLDERS } from "../../services/uploadApi";
 import { FILTER_GENRE_OPTIONS } from "../../constants/filterGenres";
 import ScrollTouch from "../ScrollTouch/ScrollTouch";
 import "./GenreForm.css";
@@ -23,19 +24,11 @@ function ChevronIcon() {
   );
 }
 
-function toDataUrl(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 export default function GenreForm({ onCancel, onSaved, mode = "create", initialData = null, onSubmitData }) {
   const fileRef = useRef(null);
   const genrePickerRef = useRef(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [genreIdDropdownOpen, setGenreIdDropdownOpen] = useState(false);
   const [form, setForm] = useState({
@@ -117,9 +110,19 @@ export default function GenreForm({ onCancel, onSaved, mode = "create", initialD
 
   const onPickFile = async (event) => {
     const file = event.target.files?.[0];
+    event.target.value = "";
     if (!file) return;
-    const imageData = await toDataUrl(file);
-    patch({ img: imageData, imgPreview: imageData });
+
+    setError("");
+    setUploading(true);
+    try {
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.genres);
+      patch({ img: url, imgPreview: url });
+    } catch (e) {
+      setError(e.message || "Janr rasmni R2 ga yuklashda xatolik.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onSubmit = async () => {
@@ -233,13 +236,14 @@ export default function GenreForm({ onCancel, onSaved, mode = "create", initialD
         type="button"
         className="genre-form__upload"
         onClick={() => fileRef.current?.click()}
+        disabled={uploading || saving}
       >
         {form.imgPreview ? (
           <img className="genre-form__preview" src={form.imgPreview} alt="Genre preview" />
         ) : (
           <div className="genre-form__upload-inner">
             <UploadIcon />
-            <span>Rasm yuklash</span>
+            <span>{uploading ? "Yuklanmoqda..." : "Rasm yuklash"}</span>
             <small>JPG, PNG, WEBP</small>
           </div>
         )}
@@ -274,9 +278,9 @@ export default function GenreForm({ onCancel, onSaved, mode = "create", initialD
           type="button"
           className="genre-form__save-btn"
           onClick={onSubmit}
-          disabled={saving}
+          disabled={saving || uploading}
         >
-          {saving ? "Saqlanmoqda..." : "Saqlash"}
+          {saving ? "Saqlanmoqda..." : uploading ? "Yuklanmoqda..." : "Saqlash"}
         </button>
       </div>
     </div>

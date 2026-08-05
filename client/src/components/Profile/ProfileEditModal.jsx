@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '../../context/ToastContext';
+import { uploadToR2, UPLOAD_FOLDERS } from '../../api/uploadApi';
 import './ProfileEditModal.css';
 
 const ProfileEditModal = ({ profile, onSave, onClose }) => {
@@ -9,6 +10,7 @@ const ProfileEditModal = ({ profile, onSave, onClose }) => {
   const [name, setName] = useState(profile.name || '');
   const [surname, setSurname] = useState(profile.surname || '');
   const [avatar, setAvatar] = useState(profile.avatar || null);
+  const [uploading, setUploading] = useState(false);
   const [dragY, setDragY] = useState(0);
   const startYRef = useRef(0);
   const fileInputRef = useRef(null);
@@ -49,28 +51,34 @@ const ProfileEditModal = ({ profile, onSave, onClose }) => {
   };
 
   const handleAvatarEdit = () => {
+    if (uploading) return;
     fileInputRef.current?.click();
   };
 
-  const handleAvatarChange = (e) => {
+  const handleAvatarChange = async (e) => {
     const file = e.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setAvatar(ev.target?.result || null);
-      };
-      reader.readAsDataURL(file);
-    }
     e.target.value = '';
+    if (!file || !file.type.startsWith('image/')) return;
+
+    setUploading(true);
+    try {
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.avatarsUsers);
+      setAvatar(url);
+    } catch (error) {
+      showToast(error?.message || t('toast.profileAvatarRequired'), 'error');
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleAvatarRemove = () => {
+    if (uploading) return;
     setAvatar(null);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isFormValid) return;
+    if (!isFormValid || uploading) return;
     if (!avatar) {
       showToast(t('toast.profileAvatarRequired'), 'error');
       return;
@@ -126,12 +134,23 @@ const ProfileEditModal = ({ profile, onSave, onClose }) => {
               accept="image/*"
               onChange={handleAvatarChange}
               className="profile-edit-avatar-input"
+              disabled={uploading}
             />
             <div className="profile-edit-avatar-actions">
-              <button type="button" className="profile-edit-avatar-btn profile-edit-avatar-btn-edit" onClick={handleAvatarEdit}>
-                {t('profile.avatarEdit')}
+              <button
+                type="button"
+                className="profile-edit-avatar-btn profile-edit-avatar-btn-edit"
+                onClick={handleAvatarEdit}
+                disabled={uploading}
+              >
+                {uploading ? '...' : t('profile.avatarEdit')}
               </button>
-              <button type="button" className="profile-edit-avatar-btn profile-edit-avatar-btn-delete" onClick={handleAvatarRemove}>
+              <button
+                type="button"
+                className="profile-edit-avatar-btn profile-edit-avatar-btn-delete"
+                onClick={handleAvatarRemove}
+                disabled={uploading}
+              >
                 {t('profile.avatarDelete')}
               </button>
             </div>
@@ -161,9 +180,9 @@ const ProfileEditModal = ({ profile, onSave, onClose }) => {
           <button
             type="submit"
             className="profile-edit-save"
-            disabled={!isFormValid}
+            disabled={!isFormValid || uploading}
           >
-            {t('profile.save')}
+            {uploading ? '...' : t('profile.save')}
           </button>
         </form>
       </div>

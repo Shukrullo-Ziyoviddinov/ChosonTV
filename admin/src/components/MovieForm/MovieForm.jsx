@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createMovie, fetchActorsForMovie, fetchMovies } from "../../services/movieApi";
+import { uploadToR2, UPLOAD_FOLDERS } from "../../services/uploadApi";
 import {
   CATEGORY_NAME_OPTIONS,
   CATEGORY_NAME_TO_SECTION,
@@ -8,6 +9,7 @@ import {
   isAnonsCategory,
   TYPE_CATEGORY_OPTIONS,
 } from "../../constants/movieFormOptions";
+import { getVideoEmbed } from "../../utils/videoEmbed";
 import UploadProgress from "../UploadProgress/UploadProgress";
 import "./MovieForm.css";
 
@@ -20,19 +22,6 @@ function UploadIcon() {
       />
     </svg>
   );
-}
-
-function toDataUrl(file, onProgress) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onprogress = (event) => {
-      if (!event.lengthComputable) return;
-      onProgress?.(Math.round((event.loaded / event.total) * 100));
-    };
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 }
 
 const emptySeason = (seasonNumber = 1) => ({
@@ -209,6 +198,11 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
 
   const isAnons = isAnonsCategory(form.categoryName, form.category);
 
+  const isUploading = useMemo(
+    () => Object.values(uploadState).some((item) => item?.uploading),
+    [uploadState]
+  );
+
   const canSave = useMemo(() => {
     return Boolean(
       form.title.uz.trim() &&
@@ -246,14 +240,17 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
 
   const onPickFile = async (key, pathUpdater, file) => {
     if (!file) return;
+    setError("");
     setUpload(key, { uploading: true, progress: 1, fileName: file.name || "" });
     try {
-      const data = await toDataUrl(file, (progress) => setUpload(key, { progress }));
-      setForm((prev) => pathUpdater(prev, data));
+      const { url } = await uploadToR2(file, UPLOAD_FOLDERS.movies, {
+        onProgress: (progress) => setUpload(key, { progress }),
+      });
+      setForm((prev) => pathUpdater(prev, url));
       setUpload(key, { uploading: false, progress: 100 });
-    } catch {
+    } catch (e) {
       setUpload(key, { uploading: false, progress: 0 });
-      setError("Fayl yuklashda xatolik.");
+      setError(e.message || "Faylni R2 ga yuklashda xatolik.");
     }
   };
 
@@ -456,21 +453,94 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
           bo‘limga o‘tkazsangiz, kino anonsdan chiqib yangi bo‘limga tushadi.
         </p>
       )}
-      {["watchVideo.uz", "watchVideo.ru"].map((key) => {
-        return renderUploadField({
-          keyName: key,
-          label: isAnons ? `${key} (ixtiyoriy)` : key,
-          accept: "video/*",
-          onFile: (file) =>
-            onPickFile(
-              key,
-              (prev, data) => {
-                const lang = key.endsWith(".uz") ? "uz" : "ru";
-                return { ...prev, watchVideo: { ...prev.watchVideo, [lang]: data } };
-              },
-              file
-            ),
-        });
+      <p className="movie-form__hint">
+        Har til uchun bitta qiymat (`watchVideo.uz` / `watchVideo.ru`): Mover/YouTube
+        URL yozing <strong>yoki</strong> qurilmadan R2 ga yuklang. Ikkalasi birga
+        emas — oxirgi kiritilgan qiymat saqlanadi.
+      </p>
+      {["uz", "ru"].map((lang) => {
+        const keyName = `watchVideo.${lang}`;
+        const label = isAnons ? `watchVideo.${lang} (ixtiyoriy)` : `watchVideo.${lang}`;
+        const videoRaw = String(form.watchVideo?.[lang] || "").trim();
+        const embed = getVideoEmbed(videoRaw);
+        const embedUrl = embed?.embedUrl || "";
+        const isDirectVideo =
+          !embedUrl &&
+          Boolean(videoRaw) &&
+          (/\.(mp4|webm|ogg|mov)(\?|$)/i.test(videoRaw) ||
+            videoRaw.includes("/movies/") ||
+            videoRaw.startsWith("http://") ||
+            videoRaw.startsWith("https://") ||
+            videoRaw.startsWith("data:video") ||
+            videoRaw.startsWith("blob:"));
+
+        return (
+          <div className="movie-form__video-dual" key={keyName}>
+            <label className="movie-form__label" htmlFor={`watch-video-url-${lang}`}>
+              {label} — URL (Mover / YouTube)
+            </label>
+            <input
+              id={`watch-video-url-${lang}`}
+              className="movie-form__input"
+              type="url"
+              placeholder="https://mover.uz/watch/... yoki https://youtu.be/..."
+              value={form.watchVideo?.[lang] || ""}
+              onChange={(e) => {
+                setUpload(keyName, { uploading: false, progress: 0, fileName: "" });
+                patch({
+                  watchVideo: {
+                    ...form.watchVideo,
+                    [lang]: e.target.value,
+                  },
+                });
+              }}
+            />
+
+            <div className="movie-form__preview-box">
+              {embedUrl ? (
+                <iframe
+                  key={embedUrl}
+                  className="movie-form__video-preview movie-form__video-preview--embed"
+                  src={embedUrl}
+                  title={`Video preview ${lang}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+              ) : isDirectVideo ? (
+                <video
+                  key={videoRaw}
+                  className="movie-form__video-preview"
+                  src={videoRaw}
+                  controls
+                  playsInline
+                  preload="metadata"
+                />
+              ) : (
+                <span className="movie-form__preview-empty">
+                  Mover/YouTube URL yoki R2 video — preview shu yerda
+                </span>
+              )}
+            </div>
+
+            <p className="movie-form__video-or">yoki R2 ga video yuklash</p>
+
+            {renderUploadField({
+              keyName,
+              label: `${keyName} — R2 fayl`,
+              accept: "video/*",
+              onFile: (file) =>
+                onPickFile(
+                  keyName,
+                  (prev, data) => ({
+                    ...prev,
+                    watchVideo: { ...prev.watchVideo, [lang]: data },
+                  }),
+                  file
+                ),
+            })}
+          </div>
+        );
       })}
       </div>
 
@@ -721,8 +791,13 @@ export default function MovieForm({ onCancel, onSaved, mode = "create", initialD
       {error ? <p className="movie-form__error">{error}</p> : null}
       <div className="movie-form__actions">
         <button type="button" className="movie-form__cancel-btn" onClick={onCancel}>Bekor qilish</button>
-        <button type="button" className="movie-form__save-btn" onClick={onSubmit} disabled={saving}>
-          {saving ? "Saqlanmoqda..." : "Saqlash"}
+        <button
+          type="button"
+          className="movie-form__save-btn"
+          onClick={onSubmit}
+          disabled={saving || isUploading}
+        >
+          {saving ? "Saqlanmoqda..." : isUploading ? "Yuklanmoqda..." : "Saqlash"}
         </button>
       </div>
     </div>
