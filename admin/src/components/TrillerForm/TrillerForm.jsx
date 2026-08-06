@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createTriller, fetchTrillers } from "../../services/trillerApi";
+import { fetchMovies } from "../../services/movieApi";
 import { uploadToR2, UPLOAD_FOLDERS } from "../../services/uploadApi";
 import { getVideoEmbed } from "../../utils/videoEmbed";
 import "./TrillerForm.css";
@@ -31,6 +32,15 @@ function toMediaUrl(path) {
   return `${API_BASE}/${path}`;
 }
 
+function getMovieLabel(movie) {
+  const id = movie?.id ?? movie?.movieId;
+  const title =
+    (typeof movie?.title === "object"
+      ? movie.title.uz || movie.title.ru
+      : movie?.title) || "";
+  return id != null ? `#${id}${title ? ` — ${title}` : ""}` : title || "Kino";
+}
+
 export default function TrillerForm({
   onCancel,
   onSaved,
@@ -39,9 +49,13 @@ export default function TrillerForm({
   onSubmitData,
 }) {
   const fileRef = useRef(null);
+  const movieDropdownRef = useRef(null);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [movies, setMovies] = useState([]);
+  const [moviesLoading, setMoviesLoading] = useState(true);
+  const [movieOpen, setMovieOpen] = useState(false);
   const [form, setForm] = useState({
     trillerId: "",
     nameUz: "",
@@ -51,13 +65,34 @@ export default function TrillerForm({
     img: "",
     imagePreview: "",
     trillerVideo: "",
+    movieId: null,
     isActive: true,
     sortOrder: "1",
   });
 
   useEffect(() => {
+    let cancelled = false;
+    const loadMovies = async () => {
+      setMoviesLoading(true);
+      try {
+        const rows = await fetchMovies();
+        if (!cancelled) setMovies(Array.isArray(rows) ? rows : []);
+      } catch {
+        if (!cancelled) setMovies([]);
+      } finally {
+        if (!cancelled) setMoviesLoading(false);
+      }
+    };
+    loadMovies();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     if (mode === "edit" && initialData) {
       const img = initialData?.img || "";
+      const rawMovieId = Number(initialData?.movieId);
       setForm({
         trillerId: String(initialData.trillerId ?? initialData.id ?? ""),
         nameUz: initialData?.name?.uz || "",
@@ -67,6 +102,7 @@ export default function TrillerForm({
         img,
         imagePreview: img,
         trillerVideo: initialData?.trillerVideo || "",
+        movieId: Number.isFinite(rawMovieId) && rawMovieId > 0 ? rawMovieId : null,
         isActive: initialData?.isActive !== false,
         sortOrder: String(initialData?.sortOrder ?? 1),
       });
@@ -95,6 +131,16 @@ export default function TrillerForm({
     loadNextId();
   }, [mode, initialData]);
 
+  useEffect(() => {
+    const onOutside = (event) => {
+      if (!movieDropdownRef.current?.contains(event.target)) {
+        setMovieOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onOutside);
+    return () => document.removeEventListener("mousedown", onOutside);
+  }, []);
+
   const canSave = useMemo(() => {
     return (
       form.nameUz.trim() &&
@@ -103,6 +149,11 @@ export default function TrillerForm({
       form.trillerVideo.trim()
     );
   }, [form.nameUz, form.nameRu, form.img, form.trillerVideo]);
+
+  const selectedMovie = useMemo(() => {
+    if (form.movieId == null) return null;
+    return movies.find((m) => Number(m.id ?? m.movieId) === Number(form.movieId)) || null;
+  }, [movies, form.movieId]);
 
   const patch = (patchData) => setForm((prev) => ({ ...prev, ...patchData }));
 
@@ -131,6 +182,17 @@ export default function TrillerForm({
     }
   };
 
+  const selectMovie = (movie) => {
+    const id = Number(movie?.id ?? movie?.movieId);
+    patch({ movieId: Number.isFinite(id) && id > 0 ? id : null });
+    setMovieOpen(false);
+  };
+
+  const clearMovie = () => {
+    patch({ movieId: null });
+    setMovieOpen(false);
+  };
+
   const onSubmit = async () => {
     if (!canSave) {
       setError("Nomi (UZ/RU), rasm va video URL majburiy.");
@@ -151,6 +213,7 @@ export default function TrillerForm({
         },
         img: form.img,
         trillerVideo: form.trillerVideo.trim(),
+        movieId: form.movieId,
         isActive: form.isActive,
         sortOrder: Number(form.sortOrder) || 1,
       };
@@ -226,6 +289,48 @@ export default function TrillerForm({
         value={form.descriptionRu}
         onChange={(e) => patch({ descriptionRu: e.target.value })}
       />
+
+      <label className="triller-form__label">Kino biriktirish</label>
+      <div className="triller-form__dropdown" ref={movieDropdownRef}>
+        <button
+          type="button"
+          className="triller-form__dropdown-trigger"
+          onClick={() => setMovieOpen((v) => !v)}
+          disabled={moviesLoading}
+        >
+          {moviesLoading
+            ? "Kinolar yuklanmoqda..."
+            : selectedMovie
+            ? getMovieLabel(selectedMovie)
+            : form.movieId
+            ? `#${form.movieId}`
+            : "Kino tanlang"}
+        </button>
+        {movieOpen && (
+          <div className="triller-form__dropdown-menu">
+            <button
+              type="button"
+              className={`triller-form__option-btn${!form.movieId ? " is-active" : ""}`}
+              onClick={clearMovie}
+            >
+              Biriktirilmagan
+            </button>
+            {movies.map((movie) => {
+              const id = Number(movie.id ?? movie.movieId);
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  className={`triller-form__option-btn${form.movieId === id ? " is-active" : ""}`}
+                  onClick={() => selectMovie(movie)}
+                >
+                  {getMovieLabel(movie)}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
       <label className="triller-form__label">Rasm</label>
       <button

@@ -1,11 +1,18 @@
 const Triller = require("../models/triller");
 
+const toMovieId = (value) => {
+  if (value == null || value === "") return null;
+  const id = Number(value);
+  return Number.isFinite(id) && id > 0 ? id : null;
+};
+
 const toPublicTriller = (row) => {
   if (!row) return null;
   const { _id, createdAt, updatedAt, ...rest } = row;
   return {
     ...rest,
     id: rest.trillerId,
+    movieId: toMovieId(rest.movieId),
   };
 };
 
@@ -50,6 +57,7 @@ const createTriller = async (payload = {}) => {
     },
     trillerVideo: String(payload.trillerVideo || "").trim(),
     img: String(payload.img || "").trim(),
+    movieId: toMovieId(payload.movieId),
     isActive: payload.isActive !== false,
     sortOrder: Number(payload.sortOrder) || nextId,
   });
@@ -58,9 +66,14 @@ const createTriller = async (payload = {}) => {
 };
 
 const updateTriller = async (trillerId, payload = {}) => {
+  const next = { ...payload };
+  if (Object.prototype.hasOwnProperty.call(payload, "movieId")) {
+    next.movieId = toMovieId(payload.movieId);
+  }
+
   const updated = await Triller.findOneAndUpdate(
     { trillerId },
-    { $set: payload },
+    { $set: next },
     { new: true, runValidators: true }
   ).lean();
   return toPublicTriller(updated);

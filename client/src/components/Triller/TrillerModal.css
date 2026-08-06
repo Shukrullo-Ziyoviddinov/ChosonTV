@@ -142,6 +142,36 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
+.triller-modal-watch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: 999px;
+  background: #ff0713;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+}
+
+.triller-modal-watch-btn:hover {
+  background: #e00611;
+  transform: translateY(-1px);
+}
+
+.triller-modal-watch-btn:active {
+  transform: translateY(0);
+  opacity: 0.92;
+}
+
+.triller-modal-watch-btn svg {
+  flex-shrink: 0;
+}
+
 .triller-modal-side {
   display: flex;
   flex-direction: column;

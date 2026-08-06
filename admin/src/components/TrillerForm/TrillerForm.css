@@ -146,3 +146,65 @@
   opacity: 0.7;
   cursor: not-allowed;
 }
+
+.triller-form__dropdown {
+  position: relative;
+}
+
+.triller-form__dropdown-trigger {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #dfe3ec;
+  border-radius: 10px;
+  padding: 8px 12px;
+  background: #fff;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2b3146;
+  cursor: pointer;
+}
+
+.triller-form__dropdown-trigger:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.triller-form__dropdown-menu {
+  position: absolute;
+  z-index: 40;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  max-height: 240px;
+  overflow: auto;
+  background: #fff;
+  border: 1px solid #d9deed;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 8px 24px rgba(24, 28, 48, 0.12);
+}
+
+.triller-form__option-btn {
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 13px;
+  color: #2f3347;
+  cursor: pointer;
+}
+
+.triller-form__option-btn:hover {
+  background: #f3f5fb;
+}
+
+.triller-form__option-btn.is-active {
+  background: #ebe7ff;
+  color: #5b3fe7;
+  font-weight: 600;
+}

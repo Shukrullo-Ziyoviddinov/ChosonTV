@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
 import { getVideoEmbed } from '../../utils/videoEmbed';
 import TrillerVideoControls from './TrillerVideoControls';
@@ -14,7 +15,13 @@ const getLocalized = (value, lang) => {
 
 const getItemKey = (item) => item?.trillerId ?? item?.id;
 
+const getLinkedMovieId = (item) => {
+  const id = Number(item?.movieId);
+  return Number.isFinite(id) && id > 0 ? id : null;
+};
+
 const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
+  const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
   const sheetRef = useRef(null);
   const handleRef = useRef(null);
@@ -38,6 +45,8 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
   const videoUrl = item?.trillerVideo ? String(item.trillerVideo).trim() : '';
   const embed = getVideoEmbed(videoUrl, { autoplay: true });
   const isEmbed = Boolean(embed?.embedUrl);
+  const linkedMovieId = getLinkedMovieId(item);
+  const watchLabel = contentLang === 'ru' ? 'Смотреть' : 'Tomosha qilish';
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -94,6 +103,13 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
 
     window.setTimeout(() => onClose?.(), 240);
   }, [onClose]);
+
+  const handleWatchMovie = () => {
+    if (!linkedMovieId) return;
+    videoRef.current?.pause?.();
+    onClose?.();
+    navigate(`/movie/${linkedMovieId}`);
+  };
 
   const handlePlayPause = () => {
     const video = videoRef.current;
@@ -241,6 +257,18 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
             <div className="triller-modal-meta">
               {name ? <h3 className="triller-modal-name">{name}</h3> : null}
               {description ? <p className="triller-modal-description">{description}</p> : null}
+              {linkedMovieId ? (
+                <button
+                  type="button"
+                  className="triller-modal-watch-btn"
+                  onClick={handleWatchMovie}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                    <path d="M8 5v14l11-7L8 5z" />
+                  </svg>
+                  <span>{watchLabel}</span>
+                </button>
+              ) : null}
             </div>
           </div>
 

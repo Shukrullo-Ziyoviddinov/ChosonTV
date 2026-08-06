@@ -31,6 +31,11 @@ const trillerSchema = new mongoose.Schema(
       default: "",
       trim: true,
     },
+    movieId: {
+      type: Number,
+      default: null,
+      index: true,
+    },
     isActive: {
       type: Boolean,
       default: true,

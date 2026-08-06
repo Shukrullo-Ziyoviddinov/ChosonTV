@@ -12,6 +12,7 @@
       },
       "img": "/img/movie-4.5-1.avif",
       "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
+      "movieId": 1,
       "isActive": true,
       "sortOrder": 1
     },
@@ -27,6 +28,7 @@
       },
       "img": "/img/movie-4.5-2.jpeg",
       "trillerVideo": "/video/Zivert - Life   Премьера клипа.mp4",
+      "movieId": 2,
       "isActive": true,
       "sortOrder": 2
     },
@@ -42,6 +44,7 @@
       },
       "img": "/img/movie-4.5-3.jpg",
       "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
+      "movieId": 3,
       "isActive": true,
       "sortOrder": 3
     },
@@ -57,6 +60,7 @@
       },
       "img": "/img/movie-4.5-4.webp",
       "trillerVideo": "/video/Zivert - Life   Премьера клипа.mp4",
+      "movieId": 4,
       "isActive": true,
       "sortOrder": 4
     },
@@ -72,6 +76,7 @@
       },
       "img": "/img/movie-4.5-5.jpg",
       "trillerVideo": "/video/The Amateur _ Official Trailer.mp4",
+      "movieId": 5,
       "isActive": true,
       "sortOrder": 5
     },
@@ -87,6 +92,7 @@
       },
       "img": "/img/movie-4.5-6.avif",
       "trillerVideo": "/video/Zivert - Life   Премьера клипа.mp4",
+      "movieId": 6,
       "isActive": true,
       "sortOrder": 6
     }
