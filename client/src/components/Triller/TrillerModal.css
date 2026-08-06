@@ -214,6 +214,20 @@
   flex-shrink: 0;
 }
 
+@media (max-width: 450px) {
+  .triller-modal-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+  }
+
+  .triller-modal-watch-btn,
+  .triller-modal-save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .triller-modal-side {
   display: flex;
   flex-direction: column;
