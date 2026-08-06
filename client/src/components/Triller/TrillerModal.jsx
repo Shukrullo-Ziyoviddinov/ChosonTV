@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContentLanguage } from '../../context/ContentLanguageContext';
+import { useWishlist } from '../../context/WishlistContext';
 import { getVideoEmbed } from '../../utils/videoEmbed';
 import TrillerVideoControls from './TrillerVideoControls';
 import './TrillerModal.css';
@@ -23,6 +24,7 @@ const getLinkedMovieId = (item) => {
 const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
   const navigate = useNavigate();
   const { contentLang } = useContentLanguage();
+  const { addToWishlist, isInWishlist } = useWishlist();
   const sheetRef = useRef(null);
   const handleRef = useRef(null);
   const videoRef = useRef(null);
@@ -47,6 +49,8 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
   const isEmbed = Boolean(embed?.embedUrl);
   const linkedMovieId = getLinkedMovieId(item);
   const watchLabel = contentLang === 'ru' ? 'Смотреть' : 'Tomosha qilish';
+  const saveLabel = contentLang === 'ru' ? 'Сохранить' : 'Saqlash';
+  const isSaved = linkedMovieId ? isInWishlist(linkedMovieId) : false;
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -109,6 +113,11 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
     videoRef.current?.pause?.();
     onClose?.();
     navigate(`/movie/${linkedMovieId}`);
+  };
+
+  const handleSaveMovie = () => {
+    if (!linkedMovieId) return;
+    addToWishlist(linkedMovieId);
   };
 
   const handlePlayPause = () => {
@@ -258,16 +267,39 @@ const TrillerModal = ({ item, items = [], onSelect, onClose }) => {
               {name ? <h3 className="triller-modal-name">{name}</h3> : null}
               {description ? <p className="triller-modal-description">{description}</p> : null}
               {linkedMovieId ? (
-                <button
-                  type="button"
-                  className="triller-modal-watch-btn"
-                  onClick={handleWatchMovie}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-                    <path d="M8 5v14l11-7L8 5z" />
-                  </svg>
-                  <span>{watchLabel}</span>
-                </button>
+                <div className="triller-modal-actions">
+                  <button
+                    type="button"
+                    className="triller-modal-watch-btn"
+                    onClick={handleWatchMovie}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                      <path d="M8 5v14l11-7L8 5z" />
+                    </svg>
+                    <span>{watchLabel}</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`triller-modal-save-btn${isSaved ? ' is-saved' : ''}`}
+                    onClick={handleSaveMovie}
+                    aria-label={saveLabel}
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill={isSaved ? 'currentColor' : 'none'}
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                    >
+                      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                    </svg>
+                    <span>{saveLabel}</span>
+                  </button>
+                </div>
               ) : null}
             </div>
           </div>
