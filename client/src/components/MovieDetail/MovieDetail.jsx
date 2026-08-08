@@ -288,23 +288,23 @@ const MovieDetail = () => {
     };
 
     // Title — movies.js title.uz / title.ru
-    document.title = pageTitle ? `${pageTitle} | Violet Movie - Filmlar onlayn` : 'Violet Movie - Filmlar onlayn';
+    document.title = pageTitle ? `${pageTitle} | ChosonTV - Filmlar onlayn` : 'ChosonTV - Filmlar onlayn';
     setMeta('description', pageDesc?.substring(0, 160) || '');
-    setMeta('keywords', `${pageTitle}, ${keywords}, film, kino, online, Violet Movie`.trim());
+    setMeta('keywords', `${pageTitle}, ${keywords}, film, kino, online, ChosonTV`.trim());
 
     // Open Graph
-    setMeta('og:title', pageTitle ? `${pageTitle} | Violet Movie` : 'Violet Movie', true);
+    setMeta('og:title', pageTitle ? `${pageTitle} | ChosonTV` : 'ChosonTV', true);
     setMeta('og:description', pageDesc?.substring(0, 160) || '', true);
     setMeta('og:image', fullImgUrl, true);
     setMeta('og:url', canonicalUrl, true);
     setMeta('og:type', 'video.movie', true);
-    setMeta('og:site_name', 'Violet Movie', true);
+    setMeta('og:site_name', 'ChosonTV', true);
     setMeta('og:locale', lang === 'ru' ? 'ru_RU' : 'uz_UZ', true);
     setMeta('og:locale:alternate', lang === 'ru' ? 'uz_UZ' : 'ru_RU', true);
 
     // Twitter Card
     setMeta('twitter:card', 'summary_large_image');
-    setMeta('twitter:title', pageTitle ? `${pageTitle} | Violet Movie` : 'Violet Movie');
+    setMeta('twitter:title', pageTitle ? `${pageTitle} | ChosonTV` : 'ChosonTV');
     setMeta('twitter:description', pageDesc?.substring(0, 160) || '');
     setMeta('twitter:image', fullImgUrl);
 
@@ -333,7 +333,7 @@ const MovieDetail = () => {
     document.head.appendChild(scriptEl);
 
     return () => {
-      document.title = 'Violet Movie - Filmlar onlayn';
+      document.title = 'ChosonTV - Filmlar onlayn';
       document.getElementById('movie-json-ld')?.remove();
     };
   }, [movie, contentLang]);
